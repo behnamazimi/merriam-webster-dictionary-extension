@@ -16,8 +16,10 @@ choose the one which you choose on registration.
    file you have downloaded.
 4. Enjoy! :)
 
-- Developed for personal uses in rush time
+### For your information
+
+- This extension is hastily developed for personal uses
 - My API keys are set by default, so you can test it if you wish
-- Lots of messes in the code
-- Not ready to be published in store yet and need more tests
-- This readme will be updated
+- There are still lots of messes in the code
+- It is not ready to be published in store yet and need more tests
+- This readme will be updated...
