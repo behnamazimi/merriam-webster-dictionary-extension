@@ -81,7 +81,7 @@ historyEntryPoint.onclick = () => {
     })
 }
 
-function doSearch(searchTrend) {
+function doSearch(searchTrend = null) {
     updateMessage("Fetching...")
     apiUtils.fetchData(searchTrend)
         .then((res) => {

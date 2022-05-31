@@ -20,7 +20,7 @@ function init() {
 }
 
 function handleMessages(request, sender, sendResponse) {
-    if (request.action === globalActions.GET_SELECTED_TEXT) {
+    if (request.action === globalActions.GET_SELECTED_TEXT && !bubble) {
         const selectedText = window.getSelection().toString()
         sendResponse({selectedText})
     } else if (request.action === globalActions.SET_OPTIONS) {
@@ -74,21 +74,21 @@ function handleMouseUp(event) {
 }
 
 function doSearch(forcedTextToSearch = null) {
-    const searchFor = forcedTextToSearch || window.getSelection().toString()
+    const searchTrend = forcedTextToSearch || window.getSelection().toString()
 
-    apiUtils.fetchData(searchFor)
+    apiUtils.fetchData(searchTrend)
         .then((result) => {
-            messagingUtils.sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, selection: searchFor})
-            bubble = renderUtils.renderBubble(result, searchFor)
+            messagingUtils.sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend})
+            bubble = renderUtils.renderBubble(result, searchTrend)
         })
         .catch(e => {
-            if (e.message.includes("No result")) {
+            console.log(e.message)
+            if (e.message.includes("No result") ||
+                e.message.includes("Word is required")) {
                 console.log(e.message)
-            }
-            if (e.message.includes("Failed to fetch")) {
+            } else if (e.message.includes("Failed to fetch")) {
                 console.log("It seems you are offline!")
             } else {
-                console.log(e.message);
                 console.log(`Unexpected error on data fetch! \n ` +
                     `Make sure your API key is valid and the API type you choose is the same as the one you chose when you registered.`)
             }

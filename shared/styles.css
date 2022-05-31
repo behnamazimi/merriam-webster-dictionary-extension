@@ -161,6 +161,7 @@ body .dic a {
     overflow: auto;
     padding: 8px;
     color: var(--dic-color-text);
+    font-size: 14px;
 }
 
 #mw-dic-bubble ul {

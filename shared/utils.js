@@ -78,6 +78,9 @@ const apiUtils = (function () {
     const getApiEndpoint = (search, category, apiKey) => `https://www.dictionaryapi.com/api/v3/references/${category}/json/${search}?key=${apiKey}`
 
     function fetchData(search) {
+        if (!search)
+            return Promise.reject(new Error("Word is required!"))
+
         const endpoint = getApiEndpoint(search, API_TYPE, API_KEY)
         return new Promise((resolve, reject) => {
             fetch(endpoint)
@@ -93,7 +96,7 @@ const apiUtils = (function () {
         })
     }
 
-    async function parseResultData(rawData) {
+    function parseResultData(rawData) {
         let parsedData = []
 
         if (typeof rawData[0] === "string") {
@@ -129,6 +132,9 @@ const apiUtils = (function () {
         if (audio && audio.matchAll(subDirRegEx)) {
             const matchRes = audio.matchAll(subDirRegEx)
             audioSubDir = [...matchRes][0]?.[1]
+            if (!isNaN(audioSubDir)) {
+                audioSubDir = "number"
+            }
         }
         return pron?.sound ? `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioSubDir}/${audio}.mp3` : null
     }
@@ -217,11 +223,23 @@ const renderUtils = (function () {
 
         renderUtils.renderResult(bubble, result, searchedFor, doSearch)
 
-        let left = window.scrollX + (selectionRect.left + (selectionRect.width / 2)) - (bubble.clientWidth / 2)
-        let top = window.scrollY + selectionRect.top - bubble.clientHeight
-        if (selectionRect.top - bubble.clientHeight < 0) {
-            top = window.scrollY + selectionRect.top + selectionRect.height
+        let clientLeft = (selectionRect.left + (selectionRect.width / 2)) - (bubble.clientWidth / 2)
+        let clientTop = selectionRect.top - bubble.clientHeight
+
+        if (clientTop < 0) {
+            clientTop = selectionRect.top + selectionRect.height
         }
+        if (clientLeft < 0) {
+            clientLeft = selectionRect.left
+        }
+
+        if (clientLeft + bubble.clientWidth >= window.innerWidth) {
+            clientLeft = selectionRect.left - bubble.clientWidth + selectionRect.width
+        }
+
+        const left = clientLeft + window.scrollX
+        const top = clientTop + window.scrollY
+
         bubble.style.top = top + "px"
         bubble.style.left = left + "px"
         return bubble
