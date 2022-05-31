@@ -90,10 +90,10 @@ function doSearch(searchTrend = null) {
             renderUtils.renderResult(sections.result, res, searchTrend, doSearch)
         })
         .catch(e => {
+            console.log(e.message);
             if (e.message.includes("No result")) {
                 updateMessage(e.message)
-            }
-            if (e.message.includes("Failed to fetch")) {
+            } else if (e.message.includes("Failed to fetch")) {
                 updateMessage("It seems you are offline!")
             } else {
                 updateMessage(`Unexpected error on data fetch! \n ` +
