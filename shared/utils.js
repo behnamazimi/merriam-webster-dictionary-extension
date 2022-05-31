@@ -69,7 +69,7 @@ const apiUtils = (function () {
 
     let API_KEY = "", API_TYPE = null;
 
-    const setApiOptions = (key, type) => {
+    const setoptions = (key, type) => {
         console.log(key, type);
         API_KEY = key
         API_TYPE = type
@@ -140,7 +140,7 @@ const apiUtils = (function () {
     }
 
     return {
-        setApiOptions,
+        setoptions,
         fetchData,
     }
 })();

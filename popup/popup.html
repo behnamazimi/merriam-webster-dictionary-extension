@@ -27,7 +27,7 @@
     </form>
     <div id="result"></div>
     <div id="history"></div>
-    <form id="apiOptions">
+    <form id="options">
         <small>This extension uses Merriam-Webster's free services. You can
             <a href="https://dictionaryapi.com/register/index" target="_blank">do free register here</a> to
             get your personal API key. Then you need to put it below in the form to be able to use the extension.
@@ -57,11 +57,15 @@
             </select>
             <small>Make sure the API type you choose is the same as the one you chose when you registered.</small>
         </label>
+        <label>
+            <input type="checkbox" name="showFloatingButton" checked>
+            <span>Show button on text selection</span>
+        </label>
         <button type="submit">Save</button>
     </form>
 
     <div id="actions">
-        <a href="#" id="apiOptionsEntryPoint">API Options</a>
+        <a href="#" id="optionsEntryPoint">Options</a>
         <a href="#" id="historyEntryPoint">History</a>
         <a href="#" id="searchEntryPoint">Search</a>
     </div>

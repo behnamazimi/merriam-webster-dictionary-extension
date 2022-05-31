@@ -67,7 +67,7 @@ body.dic {
 }
 
 .popup #searchEntryPoint,
-.popup #apiOptions,
+.popup #options,
 .popup #result {
     display: none;
 }
@@ -158,7 +158,7 @@ body.dic {
     margin-left: 8px;
 }
 
-.dic #apiOptions small {
+.dic #options small {
     opacity: 0.7;
 }
 

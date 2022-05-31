@@ -5,12 +5,12 @@ const {sendMessageToCurrentTab, sendGlobalMessage} = messagingUtils;
 let sections = {
     search: document.getElementById("search"),
     result: document.getElementById("result"),
-    apiOptions: document.getElementById("apiOptions"),
+    options: document.getElementById("options"),
     history: document.getElementById("history"),
     actions: document.getElementById("actions"),
 }
 
-const apiOptionsEntryPoint = document.getElementById("apiOptionsEntryPoint")
+const optionsEntryPoint = document.getElementById("optionsEntryPoint")
 const historyEntryPoint = document.getElementById("historyEntryPoint")
 const searchEntryPoint = document.getElementById("searchEntryPoint")
 const message = document.getElementById("message")
@@ -24,13 +24,14 @@ function initPopup() {
     sendGlobalMessage({action: globalActions.POPUP_INIT}, (response) => {
         const {options = {}, history} = response
         if (!options.apiKey) {
-            showSection(sections.apiOptions)
+            showSection(sections.options)
         } else {
 
             // set api key and type in utils
-            apiUtils.setApiOptions(options.apiKey, options.apiType)
-            sections.apiOptions["apiKey"].value = options.apiKey
-            sections.apiOptions["apiType"].value = options.apiType
+            apiUtils.setoptions(options.apiKey, options.apiType)
+            sections.options["apiKey"].value = options.apiKey
+            sections.options["apiType"].value = options.apiType
+            sections.options["showFloatingButton"].checked = options.showFloatingButton
 
             // get selected text
             sendMessageToCurrentTab({action: globalActions.GET_SELECTED_TEXT}, (response = {}) => {
@@ -51,12 +52,13 @@ sections.search.onsubmit = function (e) {
     doSearch(searchFor)
 }
 
-sections.apiOptions.onsubmit = function (e) {
+sections.options.onsubmit = function (e) {
     e.preventDefault();
 
     const options = {
         apiKey: e.target["apiKey"].value || "",
-        apiType: e.target["apiType"].value || ""
+        apiType: e.target["apiType"].value || "",
+        showFloatingButton: e.target["showFloatingButton"].checked,
     }
     sendGlobalMessage({
         action: globalActions.SET_OPTIONS,
@@ -64,7 +66,7 @@ sections.apiOptions.onsubmit = function (e) {
     }, (res) => {
         if (res) {
             // update apiUtils options as well
-            apiUtils.setApiOptions(options.apiKey, options.apiType)
+            apiUtils.setoptions(options.apiKey, options.apiType)
             showSection(sections.search)
         }
     })
@@ -72,7 +74,7 @@ sections.apiOptions.onsubmit = function (e) {
 
 searchEntryPoint.onclick = () => showSection(sections.search)
 
-apiOptionsEntryPoint.onclick = () => showSection(sections.apiOptions)
+optionsEntryPoint.onclick = () => showSection(sections.options)
 
 historyEntryPoint.onclick = () => {
     storeUtils.loadHistory((history) => {
@@ -152,14 +154,14 @@ function showSection(section, hideAll = true) {
     if (section === sections.search) {
         showElement(sections.actions)
         showElement(historyEntryPoint)
-        showElement(apiOptionsEntryPoint)
+        showElement(optionsEntryPoint)
         hideElement(searchEntryPoint)
         sections.search["trend"].focus()
         updateMessage("")
     } else if (section === sections.history) {
         hideElement(historyEntryPoint)
         showElement(searchEntryPoint)
-        showElement(apiOptionsEntryPoint)
+        showElement(optionsEntryPoint)
     } else if (section === sections.result) {
         showElement(sections.actions)
         showElement(searchEntryPoint)
