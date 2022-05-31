@@ -1,7 +1,7 @@
 {
   "name": "Merriam-Webster' Dictionary",
   "version": "1.0",
-  "description": "Open source Merriam-Webster' dictionary chrome extension",
+  "description": "Open source Merriam-Webster' dictionary Chrome extension",
   "permissions": [
     "tabs",
     "activeTab",
@@ -46,10 +46,6 @@
   },
   "commands": {
     "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+U",
-        "mac": "Command+U"
-      }
     }
   },
   "manifest_version": 3
