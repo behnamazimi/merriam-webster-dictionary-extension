@@ -10,7 +10,14 @@ chrome.runtime.onMessage.addListener(handleMessages)
 
 chrome.runtime.onInstalled.addListener(() => {
     // store initial options
-    storeUtils.storeOptions({apiKey: "bc18d6bb-182e-4f34-b57d-da52bdfdfbc2", apiType: "collegiate"});
+
+    //Key (Collegiate Dictionary): collegiate
+    // bc18d6bb-182e-4f34-b57d-da52bdfdfbc2
+    //
+    // Key (Intermediate Dictionary): sd3
+    // 6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31
+
+    storeUtils.storeOptions({apiKey: "6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31", apiType: "sd3"});
 });
 
 function handleMessages(data, details, sendResponse) {

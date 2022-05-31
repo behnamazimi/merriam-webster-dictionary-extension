@@ -2,15 +2,6 @@
 
 const {sendMessageToCurrentTab, sendGlobalMessage} = messagingUtils;
 
-// "https://media.merriam-webster.com/audio/prons/en/us/mp3/a/advanc01.mp3"
-//Key (Dictionary):
-//
-// bc18d6bb-182e-4f34-b57d-da52bdfdfbc2
-//
-// Key (Intermediate Dictionary):
-//
-// 6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31
-
 let sections = {
     search: document.getElementById("search"),
     result: document.getElementById("result"),
