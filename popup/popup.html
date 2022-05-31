@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="/shared/styles.css">
+    <link rel="stylesheet" href="popup-styles.css">
+</head>
+<body class="dic">
+<div class="popup">
+    <div class="header">
+        <a class="brand" href="https://www.merriam-webster.com/" target="_blank">Merriam-Webster' dictionary</a>
+        <a href="https://github.com/behnamazimi/merriam-webster-dictionary-extension" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+            Github
+        </a>
+    </div>
+    <form id="search">
+        <label>
+            <input type="text" placeholder="Type and press enter to search..."
+                   autofocus name="trend" required>
+        </label>
+        <button type="submit">Search</button>
+        <small id="message"></small>
+    </form>
+    <div id="result"></div>
+    <div id="history"></div>
+    <form id="apiOptions">
+        <small>This extension uses Merriam-Webster's free services. You can
+            <a href="https://dictionaryapi.com/register/index" target="_blank">do free register here</a> to
+            get your personal API key. Then you need to put it below in the form to be able to use the extension.
+        </small>
+        <small>Notice that there are different types of APIs and each has its unique key. In the form below, you should
+            choose the one which you choose on registration. </small>
+        <br>
+        <br>
+        <label>
+            <span>Enter your dictionary API key</span>
+            <input type="text" placeholder="6b3a80cc-9d9f-4007-9ee5-52a24ab7eb43"
+                   name="apiKey" required>
+        </label>
+        <label>
+            <span>Choose API type</span>
+            <select name="apiType" required>
+                <option value="">--</option>
+                <option value="collegiate">Collegiate Dictionary</option>
+                <option value="thesaurus">Collegiate Thesaurus</option>
+                <option value="ithesaurus">Intermediate Thesaurus</option>
+                <option value="spanish">Spanish-English Dictionary</option>
+                <option value="medical_v2">Medical Dictionary</option>
+                <option value="sd2">Elementary Dictionary</option>
+                <option value="sd3">Intermediate Dictionary</option>
+                <option value="sd4">School Dictionary</option>
+                <option value="learners">Learners Dictionary</option>
+            </select>
+            <small>Make sure the API type you choose is the same as the one you chose when you registered.</small>
+        </label>
+        <button type="submit">Save</button>
+    </form>
+
+    <div id="actions">
+        <a href="#" id="apiOptionsEntryPoint">API Options</a>
+        <a href="#" id="historyEntryPoint">History</a>
+        <a href="#" id="searchEntryPoint">Search</a>
+    </div>
+
+</div>
+<script src="../shared/constant.js"></script>
+<script src="../shared/utils.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

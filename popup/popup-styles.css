@@ -1,0 +1,185 @@
+body.dic {
+    font-size: 16px;
+    margin: 0;
+    width: 360px;
+    overflow: hidden;
+    cursor: default;
+}
+
+.popup {
+    position: relative;
+    padding: 56px 16px 16px;
+}
+
+.popup a {
+    cursor: pointer;
+}
+
+.popup .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    z-index: 1;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    padding: 0 16px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--dic-color-text-dark);
+    background-color: var(--dic-color-main-light);
+}
+
+.popup .header .brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--dic-color-text-light);
+}
+
+.popup .header .brand img {
+    position: absolute;
+    left: 0;
+    width: 24px;
+    margin-right: 4px;
+    border-radius: 3px;
+}
+
+.popup .header a {
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.popup .header a svg {
+    margin-right: 4px;
+}
+
+.popup form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.popup #searchEntryPoint,
+.popup #apiOptions,
+.popup #result {
+    display: none;
+}
+
+.popup #message {
+    margin-bottom: 16px;
+    display: block;
+    line-height: 1.4;
+}
+
+.popup #actions a {
+    font-size: 14px;
+    color: var(--dic-color-success-light);
+    margin-right: 16px;
+}
+
+.popup form label {
+    font-size: 14px;
+}
+
+.popup form label {
+    margin-bottom: -8px;
+}
+
+.popup form > *:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.dic .popup ul {
+    padding-left: 16px;
+}
+
+.dic .popup button {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 5px 16px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+}
+
+.dic details {
+    margin-bottom: 16px;
+}
+
+.dic details:nth-child(odd) {
+}
+
+.dic details summary {
+    padding: 5px;
+    background: var(--dic-color-main-light);
+    position: relative;
+}
+
+.dic details summary span {
+    margin-left: 8px;
+}
+
+.dic details summary small {
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+}
+
+.dic details p {
+    margin: 8px 0 0;
+    line-height: 1.3;
+}
+
+.dic details p .pron {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 8px;
+    padding: 1px 3px;
+    line-height: 1;
+    opacity: 0.6;
+}
+
+.dic details p .pron:hover {
+    font-weight: bold;
+    opacity: 1;
+}
+
+.dic details p .pron img {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.dic #apiOptions small {
+    opacity: 0.7;
+}
+
+.popup #result li,
+.popup #history li {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.popup #history li span {
+    float: right;
+}
+
+.popup #result li a,
+.popup #history li a {
+    text-decoration: none;
+}
+
+.popup .link-to-mw {
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: inline-block;
+    color: var(--dic-color-success-light);
+}

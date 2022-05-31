@@ -1,0 +1,234 @@
+body {
+    --dic-color-main: #080c24ff;
+    --dic-color-main-light: #151e34ff;
+    --dic-color-main-dark: #261C2C;
+    --dic-color-text: #dad9d9;
+    --dic-color-text-light: #fff;
+    --dic-color-text-dark: rgba(175, 175, 175, 0.7);
+    --dic-color-success: #1f7ea7ff;
+    --dic-color-success-light: #2b9bcb;
+}
+
+#mv-dic-bubble,
+.dic *:not(pre):not(code) {
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif !important;
+}
+
+body.dic {
+    margin: 0 auto;
+    max-width: 768px;
+    font-size: 16px;
+    color: var(--dic-color-text);
+    cursor: default;
+    background: var(--dic-color-main);
+    overflow-y: scroll;
+}
+
+
+body.dic a,
+body .dic a {
+    color: var(--dic-color-text);
+}
+
+.dic a:hover {
+    color: var(--dic-color-text-light);
+}
+
+.dic label {
+    width: 100%;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+
+.dic select,
+.dic input[type="search"],
+.dic input[type="number"],
+.dic input[type="text"] {
+    display: block;
+    box-sizing: border-box;
+    padding: 8px;
+    background: #84848461;
+    border: none;
+    border-radius: 5px;
+    color: var(--dic-color-text);
+    max-width: 100%;
+    width: 100%;
+    margin-top: 5px;
+    height: 32px;
+}
+
+.dic textarea::placeholder,
+.dic input::placeholder {
+    color: var(--dic-color-text-dark);
+}
+
+.dic textarea:focus,
+.dic input[type="search"]:focus,
+.dic input[type="number"]:focus,
+.dic input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 1px 1px #ffffff94;
+    color: var(--dic-color-text-light);
+}
+
+.dic button {
+    all: initial;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    min-width: 50px;
+    display: inline-block;
+    padding: 5px 16px;
+    line-height: 24px;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 6px;
+    color: var(--dic-color-text-light);
+    background-color: var(--dic-color-success);
+    user-select: none;
+    appearance: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.dic button:not(:disabled):hover {
+    cursor: pointer;
+    background-color: var(--dic-color-success-light);
+}
+
+.dic button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.dic button.cancel {
+    background: transparent;
+    color: var(--dic-color-text);
+    margin-right: 8px;
+}
+
+.dic button.cancel:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dic button.outline {
+    background: transparent;
+    color: var(--dic-color-text);
+    border: 1px solid var(--dic-color-text);
+}
+
+.dic button.outline:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#mw-dic-btn {
+    position: absolute;
+    display: none;
+    z-index: 2147483647;
+    padding: 3px;
+    background: #dedede;
+    outline: none;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 0 #00000014;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+}
+
+#mw-dic-btn svg {
+    width: 16px;
+    height: 16px;
+    font-size: 19px;
+    pointer-events: none;
+}
+
+#mw-dic-bubble {
+    position: absolute;
+    z-index: 2147483647;
+    width: 340px;
+    max-width: 340px;
+    max-height: 200px;
+    background-color: var(--dic-color-main);
+    border: 1px solid var(--dic-color-main-light);
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 0 #00000014;
+    overflow: auto;
+    padding: 8px;
+    color: var(--dic-color-text);
+}
+
+#mw-dic-bubble ul {
+    padding-left: 16px;
+    margin: 0;
+}
+
+#mw-dic-bubble details {
+    margin-bottom: 16px;
+}
+
+#mw-dic-bubble details summary {
+    padding: 5px;
+    background: var(--dic-color-main-light);
+    position: relative;
+}
+
+#mw-dic-bubble details summary span {
+    margin-left: 8px;
+}
+
+#mw-dic-bubble details summary small {
+    display: inline-block;
+    position: absolute;
+    right: 8px;
+}
+
+#mw-dic-bubble details p {
+    margin: 8px 0 0;
+    line-height: 1.3;
+}
+
+#mw-dic-bubble details p .pron {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 8px;
+    padding: 1px 3px;
+    line-height: 1;
+    opacity: 0.6;
+}
+
+#mw-dic-bubble details p .pron:hover {
+    font-weight: bold;
+    opacity: 1;
+}
+
+#mw-dic-bubble details p .pron img {
+    display: inline-block;
+    margin-left: 8px;
+}
+
+#mw-dic-bubble #apiOptions small {
+    opacity: 0.7;
+}
+
+#mw-dic-bubble #result li {
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+#mw-dic-bubble #result li a {
+    text-decoration: none;
+}
+
+#mw-dic-bubble .link-to-mw {
+    margin-bottom: 8px;
+    font-size: 14px;
+    display: inline-block;
+    color: var(--dic-color-success-light);
+}
