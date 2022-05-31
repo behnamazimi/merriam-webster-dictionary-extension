@@ -9,5 +9,5 @@ choose the one which you choose on registration.
 
 - Developed for personal uses in rush time
 - Lots of messes in the code
-- Documents will be updated
 - Not ready to be published in store yet and need more tests
+- This readme will be updated
