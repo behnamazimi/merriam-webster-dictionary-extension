@@ -79,7 +79,11 @@ optionsEntryPoint.onclick = () => showSection(sections.options)
 historyEntryPoint.onclick = () => {
     storeUtils.loadHistory((history) => {
         showSection(sections.history)
-        renderHistory(sortHistoryByDate(history))
+        renderHistory(sortHistoryByDate(history), () => {
+            sendGlobalMessage({action: globalActions.CLEAR_HISTORY}, () => {
+                showSection(sections.search)
+            })
+        })
     })
 }
 
@@ -108,12 +112,12 @@ function sortHistoryByDate(history) {
     if (!history) return null
     return Object.keys(history)
         .sort((a, b) => {
-            return history[b].date - history[a].date
+            return history[b].time - history[a].time
         })
         .map(item => [item, history[item].count])
 }
 
-function renderHistory(sortedHistory = []) {
+function renderHistory(sortedHistory = [], onClearClick) {
     sections.history.innerHTML = ""
 
     const title = document.createElement("div")
@@ -136,6 +140,13 @@ function renderHistory(sortedHistory = []) {
     }
 
     sections.history.appendChild(list)
+
+    const clearBtn = document.createElement("button")
+    clearBtn.setAttribute("class", "clear-history-btn")
+    clearBtn.innerText = "Clear History"
+    clearBtn.onclick = onClearClick
+    sections.history.appendChild(clearBtn)
+
     showElement(sections.actions)
 }
 

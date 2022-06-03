@@ -1,4 +1,4 @@
-body.dic {
+body#mw-dic {
     font-size: 16px;
     margin: 0;
     width: 360px;
@@ -6,16 +6,16 @@ body.dic {
     cursor: default;
 }
 
-.popup {
+#mw-dic .popup {
     position: relative;
     padding: 56px 16px 16px;
 }
 
-.popup a {
+#mw-dic .popup a {
     cursor: pointer;
 }
 
-.popup .header {
+#mw-dic .popup .header {
     position: fixed;
     top: 0;
     left: 0;
@@ -33,14 +33,14 @@ body.dic {
     background-color: var(--dic-color-main-light);
 }
 
-.popup .header .brand {
+#mw-dic .popup .header .brand {
     position: relative;
     display: flex;
     align-items: center;
     color: var(--dic-color-text-light);
 }
 
-.popup .header .brand img {
+#mw-dic .popup .header .brand img {
     position: absolute;
     left: 0;
     width: 24px;
@@ -48,59 +48,77 @@ body.dic {
     border-radius: 3px;
 }
 
-.popup .header a {
+#mw-dic .popup .header a {
     text-decoration: none;
     font-size: 16px;
     display: inline-flex;
     align-items: center;
 }
 
-.popup .header a svg {
+#mw-dic .popup .header a svg {
     margin-right: 4px;
 }
 
-.popup form {
+#mw-dic .popup form {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
 }
 
-.popup #searchEntryPoint,
-.popup #options,
-.popup #result {
+#mw-dic .popup #searchEntryPoint,
+#mw-dic .popup #options,
+#mw-dic .popup #result {
     display: none;
 }
 
-.popup #message {
-    margin-bottom: 16px;
+#mw-dic .popup #message {
     display: block;
     line-height: 1.4;
 }
 
-.popup #actions a {
-    font-size: 14px;
-    color: var(--dic-color-success-light);
-    margin-right: 16px;
+#mw-dic .popup #actions {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--dic-color-main);
+    padding: 0.75rem 0;
 }
 
-.popup form label {
-    font-size: 14px;
+#mw-dic .popup #actions button {
+    width: auto;
+    /*background-color: var(--dic-color-secondary);*/
 }
 
-.popup form label {
+#mw-dic .popup form label {
+    font-size: 16px;
+}
+
+#mw-dic .popup form label {
     margin-bottom: -8px;
 }
 
-.popup form > *:not(:last-child) {
+#mw-dic .popup form > *:not(:last-child) {
     margin-bottom: 16px;
 }
 
-.dic .popup ul {
+#mw-dic .popup #search button {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    border-radius: 0 6px 6px 0;
+    width: auto;
+}
+
+#mw-dic .popup ul {
     padding-left: 16px;
 }
 
-.dic .popup button {
+#mw-dic .popup button {
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
@@ -110,35 +128,35 @@ body.dic {
     box-sizing: border-box;
 }
 
-.dic details {
+#mw-dic details {
     margin-bottom: 16px;
 }
 
-.dic details:nth-child(odd) {
+#mw-dic details:nth-child(odd) {
 }
 
-.dic details summary {
+#mw-dic details summary {
     padding: 5px;
     background: var(--dic-color-main-light);
     position: relative;
 }
 
-.dic details summary span {
+#mw-dic details summary span {
     margin-left: 8px;
 }
 
-.dic details summary small {
+#mw-dic details summary small {
     display: inline-block;
     position: absolute;
     right: 8px;
 }
 
-.dic details p {
+#mw-dic details p {
     margin: 8px 0 0;
     line-height: 1.3;
 }
 
-.dic details p .pron {
+#mw-dic details p .pron {
     cursor: pointer;
     display: flex;
     justify-content: flex-start;
@@ -148,48 +166,54 @@ body.dic {
     opacity: 0.6;
 }
 
-.dic details p .pron:hover {
+#mw-dic details p .pron:hover {
     font-weight: bold;
     opacity: 1;
 }
 
-.dic details p .pron img {
+#mw-dic details p .pron img {
     display: inline-block;
     margin-left: 8px;
 }
 
-.dic #options small {
+#mw-dic #options small {
     opacity: 0.7;
 }
 
-.popup #result li,
-.popup #history li {
+#mw-dic .popup #result li,
+#mw-dic .popup #history li {
     cursor: pointer;
     margin-bottom: 5px;
 }
 
-.popup #history li span {
+#mw-dic .popup #history li span {
     float: right;
 }
 
-.popup #result li a,
-.popup #history li a {
+#mw-dic .popup #result li a,
+#mw-dic .popup #history li a {
     text-decoration: none;
 }
 
-.popup .link-to-mw {
+#mw-dic .popup .link-to-mw {
     margin-bottom: 8px;
     font-size: 14px;
     display: inline-block;
     color: var(--dic-color-success-light);
 }
 
-.popup p.examples {
+#mw-dic .popup p.examples {
     white-space: break-spaces;
     font-size: 14px;
     color: var(--dic-color-text-dark);
 }
 
-.popup p.examples span {
+#mw-dic .popup p.examples span {
     display: block;
+}
+
+#mw-dic #history .clear-history-btn {
+    position: sticky;
+    bottom: 3.5rem;
+    z-index: 2;
 }

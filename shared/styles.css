@@ -2,20 +2,23 @@ body {
     --dic-color-main: #080c24ff;
     --dic-color-main-light: #151e34ff;
     --dic-color-main-dark: #261C2C;
-    --dic-color-text: #dad9d9;
+    --dic-color-text: #c7c6c6;
     --dic-color-text-light: #fff;
     --dic-color-text-dark: rgba(175, 175, 175, 0.7);
     --dic-color-success: #1f7ea7ff;
     --dic-color-success-light: #2b9bcb;
+    --dic-color-secondary: #008080;
+    --dic-color-secondary-light: #039a9a;
 }
 
-#mv-dic-bubble,
-.dic *:not(pre):not(code) {
+#mw-dic-bubble,
+#mw-dic *:not(pre):not(code) {
     box-sizing: border-box;
     font-family: 'Roboto', Arial, sans-serif !important;
 }
 
-body.dic {
+body#mw-dic,
+body#mw-dic p {
     margin: 0 auto;
     max-width: 768px;
     font-size: 16px;
@@ -26,26 +29,24 @@ body.dic {
 }
 
 
-body.dic a,
-body .dic a {
+body#mw-dic a {
     color: var(--dic-color-text);
 }
 
-.dic a:hover {
+#mw-dic a:hover {
     color: var(--dic-color-text-light);
 }
 
-.dic label {
+#mw-dic label {
     width: 100%;
     margin-bottom: 8px;
     display: inline-block;
 }
 
-
-.dic select,
-.dic input[type="search"],
-.dic input[type="number"],
-.dic input[type="text"] {
+#mw-dic select,
+#mw-dic input[type="search"],
+#mw-dic input[type="number"],
+#mw-dic input[type="text"] {
     display: block;
     box-sizing: border-box;
     padding: 8px;
@@ -59,21 +60,21 @@ body .dic a {
     height: 32px;
 }
 
-.dic textarea::placeholder,
-.dic input::placeholder {
+#mw-dic textarea::placeholder,
+#mw-dic input::placeholder {
     color: var(--dic-color-text-dark);
 }
 
-.dic textarea:focus,
-.dic input[type="search"]:focus,
-.dic input[type="number"]:focus,
-.dic input[type="text"]:focus {
+#mw-dic textarea:focus,
+#mw-dic input[type="search"]:focus,
+#mw-dic input[type="number"]:focus,
+#mw-dic input[type="text"]:focus {
     outline: none;
     box-shadow: 0 0 1px 1px #ffffff94;
     color: var(--dic-color-text-light);
 }
 
-.dic button {
+#mw-dic button {
     all: initial;
     font-family: inherit;
     font-size: 16px;
@@ -94,33 +95,32 @@ body .dic a {
     border: 1px solid transparent;
 }
 
-.dic button:not(:disabled):hover {
+#mw-dic button:not(:disabled):hover {
     cursor: pointer;
     background-color: var(--dic-color-success-light);
 }
 
-.dic button:disabled {
+#mw-dic button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.dic button.cancel {
-    background: transparent;
-    color: var(--dic-color-text);
-    margin-right: 8px;
-}
-
-.dic button.cancel:hover {
+#mw-dic button.light {
     background-color: rgba(255, 255, 255, 0.1);
+    color: var(--dic-color-text);
 }
 
-.dic button.outline {
+#mw-dic button.light:hover {
+    background-color: var(--dic-color-secondary);
+}
+
+#mw-dic button.outline {
     background: transparent;
     color: var(--dic-color-text);
     border: 1px solid var(--dic-color-text);
 }
 
-.dic button.outline:hover {
+#mw-dic button.outline:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -171,6 +171,7 @@ body .dic a {
 
 #mw-dic-bubble details {
     margin-bottom: 16px;
+    font-size: 16px;
 }
 
 #mw-dic-bubble details summary {
@@ -234,16 +235,20 @@ body .dic a {
     color: var(--dic-color-success-light);
 }
 
-#mv-dic-bubble p {
+#mw-dic-bubble p {
     color: var(--dic-color-text);
 }
 
-#mv-dic-bubble p.examples {
+#mw-dic-bubble p.examples {
     white-space: break-spaces;
     font-size: 14px;
     color: var(--dic-color-text-dark);
 }
 
-#mv-dic-bubble p.examples span {
+#mw-dic-bubble p.examples span {
     display: block;
+}
+
+#mw-dic small {
+    font-size: 14px;
 }

@@ -49,6 +49,7 @@ const storeUtils = (function () {
                 history[search] = {count: 0, time: Date.now()}
             }
             history[search].count++
+            history[search].time = Date.now()
 
             chrome.storage.sync.set({history}, function () {
                 if (cb && typeof cb === "function") cb(history)
@@ -57,11 +58,18 @@ const storeUtils = (function () {
 
     }
 
+    function clearHistory(cb) {
+        chrome.storage.sync.set({history: {}}, function () {
+            if (cb && typeof cb === "function") cb()
+        });
+    }
+
     return {
         storeOptions,
         loadOptions,
         loadHistory,
         addToHistory,
+        clearHistory,
     }
 })();
 
@@ -199,7 +207,7 @@ const renderUtils = (function () {
             let pronMeta = document.createElement("span")
             pronMeta.setAttribute("class", "pron")
             if (item.pron) {
-                pronMeta.innerHTML = `\\${item.pron}\\ <img src="${playIcon}" alt="">`
+                pronMeta.innerHTML = `\\${item.pron}\\ ${item.sound ? `<img src="${playIcon}" alt="">` : ''}`
                 pronMeta.onclick = () => new Audio(item.sound).play()
             }
 
