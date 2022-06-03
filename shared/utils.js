@@ -114,6 +114,7 @@ const apiUtils = (function () {
                 synonyms: res.syns?.[0]?.["pt"][0][1],
                 pron,
                 sound: generateSoundSrc(res),
+                examples: getExamples(res),
             })
         }
 
@@ -137,6 +138,18 @@ const apiUtils = (function () {
             }
         }
         return pron?.sound ? `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioSubDir}/${audio}.mp3` : null
+    }
+
+    function getExamples(res) {
+        const expRegex = /"t":"([^"]*)"/gm
+        const matches = JSON.stringify(res).matchAll(expRegex)
+        let examples = []
+        if (matches) {
+            for (let [, t] of matches) {
+                examples.push(t)
+            }
+        }
+        return examples
     }
 
     return {
@@ -198,8 +211,19 @@ const renderUtils = (function () {
             const def = document.createElement("p")
             def.appendChild(pronMeta)
             def.append(item.shortDef)
-
             details.appendChild(def)
+
+            if (item.examples) {
+                const eg = document.createElement("p")
+                eg.setAttribute("class", "examples")
+                for (let example of item.examples) {
+                    const itemSpan = document.createElement("span")
+                    itemSpan.innerHTML = "// " + example.replace("{it}", "<strong>").replace("{/it}", "</strong>")
+                    eg.append(itemSpan)
+                }
+                details.appendChild(eg)
+            }
+
             target.appendChild(details)
         }
     }

@@ -233,3 +233,17 @@ body .dic a {
     display: inline-block;
     color: var(--dic-color-success-light);
 }
+
+#mv-dic-bubble p {
+    color: var(--dic-color-text);
+}
+
+#mv-dic-bubble p.examples {
+    white-space: break-spaces;
+    font-size: 14px;
+    color: var(--dic-color-text-dark);
+}
+
+#mv-dic-bubble p.examples span {
+    display: block;
+}

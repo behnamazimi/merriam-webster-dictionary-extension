@@ -183,3 +183,13 @@ body.dic {
     display: inline-block;
     color: var(--dic-color-success-light);
 }
+
+.popup p.examples {
+    white-space: break-spaces;
+    font-size: 14px;
+    color: var(--dic-color-text-dark);
+}
+
+.popup p.examples span {
+    display: block;
+}
