@@ -204,22 +204,31 @@ const renderUtils = (function () {
         for (let item of result) {
             if (!item.shortDef) continue;
 
-            let pronMeta = document.createElement("span")
-            pronMeta.setAttribute("class", "pron")
-            if (item.pron) {
-                pronMeta.innerHTML = `\\${item.pron}\\ ${item.sound ? `<img src="${playIcon}" alt="">` : ''}`
-                pronMeta.onclick = () => new Audio(item.sound).play()
-            }
-
             const details = document.createElement("details")
             details.open = true
             const [id, counter] = item.id.split(":")
             details.innerHTML = `<summary><span>${(counter ? counter + ": " : "")}</span><strong>${id} <small>${item.type || ""}</small></strong></summary>`
+            target.appendChild(details)
 
-            const def = document.createElement("p")
-            def.appendChild(pronMeta)
-            def.append(item.shortDef)
-            details.appendChild(def)
+            const content = document.createElement("div")
+            content.setAttribute("class", "item-content")
+            details.appendChild(content)
+
+            if (item.pron) {
+                let pronMeta = document.createElement("span")
+                pronMeta.setAttribute("class", "pron")
+                pronMeta.innerHTML = `\\${item.pron}\\ ${item.sound ? `<img src="${playIcon}" alt="">` : ''}`
+                pronMeta.onclick = () => new Audio(item.sound).play()
+                content.appendChild(pronMeta)
+            }
+
+            const defs = document.createElement("ul")
+            for (let d of item.shortDef) {
+                const de = document.createElement("li")
+                de.innerHTML = d
+                defs.append(de)
+            }
+            content.appendChild(defs)
 
             if (item.examples) {
                 const eg = document.createElement("p")
@@ -232,7 +241,6 @@ const renderUtils = (function () {
                 details.appendChild(eg)
             }
 
-            target.appendChild(details)
         }
     }
 
@@ -246,10 +254,11 @@ const renderUtils = (function () {
     function renderBubble(result, searchedFor) {
         const selectionRect = window.getSelection().getRangeAt(0).getBoundingClientRect()
 
-        let bubble = document.getElementById("mw-dic-bubble")
+        let bubble = document.getElementById("mw-dic")
         if (!bubble) {
             bubble = document.createElement("div")
-            bubble.setAttribute("id", "mw-dic-bubble")
+            bubble.setAttribute("id", "mw-dic")
+            bubble.setAttribute("class", "bubble")
             document.body.appendChild(bubble)
         }
 

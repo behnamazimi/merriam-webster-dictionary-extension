@@ -97,7 +97,9 @@ function doSearch(searchTrend = null) {
         })
         .catch(e => {
             console.log(e.message);
-            if (e.message.includes("No result")) {
+            if (e.message.includes("Unexpected token K")) {
+                updateMessage("API key missing, you need to put it in options first.")
+            } else if (e.message.includes("No result")) {
                 updateMessage(e.message)
             } else if (e.message.includes("Failed to fetch")) {
                 updateMessage("It seems you are offline!")
@@ -119,6 +121,7 @@ function sortHistoryByDate(history) {
 
 function renderHistory(sortedHistory = [], onClearClick) {
     sections.history.innerHTML = ""
+    showElement(sections.actions)
 
     const title = document.createElement("div")
     title.innerHTML = `<small>Your search history:</small>`
@@ -146,8 +149,6 @@ function renderHistory(sortedHistory = [], onClearClick) {
     clearBtn.innerText = "Clear History"
     clearBtn.onclick = onClearClick
     sections.history.appendChild(clearBtn)
-
-    showElement(sections.actions)
 }
 
 // hide all show the one
@@ -191,5 +192,5 @@ function hideElement(section) {
 }
 
 function updateMessage(msg) {
-    message.innerText = msg
+    message.innerHTML = msg
 }
