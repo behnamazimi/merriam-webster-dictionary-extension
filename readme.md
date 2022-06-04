@@ -20,7 +20,7 @@ The extension is not yet published on the Chrome store. The store link will be a
 ### How to install it manually on Chromium base browsers?
 
 1. Clone the repo or download it as a zip and extract it
-2. Open [chrome://extensions](chrome://extensions) in your Chrome browser and active **Developer mode** by clicking the
+2. Go to `chrome://extensions` in your Chrome browser and active **Developer mode** by clicking the
    toggle on right-top corner of the page
 3. At the left-top of the same page, click on **Load unpacked** button and load the folder you just cloned or the zip
    file you have downloaded.
