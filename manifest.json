@@ -1,7 +1,7 @@
 {
   "name": "Merriam-Webster' Dictionary",
   "version": "1.0",
-  "description": "Open source Merriam-Webster' dictionary Chrome extension",
+  "description": "Open source Merriam-Webster' dictionary",
   "permissions": [
     "tabs",
     "activeTab",

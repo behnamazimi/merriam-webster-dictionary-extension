@@ -133,7 +133,6 @@ function renderHistory(sortedHistory = [], onClearClick) {
     }
 
     const list = document.createElement("ul")
-
     for (let [key, count] of sortedHistory) {
         const item = document.createElement("li")
         item.innerHTML = `<a href="#">${key}</a><span>${count > 1 ? ` (${count} times)` : ""}</span>`

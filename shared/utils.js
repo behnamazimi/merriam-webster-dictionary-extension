@@ -246,7 +246,7 @@ const renderUtils = (function () {
 
     function createFloatingButton() {
         const button = document.createElement("button")
-        button.innerHTML = `${icon}`
+        button.innerHTML = searchIcon
         button.setAttribute("id", "mw-dic-btn")
         return button
     }

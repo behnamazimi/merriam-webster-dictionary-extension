@@ -46,10 +46,6 @@ function handleMessages(data, details, sendResponse) {
                 sendResponse(true);
             });
             return true;
-
-        case globalActions.OPEN_POPUP:
-            sendResponse(true);
-            return true;
     }
 
 }
