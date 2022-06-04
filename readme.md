@@ -1,13 +1,23 @@
 # Merriam-Webster' Dictionary Chrome Extension
 
-This extension uses Merriam-Webster's free services. You
-can [do free register here](https://dictionaryapi.com/register/index)
-to get your personal API key. Then you need to put it in the options of the extension to be able to use it.
+This extension is a free face for Merriam-Webster' free dictionary services. You can consider it as a light version of
+MW's original website.
 
-Notice that there are different types of APIs and each has its unique key. In the options, you should
-choose the one which you choose on registration.
+This extension allows you to look up and get the English to English definition of highlighted words in the content of a
+website. Also, you can use its search box to lookup up a word it MW's resources and, you can keep track of your search
+history and browse through your previous searches.
 
-### How to install on Chrome?
+This extension uses Merriam-Webster's free services therefore, you'll need your personal API key to put it in the
+options of the extension to be able to use it. You can [do free register here](https://dictionaryapi.com/register/index)
+to get your API key. Notice that there are different types of APIs and each has its unique key. In the options, you
+should choose the one which you choose on registration.
+You will be able to read the required instruction in the options.
+
+### How to install?
+
+The extension is not yet published on the Chrome store. The store link will be added here as soon as it is published.
+
+### How to install it manually on Chromium base browsers?
 
 1. Clone the repo or download it as a zip and extract it
 2. Open [chrome://extensions](chrome://extensions) in your Chrome browser and active **Developer mode** by clicking the
@@ -16,10 +26,8 @@ choose the one which you choose on registration.
    file you have downloaded.
 4. Enjoy! :)
 
-### For your information
+### For your information:
 
-- This extension is hastily developed for personal uses
-- My API keys are set by default, so you can test it if you wish
-- There are still lots of messes in the code
-- It is not ready to be published in store yet and need more tests
-- This readme will be updated...
+- My personal API keys are set by default, so you might be able to test its functionality before getting your API key if
+  you wish.
+- This extension is hastily developed for personal uses so don't be shy to give any constructive feedback. :)
