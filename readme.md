@@ -30,4 +30,4 @@ The extension is not yet published on the Chrome store. The store link will be a
 
 - My personal API keys are set by default, so you might be able to test its functionality before getting your API key if
   you wish.
-- This extension is hastily developed for personal uses so don't be shy to give any constructive feedback. :)
+- This extension is hastily developed for personal uses, feel free to give any constructive feedback. :)
