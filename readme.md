@@ -16,7 +16,7 @@ You will be able to read the required instruction in the options.
 ### How to install?
 
 It's available
-on [Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)
+on **[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)**
 .
 
 ### How to install it manually on Chromium base browsers?
