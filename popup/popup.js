@@ -63,7 +63,7 @@ sections.options.onsubmit = function (e) {
         showFloatingButton: e.target["showFloatingButton"].checked,
         openMwWebsite: e.target["openMwWebsite"].checked,
     }
-    console.log(options);
+
     sendGlobalMessage({
         action: globalActions.SET_OPTIONS,
         options
