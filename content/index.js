@@ -2,6 +2,7 @@
 
 let isReady = false
 let showFloatingButton = false
+let openMwWebsite = false
 let floatingButton = null
 let bubble = null
 
@@ -16,6 +17,7 @@ function init() {
         // set api key and type in utils
         apiUtils.setoptions(options.apiKey, options.apiType)
         showFloatingButton = options.showFloatingButton
+        openMwWebsite = options.openMwWebsite
         isReady = true
     })
 }
@@ -28,6 +30,7 @@ function handleMessages(request, sender, sendResponse) {
         // set api key and type in utils
         apiUtils.setoptions(request.options.apiKey, request.options.apiType)
         showFloatingButton = request.options.showFloatingButton
+        openMwWebsite = request.options.openMwWebsite
         isReady = true;
     }
 }
@@ -45,7 +48,7 @@ function handleMouseUp(event) {
     // when floating search button clicked
     if (floatingButton && floatingButton.contains(event.target)) {
         hideFloatingButton()
-        doSearch()
+        handleFloatingButtonClick()
         return true
     }
 
@@ -81,8 +84,20 @@ function handleMouseUp(event) {
 
 }
 
-function doSearch(forcedTextToSearch = null) {
-    const searchTrend = forcedTextToSearch || window.getSelection().toString()
+function handleFloatingButtonClick() {
+    const searchTrend = window.getSelection().toString()
+    if (!searchTrend || searchTrend === "\n") {
+        return
+    }
+
+    if (openMwWebsite) {
+        window.open(`https://www.merriam-webster.com/dictionary/${searchTrend}`)
+    } else {
+        doSearch(searchTrend)
+    }
+}
+
+function doSearch(searchTrend = "") {
 
     apiUtils.fetchData(searchTrend)
         .then((result) => {

@@ -17,7 +17,11 @@ chrome.runtime.onInstalled.addListener(() => {
     // Key (Intermediate Dictionary): sd3
     // 6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31
 
-    storeUtils.storeOptions({apiKey: "6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31", apiType: "sd3", showFloatingButton: true});
+    storeUtils.storeOptions({
+        apiKey: "6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31", apiType: "sd3",
+        showFloatingButton: true,
+        openMwWebsite: false,
+    });
 });
 
 function handleMessages(data, details, sendResponse) {

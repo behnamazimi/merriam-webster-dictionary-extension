@@ -32,6 +32,8 @@ function initPopup() {
             sections.options["apiKey"].value = options.apiKey
             sections.options["apiType"].value = options.apiType
             sections.options["showFloatingButton"].checked = options.showFloatingButton
+            sections.options["openMwWebsite"].checked = options.openMwWebsite
+            openMwWebsite = options.openMwWebsite
 
             // get selected text
             sendMessageToCurrentTab({action: globalActions.GET_SELECTED_TEXT}, (response = {}) => {
@@ -59,7 +61,9 @@ sections.options.onsubmit = function (e) {
         apiKey: e.target["apiKey"].value || "",
         apiType: e.target["apiType"].value || "",
         showFloatingButton: e.target["showFloatingButton"].checked,
+        openMwWebsite: e.target["openMwWebsite"].checked,
     }
+    console.log(options);
     sendGlobalMessage({
         action: globalActions.SET_OPTIONS,
         options
