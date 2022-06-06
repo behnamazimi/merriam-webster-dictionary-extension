@@ -33,7 +33,6 @@ function initPopup() {
             sections.options["apiType"].value = options.apiType
             sections.options["showFloatingButton"].checked = options.showFloatingButton
             sections.options["openMwWebsite"].checked = options.openMwWebsite
-            openMwWebsite = options.openMwWebsite
 
             // get selected text
             sendMessageToCurrentTab({action: globalActions.GET_SELECTED_TEXT}, (response = {}) => {
