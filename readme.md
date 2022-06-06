@@ -1,5 +1,7 @@
 # Merriam-Webster' Dictionary Chrome Extension
 
+**[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)**
+
 This extension is a free face for Merriam-Webster' free dictionary services. You can consider it as a light version of
 MW's original website.
 
