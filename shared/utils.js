@@ -234,7 +234,9 @@ const renderUtils = (function () {
                 eg.setAttribute("class", "examples")
                 for (let example of item.examples) {
                     const itemSpan = document.createElement("span")
-                    itemSpan.innerHTML = "// " + example.replace("{it}", "<strong>").replace("{/it}", "</strong>")
+                    itemSpan.innerHTML = "// " + example
+                      .replace("{it}", "<strong>").replace("{/it}", "</strong>")
+                      .replace("{wi}", "<strong>").replace("{/wi}", "</strong>")
                     eg.append(itemSpan)
                 }
                 details.appendChild(eg)
