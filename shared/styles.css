@@ -166,3 +166,8 @@ body {
     display: block;
 }
 
+#mw-dic p.syns {
+    opacity: 0.7;
+    font-size: 14px;
+    white-space: break-spaces;
+}

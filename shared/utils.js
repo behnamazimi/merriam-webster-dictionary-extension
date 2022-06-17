@@ -118,7 +118,7 @@ const apiUtils = (function () {
         id,
         type: res.fl,
         shortDef: res.shortdef,
-        synonyms: res.syns?.[0]?.["pt"][0][1],
+        synonyms: res.meta.syns?.[0],
         pron,
         sound: generateSoundSrc(res),
         examples: getExamples(res),
@@ -221,6 +221,13 @@ const renderUtils = (function () {
         content.appendChild(pronMeta)
       }
 
+      if (item.synonyms) {
+        const syns = document.createElement("p")
+        syns.setAttribute("class", "syns")
+        syns.innerHTML = "synonym: " + item.synonyms.join(", ")
+        details.appendChild(syns)
+      }
+
       const defs = document.createElement("ul")
       for (let d of item.shortDef) {
         const de = document.createElement("li")
@@ -232,9 +239,10 @@ const renderUtils = (function () {
       if (item.examples) {
         const eg = document.createElement("p")
         eg.setAttribute("class", "examples")
+        eg.innerHTML = ""
         for (let example of item.examples) {
           const itemSpan = document.createElement("span")
-          itemSpan.innerHTML = "// " + example
+          itemSpan.innerHTML = ">> " + example
             .replace("{it}", "<strong>").replace("{/it}", "</strong>")
             .replace("{wi}", "<strong>").replace("{/wi}", "</strong>")
           eg.append(itemSpan)
