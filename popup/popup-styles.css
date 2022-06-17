@@ -209,3 +209,8 @@ body#mw-dic {
     margin-top: 16px;
     z-index: 2;
 }
+
+#mw-dic .popup #options .guide {
+    background-color: var(--dic-color-guide-bg);
+    padding: 5px;
+}

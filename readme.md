@@ -11,9 +11,9 @@ history and browse through your previous searches.
 
 This extension uses Merriam-Webster's free services therefore, you'll need your personal API key to put it in the
 options of the extension to be able to use it. You can [do free register here](https://dictionaryapi.com/register/index)
-to get your API key. Notice that there are different types of APIs and each has its unique key. In the options, you
-should choose the one which you choose on registration.
-You will be able to read the required instruction in the options.
+to get your API key. Notice that there are different types of APIs and each has its unique
+key ([read more about them](https://dictionaryapi.com/products/index)). In the options, you should choose the one which
+you choose on registration. You will be able to read the required instruction in the extension options.
 
 ### How to install?
 
