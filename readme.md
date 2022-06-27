@@ -12,7 +12,8 @@ history and browse through your previous searches.
 This extension uses Merriam-Webster's free services therefore, you'll need your personal API key to put it in the
 options of the extension to be able to use it. You can [do free register here](https://dictionaryapi.com/register/index)
 to get your API key. Notice that there are different types of APIs and each has its unique
-key; [read more about variants of MW dictionaries](https://dictionaryapi.com/products/index). In the options, you should choose the one which
+key; [read more about variants of MW dictionaries](https://dictionaryapi.com/products/index). In the options, you should
+choose the one which
 you choose on registration. You will be able to read the required instruction in the extension options.
 
 ### How to install?
@@ -33,6 +34,6 @@ on **[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webste
 
 ### For your information:
 
-- My personal API keys are set by default, so you might be able to test its functionality before getting your API key if
-  you wish.
+- My personal API options are set by default, so you can test the functionality of the extension. Just keep in mind you
+  **only can get 20 definitions** with my public API key, so it's a good idea to get your API key soon ;)
 - This extension is hastily developed for personal uses, feel free to give any constructive feedback. :)
