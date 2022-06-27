@@ -37,7 +37,7 @@ function initPopup() {
     } else {
 
       // set api key and type in utils
-      apiUtils.setoptions(options.apiKey, options.apiType)
+      apiUtils.setOptions(options.apiKey, options.apiType)
 
       if (!usingPublicApiKey) {
         sections.options["apiKey"].value = options.apiKey
@@ -81,7 +81,7 @@ sections.options.onsubmit = function (e) {
   }, (res) => {
     if (res) {
       // update apiUtils options as well
-      apiUtils.setoptions(options.apiKey, options.apiType)
+      apiUtils.setOptions(options.apiKey, options.apiType)
       showSection(sections.search)
     }
   })

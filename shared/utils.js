@@ -95,7 +95,7 @@ const apiUtils = (function () {
 
   let API_KEY = "", API_TYPE = null;
 
-  const setoptions = (key, type) => {
+  const setOptions = (key, type) => {
     API_KEY = key
     API_TYPE = type
   }
@@ -198,7 +198,7 @@ const apiUtils = (function () {
   }
 
   return {
-    setoptions,
+    setOptions,
     fetchData,
     canUsePublicApiDetails,
   }

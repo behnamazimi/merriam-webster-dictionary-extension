@@ -15,7 +15,7 @@ function init() {
     const {options = {}, history} = response
 
     // set api key and type in utils
-    apiUtils.setoptions(options.apiKey, options.apiType)
+    apiUtils.setOptions(options.apiKey, options.apiType)
     showFloatingButton = options.showFloatingButton
     openMwWebsite = options.openMwWebsite
     isReady = true
@@ -28,7 +28,7 @@ function handleMessages(request, sender, sendResponse) {
     sendResponse({selectedText})
   } else if (request.action === globalActions.SET_OPTIONS) {
     // set api key and type in utils
-    apiUtils.setoptions(request.options.apiKey, request.options.apiType)
+    apiUtils.setOptions(request.options.apiKey, request.options.apiType)
     showFloatingButton = request.options.showFloatingButton
     openMwWebsite = request.options.openMwWebsite
     isReady = true;
