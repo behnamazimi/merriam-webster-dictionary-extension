@@ -21,16 +21,28 @@ getActiveTabInfo(() => {
 })
 
 function initPopup() {
-  sendGlobalMessage({action: globalActions.POPUP_INIT}, (response) => {
-    const {options = {}, history} = response
+  sendGlobalMessage({action: globalActions.POPUP_INIT}, async (response) => {
+    const {options = {}, history, publicApiUsage} = response
+
+    const usingPublicApiKey = options.apiKey === publicApiDetails.key
+    const canUsePublicApi = await apiUtils.canUsePublicApiDetails()
+    if (!canUsePublicApi) {
+      updateMessage(messages.publicOptionsLimitReached)
+    } else if (usingPublicApiKey && canUsePublicApi) {
+      updateMessage(messages.limitReminderAlert)
+    }
+
     if (!options.apiKey) {
       showSection(sections.options)
     } else {
 
       // set api key and type in utils
       apiUtils.setoptions(options.apiKey, options.apiType)
-      sections.options["apiKey"].value = options.apiKey
-      sections.options["apiType"].value = options.apiType
+
+      if (!usingPublicApiKey) {
+        sections.options["apiKey"].value = options.apiKey
+        sections.options["apiType"].value = options.apiType
+      }
       sections.options["showFloatingButton"].checked = options.showFloatingButton
       sections.options["openMwWebsite"].checked = options.openMwWebsite
 
@@ -101,14 +113,15 @@ function doSearch(searchTrend = null) {
     .catch(e => {
       console.log(e.message);
       if (e.message.includes("Unexpected token K")) {
-        updateMessage("API key missing, you need to put it in options first.")
+        updateMessage(messages.apiKeyIsMissing)
       } else if (e.message.includes("No result")) {
         updateMessage(e.message)
       } else if (e.message.includes("Failed to fetch")) {
-        updateMessage("It seems you are offline!")
+        updateMessage(messages.offline)
+      } else if (e.message === "PERSONAL_KEY_NEEDED") {
+        updateMessage(messages.publicOptionsLimitReached)
       } else {
-        updateMessage(`Unexpected error on data fetch! \n ` +
-          `Make sure your API key is valid and the API type you choose is the same as the one you chose when you registered.`)
+        updateMessage(messages.unexpectedError)
       }
     })
 }

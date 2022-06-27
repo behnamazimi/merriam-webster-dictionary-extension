@@ -64,12 +64,30 @@ const storeUtils = (function () {
     });
   }
 
+  function getPublicApiKeyUsage(cb) {
+    chrome.storage.sync.get("publicApiUsage", function (data) {
+      if (cb && typeof cb === "function")
+        cb(data.publicApiUsage || 0)
+    });
+  }
+
+  function countUpPublicApiKeyUsage(cb) {
+    getPublicApiKeyUsage((prevCount = 0) => {
+      const publicApiUsage = prevCount + 1
+      chrome.storage.sync.set({publicApiUsage}, function () {
+        if (cb && typeof cb === "function") cb(publicApiUsage)
+      });
+    })
+  }
+
   return {
     storeOptions,
     loadOptions,
     loadHistory,
     addToHistory,
     clearHistory,
+    getPublicApiKeyUsage,
+    countUpPublicApiKeyUsage,
   }
 })();
 
@@ -84,12 +102,32 @@ const apiUtils = (function () {
 
   const getApiEndpoint = (search, category, apiKey) => `https://www.dictionaryapi.com/api/v3/references/${category}/json/${search}?key=${apiKey}`
 
+  const isUsingPublicKey = () => API_KEY === publicApiDetails.key
+
+  const canUsePublicApiDetails = () => {
+    return new Promise(resolve => {
+      messagingUtils.sendGlobalMessage({action: globalActions.GET_PUBLIC_API_USAGE}, (usageCount) => {
+        resolve(+usageCount < publicApiDetails.usageLimitPerInstall)
+      })
+    })
+  }
+
   function fetchData(search) {
     if (!search)
       return Promise.reject(new Error("Word is required!"))
 
     const endpoint = getApiEndpoint(search, API_TYPE, API_KEY)
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+
+      if (isUsingPublicKey()) {
+        if (!(await canUsePublicApiDetails())) {
+          reject(new Error("PERSONAL_KEY_NEEDED"))
+          return
+        }
+
+        messagingUtils.sendGlobalMessage({action: globalActions.COUNT_UP_PUBLIC_API_USAGE})
+      }
+
       fetch(endpoint)
         .then(response => response.json())
         .then((result) => {
@@ -162,6 +200,7 @@ const apiUtils = (function () {
   return {
     setoptions,
     fetchData,
+    canUsePublicApiDetails,
   }
 })();
 
@@ -295,10 +334,17 @@ const renderUtils = (function () {
     return bubble
   }
 
+  function showMessageOnBubble(message) {
+    const bubble = renderBubble([], null)
+    bubble.innerText = message
+    return bubble
+  }
+
   return {
     renderResult,
     createFloatingButton,
-    renderBubble
+    renderBubble,
+    showMessageOnBubble
   }
 })();
 

@@ -18,7 +18,8 @@ chrome.runtime.onInstalled.addListener(() => {
   // 6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31
 
   storeUtils.storeOptions({
-    apiKey: "6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31", apiType: "sd3",
+    apiKey: publicApiDetails.key,
+    apiType: publicApiDetails.type,
     showFloatingButton: true,
     openMwWebsite: false,
   });
@@ -30,7 +31,9 @@ function handleMessages(data, details, sendResponse) {
     case globalActions.POPUP_INIT:
       storeUtils.loadOptions((options) => {
         storeUtils.loadHistory((history) => {
-          sendResponse({options, history});
+          storeUtils.getPublicApiKeyUsage((publicApiUsage) => {
+            sendResponse({options, history, publicApiUsage});
+          })
         })
       })
       return true;
@@ -49,6 +52,14 @@ function handleMessages(data, details, sendResponse) {
       storeUtils.clearHistory(() => {
         sendResponse(true);
       });
+      return true;
+
+    case globalActions.GET_PUBLIC_API_USAGE:
+      storeUtils.getPublicApiKeyUsage(sendResponse);
+      return true;
+
+    case globalActions.COUNT_UP_PUBLIC_API_USAGE:
+      storeUtils.countUpPublicApiKeyUsage(sendResponse);
       return true;
   }
 

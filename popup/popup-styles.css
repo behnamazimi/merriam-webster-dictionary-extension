@@ -169,6 +169,7 @@ body#mw-dic {
 #mw-dic .popup #message {
     display: block;
     line-height: 1.4;
+    white-space: break-spaces;
 }
 
 #mw-dic .popup #actions {

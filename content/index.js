@@ -106,14 +106,14 @@ function doSearch(searchTrend = "") {
     })
     .catch(e => {
       console.log(e.message)
-      if (e.message.includes("No result") ||
-        e.message.includes("Word is required")) {
-        console.log(e.message)
+      if (e.message.includes("No result") || e.message.includes("Word is required")) {
+        // console.log(e.message)
       } else if (e.message.includes("Failed to fetch")) {
-        console.log("It seems you are offline!")
+        bubble = renderUtils.showMessageOnBubble(messages.offline)
+      } else if (e.message === "PERSONAL_KEY_NEEDED") {
+        bubble = renderUtils.showMessageOnBubble(messages.publicOptionsLimitReached)
       } else {
-        console.log(`Unexpected error on data fetch! \n ` +
-          `Make sure your API key is valid and the API type you choose is the same as the one you chose when you registered.`)
+        bubble = renderUtils.showMessageOnBubble(messages.unexpectedError)
       }
     })
 }
