@@ -100,7 +100,11 @@ const apiUtils = (function () {
     API_TYPE = type
   }
 
-  const getApiEndpoint = (search, category, apiKey) => `https://www.dictionaryapi.com/api/v3/references/${category}/json/${search}?key=${apiKey}`
+  const getApiEndpoint = (search, category, apiKey) => {
+    const url = new URL(`https://www.dictionaryapi.com/api/v3/references/${category}/json/${search}`)
+    url.searchParams.append("key", apiKey)
+    return url.href
+  }
 
   const isUsingPublicKey = () => API_KEY === publicApiDetails.key
 
