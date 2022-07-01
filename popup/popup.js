@@ -15,6 +15,8 @@ const historyEntryPoint = document.getElementById("historyEntryPoint")
 const searchEntryPoint = document.getElementById("searchEntryPoint")
 const message = document.getElementById("message")
 
+chrome.runtime.connect({ name: "popup" });
+
 // find active tab and init popup
 getActiveTabInfo(() => {
   initPopup();
@@ -45,9 +47,10 @@ function initPopup() {
       }
       sections.options["showFloatingButton"].checked = options.showFloatingButton
       sections.options["openMwWebsite"].checked = options.openMwWebsite
+      sections.options["pauseVideoOnPopupOpen"].checked = options.pauseVideoOnPopupOpen
 
       // get selected text
-      sendMessageToCurrentTab({action: globalActions.GET_SELECTED_TEXT}, (response = {}) => {
+      sendMessageToCurrentTab({action: globalActions.LINK_TO_POPUP}, (response = {}) => {
         if (response && response.selectedText) {
           sections.search["trend"].value = response.selectedText
           sections.search["trend"].select()
@@ -73,6 +76,7 @@ sections.options.onsubmit = function (e) {
     apiType: e.target["apiType"].value || "",
     showFloatingButton: e.target["showFloatingButton"].checked,
     openMwWebsite: e.target["openMwWebsite"].checked,
+    pauseVideoOnPopupOpen: e.target["pauseVideoOnPopupOpen"].checked,
   }
 
   sendGlobalMessage({

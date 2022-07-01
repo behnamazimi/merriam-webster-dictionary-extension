@@ -4,7 +4,9 @@ let isReady = false
 let showFloatingButton = false
 let openMwWebsite = false
 let floatingButton = null
+let pauseVideoOnPopupOpen = null
 let bubble = null
+let lastPlayingVideo = null
 
 chrome.runtime.onMessage.addListener(handleMessages)
 window.addEventListener("DOMContentLoaded", init)
@@ -18,19 +20,36 @@ function init() {
     apiUtils.setOptions(options.apiKey, options.apiType)
     showFloatingButton = options.showFloatingButton
     openMwWebsite = options.openMwWebsite
+    pauseVideoOnPopupOpen = options.pauseVideoOnPopupOpen
     isReady = true
   })
 }
 
 function handleMessages(request, sender, sendResponse) {
-  if (request.action === globalActions.GET_SELECTED_TEXT && !bubble) {
+  if (request.action === globalActions.LINK_TO_POPUP && !bubble) {
+    // find playing video and pause it
+    if (!lastPlayingVideo && pauseVideoOnPopupOpen) {
+      document.querySelectorAll("video").forEach((video) => {
+        if (video.duration > 1 && !video.paused) {
+          lastPlayingVideo = video;
+          video.pause()
+        }
+      })
+    }
+
     const selectedText = window.getSelection().toString()
     sendResponse({selectedText})
+
+  } else if (request.action === globalActions.ON_POPUP_CLOSE && lastPlayingVideo) {
+    lastPlayingVideo.play()
+    lastPlayingVideo = null
+
   } else if (request.action === globalActions.SET_OPTIONS) {
     // set api key and type in utils
     apiUtils.setOptions(request.options.apiKey, request.options.apiType)
     showFloatingButton = request.options.showFloatingButton
     openMwWebsite = request.options.openMwWebsite
+    pauseVideoOnPopupOpen = request.options.pauseVideoOnPopupOpen
     isReady = true;
   }
 }

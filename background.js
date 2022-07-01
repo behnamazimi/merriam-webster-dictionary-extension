@@ -25,6 +25,14 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
+chrome.runtime.onConnect.addListener(function (port) {
+  if (port.name === "popup") {
+    port.onDisconnect.addListener(function () {
+      messagingUtils.sendMessageToCurrentTab({action: globalActions.ON_POPUP_CLOSE})
+    });
+  }
+});
+
 function handleMessages(data, details, sendResponse) {
   switch (data.action) {
     case globalActions.INIT:
