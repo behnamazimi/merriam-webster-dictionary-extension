@@ -15,7 +15,7 @@ const historyEntryPoint = document.getElementById("historyEntryPoint")
 const searchEntryPoint = document.getElementById("searchEntryPoint")
 const message = document.getElementById("message")
 
-chrome.runtime.connect({ name: "popup" });
+chrome.runtime.connect({name: "popup"});
 
 // find active tab and init popup
 getActiveTabInfo(() => {
@@ -26,12 +26,14 @@ function initPopup() {
   sendGlobalMessage({action: globalActions.POPUP_INIT}, async (response) => {
     const {options = {}, history, publicApiUsage} = response
 
-    const usingPublicApiKey = options.apiKey === publicApiDetails.key
+    const havePublicApiSet = options.apiKey === publicApiDetails.key
     const canUsePublicApi = await apiUtils.canUsePublicApiDetails()
-    if (!canUsePublicApi) {
-      updateMessage(messages.publicOptionsLimitReached)
-    } else if (usingPublicApiKey && canUsePublicApi) {
-      updateMessage(messages.limitReminderAlert)
+    if (havePublicApiSet) {
+      if (!canUsePublicApi) {
+        updateMessage(messages.publicOptionsLimitReached)
+      } else if (canUsePublicApi) {
+        updateMessage(messages.limitReminderAlert)
+      }
     }
 
     if (!options.apiKey) {
@@ -41,7 +43,7 @@ function initPopup() {
       // set api key and type in utils
       apiUtils.setOptions(options.apiKey, options.apiType)
 
-      if (!usingPublicApiKey) {
+      if (!havePublicApiSet) {
         sections.options["apiKey"].value = options.apiKey
         sections.options["apiType"].value = options.apiType
       }
