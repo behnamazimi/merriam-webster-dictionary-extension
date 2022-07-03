@@ -20,6 +20,17 @@ const publicApiDetails = {
   usageLimitPerInstall: 20
 }
 
+const API_TYPES = {
+  "Dictionary": "collegiate",
+  "Thesaurus": "thesaurus",
+  "Intermediate Thesaurus": "ithesaurus",
+  "Spanish": "spanish",
+  "medical_v2": "medical",
+  "Elementary Dictionary": "sd2",
+  "Intermediate Dictionary": "sd3",
+  "School Dictionary": "sd4",
+  "Learner's": "learners",
+}
 
 const messages = {
   apiKeyIsMissing: "API key missing, you need to put it in options first.",

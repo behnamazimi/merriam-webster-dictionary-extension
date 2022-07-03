@@ -46,9 +46,13 @@ function handleMessages(data, details, sendResponse) {
       })
       return true;
     case globalActions.SET_OPTIONS:
-      storeUtils.storeOptions(data.options);
-      messagingUtils.sendMessageToCurrentTab(data);
-      sendResponse(true);
+      storeUtils.loadOptions(prevOptions => {
+        data.options = {...prevOptions, ...data.options}
+        storeUtils.storeOptions(data.options, () => {
+          messagingUtils.sendMessageToCurrentTab(data);
+          sendResponse(true);
+        });
+      })
       return true;
 
     case globalActions.ADD_TO_HISTORY:

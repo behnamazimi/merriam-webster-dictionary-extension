@@ -171,3 +171,16 @@ body {
     font-size: 14px;
     white-space: break-spaces;
 }
+
+.mw-dic-sim-btn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+}
+
+.mw-dic-sim-btn small {
+    opacity: 0.7;
+}
