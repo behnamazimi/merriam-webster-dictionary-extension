@@ -18,7 +18,7 @@ const message = document.getElementById("message")
 chrome.runtime.connect({name: "popup"});
 
 // find active tab and init popup
-getActiveTabInfo(() => {
+utils.getActiveTabInfo(() => {
   initPopup();
 })
 
@@ -100,7 +100,7 @@ optionsEntryPoint.onclick = () => showSection(sections.options)
 historyEntryPoint.onclick = () => {
   storeUtils.loadHistory((history) => {
     showSection(sections.history)
-    renderHistory(sortHistoryByDate(history), () => {
+    renderHistory(utils.sortHistoryByDate(history), () => {
       sendGlobalMessage({action: globalActions.CLEAR_HISTORY}, () => {
         showSection(sections.search)
       })
@@ -130,15 +130,6 @@ function doSearch(searchTrend = null) {
         updateMessage(messages.unexpectedError)
       }
     })
-}
-
-function sortHistoryByDate(history) {
-  if (!history) return null
-  return Object.keys(history)
-    .sort((a, b) => {
-      return history[b].time - history[a].time
-    })
-    .map(item => [item, history[item].count])
 }
 
 function renderHistory(sortedHistory = [], onClearClick) {

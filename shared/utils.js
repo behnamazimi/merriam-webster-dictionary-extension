@@ -352,11 +352,27 @@ const renderUtils = (function () {
   }
 })();
 
+const utils = (function () {
+  function sortHistoryByDate(history) {
+    if (!history) return null
+    return Object.keys(history)
+      .sort((a, b) => {
+        return history[b].time - history[a].time
+      })
+      .map(item => [item, history[item].count])
+  }
 
-function getActiveTabInfo(cb) {
-  chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-    const activeTab = tabs ? tabs[0] : {};
-    cb && typeof cb === "function" && cb(activeTab)
-  });
-}
+  function getActiveTabInfo(cb) {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+      const activeTab = tabs ? tabs[0] : {};
+      cb && typeof cb === "function" && cb(activeTab)
+    });
+  }
+
+  return {
+    sortHistoryByDate,
+    getActiveTabInfo,
+  }
+})();
+
 
