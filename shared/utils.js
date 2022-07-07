@@ -35,7 +35,7 @@ const storeUtils = (function () {
   }
 
   function loadHistory(cb) {
-    chrome.storage.sync.get("history", function (data) {
+    chrome.storage.local.get("history", function (data) {
       if (cb && typeof cb === "function")
         cb(data.history)
     });
@@ -51,7 +51,7 @@ const storeUtils = (function () {
       history[search].count++
       history[search].time = Date.now()
 
-      chrome.storage.sync.set({history}, function () {
+      chrome.storage.local.set({history}, function () {
         if (cb && typeof cb === "function") cb(history)
       });
     })
@@ -59,7 +59,7 @@ const storeUtils = (function () {
   }
 
   function clearHistory(cb) {
-    chrome.storage.sync.set({history: {}}, function () {
+    chrome.storage.local.set({history: {}}, function () {
       if (cb && typeof cb === "function") cb()
     });
   }

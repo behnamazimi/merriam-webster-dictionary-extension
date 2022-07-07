@@ -56,8 +56,9 @@ function handleMessages(data, details, sendResponse) {
       return true;
 
     case globalActions.ADD_TO_HISTORY:
-      storeUtils.addToHistory(data.searchTrend);
-      sendResponse(true);
+      storeUtils.addToHistory(data.searchTrend, () => {
+        sendResponse(true);
+      });
       return true;
 
     case globalActions.CLEAR_HISTORY:
