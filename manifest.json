@@ -1,6 +1,6 @@
 {
   "name": "Merriam Webster Dictionary",
-  "version": "1.9",
+  "version": "1.10",
   "description": "Open source Merriam-Webster's dictionary",
   "permissions": [
     "tabs",
