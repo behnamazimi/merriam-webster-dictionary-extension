@@ -156,6 +156,11 @@ const apiUtils = (function () {
       const id = res.meta.id
       const pron = res.hwi.prs?.[0].mw
 
+      // add other type of definition to shortdef
+      // (like being past or being past particular)
+      if (res.cxs) {
+        res.shortdef.unshift(res.cxs[0].cxl + " " + res.cxs[0].cxtis[0].cxt)
+      }
       parsedData.push({
         id,
         type: res.fl,
