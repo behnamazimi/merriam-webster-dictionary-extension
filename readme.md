@@ -19,10 +19,10 @@ looking up a definition.
 This extension uses Merriam-Webster's free services. You'll need your personal API key to put it in the extension
 options to be able to use it. You can [do free registration here](https://dictionaryapi.com/register/index) to get your
 API key. Notice that there are different types of APIs and each has its unique
-key; [read more about variants of MW dictionaries](https://dictionaryapi.com/products/index). In the options, you should
-choose the one which you choose on registration. You will be able to read the required instruction in the extension
-options. Additionally, to make it easy to get your personal API key, you may find some manipulations on
-the `dictionaryapi` website, feel free to use them. :)
+key; [read more about variants of MW dictionaries](https://dictionaryapi.com/products/index). After installing the
+extension, in the options, you should choose the one which you choose on registration. You will be able to read the
+required instruction in the extension options. Additionally, to make it easy to get your personal API key, you may find
+some manipulations on the `dictionaryapi` website, feel free to use them. :)
 
 ### How to install?
 
