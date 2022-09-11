@@ -10,10 +10,15 @@ let sections = {
   actions: document.getElementById("actions"),
 }
 
-const optionsEntryPoint = document.getElementById("optionsEntryPoint")
-const historyEntryPoint = document.getElementById("historyEntryPoint")
-const searchEntryPoint = document.getElementById("searchEntryPoint")
-const message = document.getElementById("message")
+const elements = {
+  showFloatingButtonCheckbox: document.querySelector("[name=showFloatingButton]"),
+  openResultImmediatelyCheckbox: document.querySelector("[name=openResultImmediately]"),
+  optionsEntryPoint: document.getElementById("optionsEntryPoint"),
+  historyEntryPoint :document.getElementById("historyEntryPoint"),
+  searchEntryPoint :document.getElementById("searchEntryPoint"),
+  message :document.getElementById("message"),
+}
+
 
 chrome.runtime.connect({name: "popup"});
 
@@ -48,6 +53,7 @@ function initPopup() {
         sections.options["apiType"].value = options.apiType
       }
       sections.options["showFloatingButton"].checked = options.showFloatingButton
+      sections.options["openResultImmediately"].checked = options.openResultImmediately
       sections.options["openMwWebsite"].checked = options.openMwWebsite
       sections.options["pauseVideoOnPopupOpen"].checked = options.pauseVideoOnPopupOpen
 
@@ -77,6 +83,7 @@ sections.options.onsubmit = function (e) {
     apiKey: e.target["apiKey"].value || "",
     apiType: e.target["apiType"].value || "",
     showFloatingButton: e.target["showFloatingButton"].checked,
+    openResultImmediately: e.target["openResultImmediately"].checked,
     openMwWebsite: e.target["openMwWebsite"].checked,
     pauseVideoOnPopupOpen: e.target["pauseVideoOnPopupOpen"].checked,
   }
@@ -93,11 +100,23 @@ sections.options.onsubmit = function (e) {
   })
 }
 
-searchEntryPoint.onclick = () => showSection(sections.search)
+elements.openResultImmediatelyCheckbox.onchange = function (e) {
+  if (e.target.checked) {
+    elements.showFloatingButtonCheckbox.checked = false
+  }
+}
 
-optionsEntryPoint.onclick = () => showSection(sections.options)
+elements.showFloatingButtonCheckbox.onchange = function (e) {
+  if (e.target.checked) {
+    elements.openResultImmediatelyCheckbox.checked = false
+  }
+}
 
-historyEntryPoint.onclick = () => {
+elements.searchEntryPoint.onclick = () => showSection(sections.search)
+
+elements.optionsEntryPoint.onclick = () => showSection(sections.options)
+
+elements.historyEntryPoint.onclick = () => {
   storeUtils.loadHistory((history) => {
     showSection(sections.history)
     renderHistory(utils.sortHistoryByDate(history), () => {
@@ -177,18 +196,18 @@ function showSection(section, hideAll = true) {
 
   if (section === sections.search) {
     showElement(sections.actions)
-    showElement(historyEntryPoint)
-    showElement(optionsEntryPoint)
-    hideElement(searchEntryPoint)
+    showElement(elements.historyEntryPoint)
+    showElement(elements.optionsEntryPoint)
+    hideElement(elements.searchEntryPoint)
     sections.search["trend"].focus()
     updateMessage("")
   } else if (section === sections.history) {
-    hideElement(historyEntryPoint)
-    showElement(searchEntryPoint)
-    showElement(optionsEntryPoint)
+    hideElement(elements.historyEntryPoint)
+    showElement(elements.searchEntryPoint)
+    showElement(elements.optionsEntryPoint)
   } else if (section === sections.result) {
     showElement(sections.actions)
-    showElement(searchEntryPoint)
+    showElement(elements.searchEntryPoint)
   }
 }
 

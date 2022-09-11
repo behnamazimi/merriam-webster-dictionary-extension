@@ -20,6 +20,14 @@ const publicApiDetails = {
   usageLimitPerInstall: 20
 }
 
+const defaultOptions = {
+  apiKey: publicApiDetails.key,
+  apiType: publicApiDetails.type,
+  showFloatingButton: true,
+  openResultImmediately: false,
+  openMwWebsite: false,
+}
+
 const API_TYPES = {
   "Dictionary": "collegiate",
   "Thesaurus": "thesaurus",
@@ -34,9 +42,9 @@ const API_TYPES = {
 
 const messages = {
   apiKeyIsMissing: "API key missing, you need to put it in options first.",
-  publicOptionsLimitReached: "You've reached the limit of using public options! You need to add you FREE personal API key to continue using this extension!\n" +
+  publicOptionsLimitReached: "You've reached the limit of using public options. You need to add you FREE personal API key to continue using this extension.\n" +
     "Read the instructions on the Options page to get more info, please!",
-  limitReminderAlert: "Don't forget to add your personal options!",
+  limitReminderAlert: "Don't forget to add your personal options.",
   unexpectedError: `Unexpected error on data fetch! \n ` +
     `Make sure your API key is valid and the API type you choose is the same as the one you chose when you registered.`,
   offline: "It seems you are offline!",

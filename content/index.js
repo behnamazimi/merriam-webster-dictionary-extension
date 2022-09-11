@@ -3,6 +3,7 @@
 let isReady = false
 let showFloatingButton = false
 let openMwWebsite = false
+let openResultImmediately = false
 let floatingButton = null
 let pauseVideoOnPopupOpen = null
 let bubble = null
@@ -20,6 +21,7 @@ function init() {
     apiUtils.setOptions(options.apiKey, options.apiType)
     showFloatingButton = options.showFloatingButton
     openMwWebsite = options.openMwWebsite
+    openResultImmediately = options.openResultImmediately
     pauseVideoOnPopupOpen = options.pauseVideoOnPopupOpen
     isReady = true
   })
@@ -52,6 +54,7 @@ function handleMessages(request, sender, sendResponse) {
     apiUtils.setOptions(request.options.apiKey, request.options.apiType)
     showFloatingButton = request.options.showFloatingButton
     openMwWebsite = request.options.openMwWebsite
+    openResultImmediately = request.options.openResultImmediately
     pauseVideoOnPopupOpen = request.options.pauseVideoOnPopupOpen
     isReady = true;
   }
@@ -62,8 +65,16 @@ function handleMouseUp(event) {
     return
   }
 
+  // hide bubble if it's open and click is out of it
+  closeOpenBubble(event)
+
   if (!showFloatingButton) {
     hideFloatingButton()
+    return
+  }
+
+  if (openResultImmediately) {
+    handleImmediateResultOpen()
     return
   }
 
@@ -72,11 +83,6 @@ function handleMouseUp(event) {
     hideFloatingButton()
     handleFloatingButtonClick()
     return true
-  }
-
-  // close bubble if click is out of it
-  if (bubble && !bubble.contains(event.target)) {
-    hideBubble()
   }
 
   hideFloatingButton()
@@ -119,6 +125,16 @@ function handleFloatingButtonClick() {
   }
 }
 
+
+function handleImmediateResultOpen() {
+  const searchTrend = window.getSelection().toString()
+  if (!searchTrend || searchTrend === "\n") {
+    return
+  }
+
+  doSearch(searchTrend)
+}
+
 function doSearch(searchTrend = "") {
 
   apiUtils.fetchData(searchTrend)
@@ -147,8 +163,8 @@ function hideFloatingButton() {
   }
 }
 
-function hideBubble() {
-  if (bubble) {
+function closeOpenBubble(event) {
+  if (bubble && !bubble.contains(event?.target)) {
     bubble.remove()
     bubble = null
   }
