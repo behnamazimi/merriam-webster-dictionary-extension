@@ -1,5 +1,6 @@
 body#mw-dic {
     width: 360px;
+    max-height: 690px;
     overflow: hidden;
     overflow-y: scroll;
     background: var(--dic-color-main);
@@ -179,8 +180,8 @@ body#mw-dic {
     gap: 8px;
     position: sticky;
     bottom: 0;
-    background-color: var(--dic-color-main);
     padding: 12px 0;
+    z-index: 3;
 }
 
 #mw-dic .popup #actions button {
@@ -204,10 +205,18 @@ body#mw-dic {
     width: auto;
 }
 
+#mw-dic .popup #options button {
+    position: sticky;
+    bottom: 16px;
+    margin-top: 16px;
+    box-shadow: 0 30px 30px 50px var(--dic-color-main);
+}
+
 #mw-dic #history .clear-history-btn {
     position: sticky;
     bottom: 56px;
     margin-top: 16px;
+    box-shadow: 0 30px 30px 50px var(--dic-color-main);
     z-index: 2;
 }
 
