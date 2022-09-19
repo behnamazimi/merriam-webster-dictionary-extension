@@ -224,3 +224,26 @@ body#mw-dic {
     background-color: var(--dic-color-guide-bg);
     padding: 5px;
 }
+
+#mw-dic #twitter-share,
+#mw-dic #rate {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: flex-start;
+    text-decoration: none;
+}
+
+#mw-dic #rate span {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#mw-dic #rate span svg:hover,
+#mw-dic #rate span svg:hover ~ svg {
+    fill: yellow;
+}
