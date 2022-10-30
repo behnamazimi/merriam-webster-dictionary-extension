@@ -10,15 +10,16 @@
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "icons/16x16.png",
-      "32": "icons/32x32.png",
-      "48": "icons/48x48.png",
-      "128": "icons/128x128.png"
+      "16": "shared/icons/16x16.png",
+      "32": "shared/icons/32x32.png",
+      "48": "shared/icons/48x48.png",
+      "128": "shared/icons/128x128.png"
     }
   },
   "content_scripts": [
@@ -28,20 +29,15 @@
         "<all_urls>"
       ],
       "js": [
-        "shared/constant.js",
-        "shared/utils.js",
         "content/index.js"
-      ],
-      "css": [
-        "shared/styles.css"
       ]
     }
   ],
   "icons": {
-    "16": "icons/16x16.png",
-    "32": "icons/32x32.png",
-    "48": "icons/48x48.png",
-    "128": "icons/128x128.png"
+    "16": "shared/icons/16x16.png",
+    "32": "shared/icons/32x32.png",
+    "48": "shared/icons/48x48.png",
+    "128": "shared/icons/128x128.png"
   },
   "commands": {
     "_execute_action": {

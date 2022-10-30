@@ -1,0 +1,77 @@
+// 'use strict';
+import {
+  addToHistory,
+  clearHistory, countUpPublicApiKeyUsage,
+  getPublicApiKeyUsage,
+  loadHistory,
+  loadOptions,
+  storeOptions
+} from "./shared/utils/storage";
+import {globalActions} from "./shared/utils/constants";
+import {sendMessageToCurrentTab} from "./shared/utils/messaging";
+
+// chrome.runtime.onInstalled.addListener(() => {
+//   // store initial options
+// });
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'sync') {
+    console.log('enable debug mode?', changes);
+  }
+});
+
+chrome.runtime.onMessage.addListener(handleMessages)
+
+chrome.runtime.onConnect.addListener(function (port) {
+  if (port.name === "popup") {
+    port.onDisconnect.addListener(function () {
+      sendMessageToCurrentTab({action: globalActions.ON_POPUP_CLOSE})
+    });
+  }
+});
+
+function handleMessages(data, details, sendResponse) {
+  switch (data.action) {
+    case globalActions.INIT:
+    case globalActions.POPUP_INIT:
+      loadOptions((options) => {
+        loadHistory((history) => {
+          getPublicApiKeyUsage((publicApiUsage) => {
+            sendResponse({options, history, publicApiUsage});
+          })
+        })
+      })
+      break;
+    case globalActions.SET_OPTIONS:
+      loadOptions(prevOptions => {
+        data.options = {...prevOptions, ...data.options}
+        storeOptions(data.options, (res) => {
+          sendMessageToCurrentTab(data);
+          sendResponse(res);
+        });
+      })
+      break;
+
+    case globalActions.ADD_TO_HISTORY:
+      addToHistory(data.searchTrend, () => {
+        sendResponse(true);
+      });
+      break;
+
+    case globalActions.CLEAR_HISTORY:
+      clearHistory(() => {
+        sendMessageToCurrentTab(data);
+        sendResponse(true);
+      });
+      break;
+
+    case globalActions.GET_PUBLIC_API_USAGE:
+      getPublicApiKeyUsage(sendResponse);
+      break;
+
+    case globalActions.COUNT_UP_PUBLIC_API_USAGE:
+      countUpPublicApiKeyUsage(sendResponse);
+      break;
+  }
+  return true;
+}
