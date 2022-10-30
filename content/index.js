@@ -68,12 +68,14 @@ function handleMouseUp(event) {
   // hide bubble if it's open and click is out of it
   closeOpenBubble(event)
 
-  if (!showFloatingButton) {
+  if (openResultImmediately) {
     hideFloatingButton()
+    handleImmediateResultOpen()
+    return
   }
 
-  if (openResultImmediately) {
-    handleImmediateResultOpen()
+  if (!showFloatingButton) {
+    hideFloatingButton()
     return
   }
 
