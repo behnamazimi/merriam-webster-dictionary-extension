@@ -70,7 +70,6 @@ function handleMouseUp(event) {
 
   if (!showFloatingButton) {
     hideFloatingButton()
-    return
   }
 
   if (openResultImmediately) {
