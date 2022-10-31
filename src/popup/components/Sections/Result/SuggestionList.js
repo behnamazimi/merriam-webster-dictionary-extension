@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useData} from "../../../context/data.context";
-import {List, Spin} from "antd";
+import {Spin} from "antd";
 import styled from "styled-components";
 import {colors, spacings} from "../../../../shared/utils/theme";
 import {services} from "../../../../shared/utils/services";
@@ -8,8 +8,23 @@ import {sendGlobalMessage} from "../../../../shared/utils/messaging";
 import {globalActions,} from "../../../../shared/utils/constants";
 
 const StyledNoResult = styled.div`
-  padding: 40px ${spacings.m} 0 ${spacings.m};
+  padding: 48px ${spacings.m} 0 ${spacings.m};
   color: ${colors.textDark};
+
+  span {
+    display: block;
+    margin: ${spacings.s} 0;
+    font-size: 14px;
+  }
+`
+
+const StyledList = styled.ul`
+  padding-left: ${spacings.l};
+  margin-left: ${spacings.l};
+
+  a {
+    cursor: pointer;
+  }
 `
 
 const SuggestionList = ({suggestions = []}) => {
@@ -33,17 +48,17 @@ const SuggestionList = ({suggestions = []}) => {
 
   return (
     <Spin spinning={loading} delay={0}>
-      <List
-        header={<StyledNoResult>No result for {shortedSearchFor}!
-          <br/>Here are the similar ones to what you're looking for:</StyledNoResult>}
-        size="small"
-        dataSource={suggestions}
-        renderItem={item => (
-          <List.Item padding={0}>
+      <StyledNoResult>
+        No result for "{shortedSearchFor}"!
+        <span>Here are the similar ones to what you're looking for:</span>
+      </StyledNoResult>
+      <StyledList>
+        {suggestions.map((item, index) => (
+          <li key={index}>
             <a onClick={() => handleReSearch(item)}>{item}</a>
-          </List.Item>
-        )}
-      />
+          </li>
+        ))}
+      </StyledList>
     </Spin>
   )
 }

@@ -48,7 +48,6 @@ const SearchSection = () => {
 
       <StyledFooter>
         <AskToRate/>
-        <ShareOnTwitter/>
       </StyledFooter>
 
     </StyledRoot>

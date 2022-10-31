@@ -37,7 +37,7 @@ const Options = () => {
   const {options, setActiveSection, setOptions, publicApiUsage} = useData()
 
   const isUsingFreeApiDetails = options.apiKey === defaultOptions.apiKey
-  const isFreeSearchesDone = options.publicApiUsage >= publicApiDetails.usageLimitPerInstall
+  const isFreeSearchesDone = publicApiUsage >= publicApiDetails.usageLimitPerInstall
 
   const [form] = Form.useForm()
 
