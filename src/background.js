@@ -14,12 +14,6 @@ import {sendMessageToCurrentTab} from "./shared/utils/messaging";
 //   // store initial options
 // });
 
-chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'sync') {
-    console.log('enable debug mode?', changes);
-  }
-});
-
 chrome.runtime.onMessage.addListener(handleMessages)
 
 chrome.runtime.onConnect.addListener(function (port) {

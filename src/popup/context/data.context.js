@@ -36,9 +36,8 @@ const DataProvider = ({children}) => {
   useEffect(() => {
 
     sendGlobalMessage({action: globalActions.POPUP_INIT}, async (response) => {
-      console.log(response);
       services.setAuth(response.options.apiKey, response.options.apiType)
-      setOptions(response.options )
+      setOptions(response.options)
       setPublicApiUsage(response.publicApiUsage)
 
       sendMessageToCurrentTab({action: globalActions.LINK_TO_POPUP}, (response = {}) => {
