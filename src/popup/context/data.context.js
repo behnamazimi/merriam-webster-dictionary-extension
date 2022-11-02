@@ -22,6 +22,7 @@ const DataProvider = ({children}) => {
   }, [])
 
   const doSearch = useCallback((searchTrend) => {
+    setSearchFor(searchTrend)
     setLoading(true)
     services.fetchData(searchTrend)
       .then((res) => {

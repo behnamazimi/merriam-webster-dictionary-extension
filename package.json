@@ -1,6 +1,6 @@
 {
   "name": "merriam-webster-extension",
-  "version": "1.16",
+  "version": "2.0",
   "repository": "https://github.com/behnamazimi/merriam-webster-dictionary-extension.git",
   "author": "Behnam Azimi <bhnmzm@gmail.com>",
   "license": "MIT",
@@ -10,15 +10,16 @@
   },
   "devDependencies": {
     "@parcel/config-webextension": "^2.7.0",
+    "@parcel/transformer-sass": "2.7.0",
     "parcel": "^2.7.0",
     "parcel-namer-without-hash": "^0.0.1",
     "process": "^0.11.10"
   },
   "dependencies": {
-    "antd": "^4.23.6",
-    "emotion-reset": "^3.0.1",
+    "chota": "^0.8.0",
+    "classnames": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.6"
+    "react-icons": "^4.6.0"
   }
 }

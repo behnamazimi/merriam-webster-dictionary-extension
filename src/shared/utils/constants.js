@@ -19,7 +19,7 @@ export const publicApiDetails = {
 export const defaultOptions = {
   apiKey: publicApiDetails.key,
   apiType: publicApiDetails.type,
-  wordSelectMode: null,
+  wordSelectMode: "",
   pauseVideoOnPopupOpen: true,
 }
 

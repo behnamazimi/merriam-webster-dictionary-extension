@@ -1,5 +1,5 @@
 export default function sortHistoryByDate(history) {
-  if (!history) return null
+  if (!history) return []
   return Object.keys(history)
     .sort((a, b) => {
       return history[b].time - history[a].time

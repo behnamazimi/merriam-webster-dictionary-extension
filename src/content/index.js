@@ -3,8 +3,7 @@ import {API_TYPES, globalActions, searchIcon} from "../shared/utils/constants";
 import {sendGlobalMessage} from "../shared/utils/messaging";
 import ReactDOM from "react-dom/client";
 import Bubble from "./Bubble";
-import {StyleSheetManager} from "styled-components";
-import "./globalStyles.css";
+import "./content.scss";
 
 let options = null
 const pageSettings = {
@@ -103,7 +102,6 @@ function handleMessages(request, sender, sendResponse) {
     // set api key and type in utils
     services.setAuth(request.options.apiKey, request.options.apiType)
     options = request.options
-    console.log(options);
     pageSettings.isReady = true
   }
 }
@@ -123,11 +121,7 @@ function handleImmediateResultOpen() {
 
   const host = pageSettings.bubble = generateHost(searchTrend)
   const bubbleApp = ReactDOM.createRoot(host.shadowRoot)
-  bubbleApp.render(
-    <StyleSheetManager target={host.shadowRoot}>
-      <Bubble searchFor={searchTrend}/>
-    </StyleSheetManager>
-  )
+  bubbleApp.render(<Bubble searchFor={searchTrend.trim()}/>)
 }
 
 function generateHost() {

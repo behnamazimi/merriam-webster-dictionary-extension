@@ -1,9 +1,8 @@
 {
   "name": "Merriam Webster Dictionary",
-  "version": "1.17",
+  "version": "2.0",
   "description": "Open source Merriam-Webster's dictionary",
   "permissions": [
-    "activeTab",
     "storage"
   ],
   "host_permissions": [

@@ -1,0 +1,422 @@
+@import "https://fonts.googleapis.com/css?family=Roboto";
+
+:root {
+  // chota css variables
+  // https://jenil.github.io/chota
+  --bg-color: #090d23;
+  --bg-secondary-color: #151e34ff;
+  --color-primary: #1f7ea7ff;
+  --font-color: #c5c5c5;
+  --color-grey: #a8a8a8;
+  --color-darkGrey: #7b8087;
+  --color-error: #d43939;
+  --color-success: #28bd14;
+  --font-size: 1.6rem;
+  --font-family-mono: "Roboto", "Lucida Console", monospace;
+}
+
+html {
+  height: auto;
+  font-size: 10px;
+}
+
+body {
+  width: 380px;
+  height: auto;
+  max-height: 690px;
+  overflow: hidden;
+  overflow-y: scroll;
+  /*background: ${colors.main};*/
+  margin: 0 auto;
+  cursor: default;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+a {
+  cursor: pointer;
+}
+
+label {
+  font-size: 1.6rem;
+}
+
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: 5;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  background-color: var(--bg-secondary-color);
+
+  .brand {
+    color: var(--font-color);
+  }
+
+  .github {
+    display: inline-flex;
+    align-items: center;
+    color: var(--font-color);
+    cursor: pointer;
+
+    svg {
+      margin-right: 0.35rem;
+      font-size: 18px;
+    }
+  }
+}
+
+.Button.button {
+  padding: 0.75rem 1.5rem;
+
+  &.icon {
+    span.icon, svg {
+      margin-right: 0.5rem;
+    }
+  }
+
+  svg {
+    vertical-align: middle;
+  }
+
+}
+
+.Input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  input {
+    background: var(--bg-secondary-color);
+    width: 100%;
+    color: var(--font-color);
+    border-color: transparent !important;
+    outline: none;
+
+    &:hover,
+    &:focus {
+      border-color: var(--color-primary) !important;
+    }
+
+    &::placeholder {
+      font-size: 1.5rem;
+      opacity: 0.5;
+    }
+  }
+
+  &.checkbox,
+  &.radio {
+    display: flex;
+
+    label {
+      order: 1;
+      margin-left: 1rem;
+    }
+
+    .input-group {
+      margin-top: 2px;
+    }
+  }
+}
+
+.Select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  select {
+    background: var(--bg-secondary-color);
+    width: 100%;
+    color: var(--font-color);
+    border-color: transparent !important;
+    outline: none;
+
+    &:hover,
+    &:focus {
+      border-color: var(--color-primary) !important;
+    }
+  }
+}
+
+.Search {
+  padding: 56px 1.6rem 1.6rem;
+
+  form {
+    position: relative;
+
+    input {
+      padding-right: 70px;
+    }
+
+    button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 37px;
+      border-radius: 0 4px 4px 0;
+      width: 60px;
+    }
+  }
+
+  .message {
+    font-size: 14px;
+    margin-top: 0.5rem;
+    white-space: pre-line;
+  }
+
+  .footer {
+    margin-top: 1.6rem;
+  }
+}
+
+.ActionButtons {
+  position: sticky;
+  bottom: 0.8rem;
+  display: flex;
+  width: 100%;
+  padding: 6px 0;
+  z-index: 2;
+  margin-top: 1.5rem;
+}
+
+.AskToRate {
+  font-size: 1.6rem;
+  opacity: 0.8;
+  display: flex;
+  justify-content: flex-start;
+  align-self: center;
+  text-decoration: none;
+
+  &:hover {
+    color: yellow;
+  }
+
+  a {
+    display: contents;
+  }
+
+  span {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-self: center;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-size: 18px;
+
+    svg {
+      stroke: #ffff00;
+
+      &:hover,
+      &:hover ~ svg {
+        fill: #ffff00;
+      }
+    }
+  }
+}
+
+.History {
+  padding: 56px 1.6rem 1.6rem;
+
+  .title,
+  .no-result {
+    color: var(--color-grey);
+  }
+
+  ul {
+    padding-left: 1.6rem;
+
+    small {
+      float: right;
+    }
+  }
+}
+
+.Result {
+  padding: 40px 1.6rem 1.6rem;
+
+  .ResultItem {
+    appearance: none;
+    margin-bottom: 0.8rem;
+
+    .syn {
+      margin: 0.8rem 0 0;
+      line-height: 1.3;
+    }
+
+    ul {
+      padding-left: 2rem;
+
+      li {
+        margin-top: 5px;
+      }
+    }
+
+    .syn {
+      opacity: 0.7;
+      font-size: 14px;
+      white-space: break-spaces;
+    }
+
+    .examples {
+      list-style: none;
+      padding-left: 1.6rem;
+      white-space: break-spaces;
+      font-size: 14px;
+      color: var(--color-grey);
+    }
+  }
+
+  .Pron {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    margin: 8px 12px;
+    padding: 1px 3px;
+    line-height: 1;
+    opacity: 0.6;
+
+    &:hover {
+      font-weight: bold;
+      opacity: 1;
+    }
+
+    span {
+      display: inline-block;
+      margin-right: 0.8rem;
+    }
+  }
+
+  .Title {
+    padding: 5px;
+    margin-bottom: 0.8rem;
+    background: var(--bg-secondary-color);
+    position: relative;
+    cursor: pointer;
+
+    span, strong {
+      margin-left: 0.8rem;
+    }
+
+    small {
+      display: inline-block;
+      position: absolute;
+      right: 0.8rem;
+    }
+  }
+}
+
+.OpenInWebsite {
+  position: sticky;
+  top: 40px;
+  font-size: 1.4rem;
+  display: inline-block;
+  color: var(--color-primary);
+  background: #080d23;
+  width: 100%;
+  padding: 6px 0;
+  z-index: 2;
+
+  &.-no-sticky {
+    position: static;
+    top: unset;
+  }
+}
+
+.SuggestionList {
+  .title {
+    padding: 48px 1.6rem 0 1.6rem;
+    color: var(--color-grey);
+
+    span {
+      display: block;
+      margin: 1rem 0;
+      font-size: 1.4rem;
+    }
+  }
+
+  ul {
+    padding-left: 1.6rem;
+    margin-left: 1.6rem;
+
+    a {
+      cursor: pointer;
+    }
+  }
+}
+
+.Options {
+  padding: 56px 1.6rem 1.6rem;
+
+  .guide {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+
+    .title {
+      color: yellow;
+    }
+
+    p {
+      margin-top: 0.8rem;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    & > *:not(.Divider):not(.Select) {
+      margin-bottom: 1.2rem;
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 1rem;
+      margin: 0;
+      display: inline-flex;
+      align-self: flex-end;
+    }
+  }
+}
+
+.Alert {
+  font-size: 1.4rem;
+  border: 1px solid var(--color-grey);
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+
+  &.-warning {
+    background-color: rgba(174, 167, 14, 0.35);
+    border-color: rgba(174, 167, 14, 0.5);
+  }
+
+  .header {
+    font-weight: bold;
+  }
+
+  .message {
+    color: var(--color-grey);
+  }
+}
+
+.Divider {
+  box-sizing: border-box;
+  border-top: 1px solid var(--color-darkGrey);
+  padding: 0;
+  line-height: 1.5;
+  list-style: none;
+  clear: both;
+  width: 100%;
+  min-width: 100%;
+  margin: 2.4rem 0;
+  display: flex;
+}

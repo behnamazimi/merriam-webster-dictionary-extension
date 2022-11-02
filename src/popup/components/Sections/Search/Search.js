@@ -1,56 +1,43 @@
 import React from "react"
-import styled from "styled-components";
-import {spacings} from "../../../../shared/utils/theme";
-import Search from "antd/es/input/Search";
 import {useData} from "../../../context/data.context";
 import ActionButtons from "../../../../shared/components/ActionButtons";
-import {Typography} from "antd";
 import AskToRate from "../../../../shared/components/AskToRate";
-import ShareOnTwitter from "../../../../shared/components/ShareOnTwitter";
-
-const StyledRoot = styled.div`
-  padding: 56px ${spacings.m} ${spacings.m};
-`
-
-const StyledFooter = styled.div`
-  margin-top: ${spacings.m};
-`
-
-const StyledMessage = styled(Typography.Paragraph)`
-  font-size: 14px;
-  margin-top: ${spacings.s};
-  white-space: pre-line;
-`
+import Input from "../../../../shared/components/Input";
+import Button from "../../../../shared/components/Button";
+import {FiSearch} from "react-icons/fi";
 
 const SearchSection = () => {
-  const {
-    searchFor, setSearchFor, error, doSearch, loading
-  } = useData()
+  const {error, doSearch, loading} = useData()
 
-  const handleSearch = (searchTrend) => {
-    if (!searchTrend) return
-    doSearch(searchTrend)
+  const handleSearch = (event) => {
+    event.preventDefault()
+    if (!event.target.searchFor.value) return
+    doSearch(event.target.searchFor.value)
   }
 
   return (
-    <StyledRoot>
-      <Search placeholder="Search for..."
-              value={searchFor}
-              onSearch={handleSearch}
-              onChange={(e) => setSearchFor(e.target.value)}
-              enterButton
-              loading={loading}
-              autoFocus/>
+    <div className="Search">
 
-      <StyledMessage type="danger">{error}</StyledMessage>
+      <form onSubmit={handleSearch}>
+        <Input className="input"
+               name="searchFor"
+               placeholder="Search for..."
+               autoFocus/>
+        <Button className="primary icon-only"
+                disabled={loading}>
+          <FiSearch/>
+        </Button>
+      </form>
+
+      <div className="message">{error}</div>
 
       <ActionButtons/>
 
-      <StyledFooter>
+      <div className="footer">
         <AskToRate/>
-      </StyledFooter>
+      </div>
 
-    </StyledRoot>
+    </div>
   )
 }
 

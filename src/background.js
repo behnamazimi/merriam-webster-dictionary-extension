@@ -10,10 +10,6 @@ import {
 import {globalActions} from "./shared/utils/constants";
 import {sendMessageToCurrentTab} from "./shared/utils/messaging";
 
-// chrome.runtime.onInstalled.addListener(() => {
-//   // store initial options
-// });
-
 chrome.runtime.onMessage.addListener(handleMessages)
 
 chrome.runtime.onConnect.addListener(function (port) {

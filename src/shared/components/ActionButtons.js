@@ -1,23 +1,8 @@
-import styled from "styled-components";
-import {spacings} from "../utils/theme";
-import {Button, Space} from "antd";
-import {
-  SettingOutlined, HistoryOutlined, ArrowLeftOutlined,
-  ClearOutlined, CopyOutlined,
-} from "@ant-design/icons";
 import {useData} from "../../popup/context/data.context";
 import {globalActions, PAGES} from "../utils/constants";
 import {sendGlobalMessage} from "../utils/messaging";
-
-const StyledSpace = styled(Space)`
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  width: 100%;
-  padding: 6px 0;
-  z-index: 2;
-  margin-top: ${spacings.l};
-`
+import Button from "./Button";
+import {FiCopy, FiClock, FiArrowLeft, FiSettings, AiOutlineClear} from "react-icons/all";
 
 const ActionButtons = ({onHistoryCopy}) => {
 
@@ -40,30 +25,35 @@ const ActionButtons = ({onHistoryCopy}) => {
   const showCopyAllBtn = activeSection === PAGES.History && !!onHistoryCopy
 
   return (
-    <StyledSpace size={"small"}>
+    <div className="ActionButtons">
       {activeSection !== PAGES.Search &&
-        <Button type="primary"
-                icon={<ArrowLeftOutlined/>}
-                onClick={onBackBtnClick}/>}
+        <Button className="primary icon-only"
+                onClick={onBackBtnClick}>
+          <FiArrowLeft/>
+        </Button>}
       {showOptionsBtn &&
-        <Button type="primary"
-                icon={<SettingOutlined/>}
-                onClick={() => setActiveSection(PAGES.Options)}>Options</Button>}
+        <Button className="primary icon"
+                onClick={() => setActiveSection(PAGES.Options)}>
+          <FiSettings/>Options
+        </Button>}
       {showHistoryBtn &&
-        <Button type="primary"
-                icon={<HistoryOutlined/>}
-                onClick={() => setActiveSection(PAGES.History)}>History</Button>}
+        <Button className="primary icon"
+                onClick={() => setActiveSection(PAGES.History)}>
+          <FiClock/>History
+        </Button>}
 
       {showCopyAllBtn &&
-        <Button type="primary"
-                icon={<CopyOutlined/>}
-                onClick={onHistoryCopy}>Copy All</Button>}
+        <Button className="primary icon"
+                onClick={onHistoryCopy}>
+          <FiCopy/> Copy All
+        </Button>}
       {showClearHistoryBtn &&
-        <Button type="danger"
-                icon={<ClearOutlined/>}
-                onClick={onHistoryClear}>Clear</Button>}
+        <Button className="error icon"
+                onClick={onHistoryClear}>
+          <AiOutlineClear/>Clear
+        </Button>}
 
-    </StyledSpace>
+    </div>
   )
 }
 

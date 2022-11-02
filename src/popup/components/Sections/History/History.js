@@ -1,24 +1,11 @@
-import styled from "styled-components";
-import {colors, spacings} from "../../../../shared/utils/theme";
 import ActionButtons from "../../../../shared/components/ActionButtons";
 import {useEffect, useState} from "react";
 import {loadHistory} from "../../../../shared/utils/storage";
 import sortHistoryByDate from "../../../../shared/utils/sortHistoryByDate";
-import {List, Spin, Typography} from "antd";
 import {services} from "../../../../shared/utils/services";
 import {sendGlobalMessage} from "../../../../shared/utils/messaging";
 import {globalActions, PAGES} from "../../../../shared/utils/constants";
 import {useData} from "../../../context/data.context";
-import {message} from 'antd';
-
-const successCopyAlert = () => {
-  message.success('Copied!');
-};
-
-const StyledRoot = styled.div`
-  padding: 56px ${spacings.m} ${spacings.m};
-  color: ${colors.text};
-`
 
 const useGetSortedHistory = () => {
   const [history, setHistory] = useState([])
@@ -62,32 +49,33 @@ const History = () => {
       .finally(() => setLoading(false))
   }
 
-  const handleHistoryCopy = () => {
+  const handleHistoryCopy = (e) => {
     const textToCopy = history.map(([key]) => key).join(", ")
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
-        successCopyAlert()
+        e.target.innerText = "Copied!"
+        e.target.disabled = true
       })
   }
 
   return (
-    <StyledRoot>
-      <Spin spinning={loading} delay={0}>
-        <List
-          header={<Typography.Text>Your lookup history:</Typography.Text>}
-          size="small"
-          dataSource={history || []}
-          locale={{emptyText: "No history item yet!"}}
-          renderItem={([key, count]) => (
-            <List.Item padding={0}>
-              <a onClick={() => handleReSearch(key)}>{key}</a>
-              <small>{count > 1 ? ` ${count} times` : ""}</small>
-            </List.Item>
-          )}
-        />
-      </Spin>
+    <div className="History">
+      {!!history && !!history.length ?
+        <>
+          <div className="title">Your lookup history:</div>
+          <ul>
+            {history.map(([key, count]) => (
+              <li>
+                <a onClick={() => handleReSearch(key)}>{key}</a>
+                <small>{count > 1 ? ` ${count} times` : ""}</small>
+              </li>
+            ))}
+          </ul>
+        </>
+        : <div className="no-result">No history item yet!</div>}
+
       <ActionButtons onHistoryCopy={handleHistoryCopy}/>
-    </StyledRoot>
+    </div>
   )
 }
 
