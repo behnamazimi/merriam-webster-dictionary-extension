@@ -104,6 +104,7 @@ function handleMessages(request, sender, sendResponse) {
     options = request.options
     pageSettings.isReady = true
   }
+  return true
 }
 
 function hideFloatingButton() {

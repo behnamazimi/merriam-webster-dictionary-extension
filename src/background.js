@@ -15,7 +15,9 @@ chrome.runtime.onMessage.addListener(handleMessages)
 chrome.runtime.onConnect.addListener(function (port) {
   if (port.name === "popup") {
     port.onDisconnect.addListener(function () {
-      sendMessageToCurrentTab({action: globalActions.ON_POPUP_CLOSE})
+      sendMessageToCurrentTab({action: globalActions.ON_POPUP_CLOSE}, () => {
+        console.log("ON_POPUP_CLOSE");
+      })
     });
   }
 });

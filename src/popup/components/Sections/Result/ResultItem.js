@@ -43,8 +43,8 @@ const ResultItem = ({item}) => {
 
       {!!item.examples &&
         <ul className="examples">
-          {item.examples.map(ex => (
-            <li dangerouslySetInnerHTML={{
+          {item.examples.map((ex, index) => (
+            <li key={index} dangerouslySetInnerHTML={{
               __html: ">> " + ex
                 .replaceAll("{it}", "<strong>").replaceAll("{/it}", "</strong>")
                 .replaceAll("{wi}", "<strong>").replaceAll("{/wi}", "</strong>")
