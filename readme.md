@@ -32,7 +32,8 @@ on **[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webste
 
 ### How to install it manually on Chromium base browsers, like Opera, Edge, Brave, Torch, Vivaldi?
 
-1. Clone the repo or download it as a zip and extract it
+1. Download [the latest release](https://github.com/behnamazimi/merriam-webster-dictionary-extension/releases) and
+   extract it
 2. Go to extensions settings of your browser and active **Developer mode** by clicking the toggle that is already in the
    extensions page. (You can also open extensions' page by going to `chrome://extensions` or `edge://extensions` for
    Edge or, `opera://extensions` for Opera browser)
