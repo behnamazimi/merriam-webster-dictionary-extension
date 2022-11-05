@@ -1,7 +1,7 @@
 import cx from "classnames";
 import {useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {services} from "../shared/utils/services";
-import {bubbleHostId, ERRORS, globalActions} from "../shared/utils/constants";
+import {ERRORS, globalActions} from "../shared/utils/constants";
 import {sendGlobalMessage} from "../shared/utils/messaging";
 import BubbleResult from "./components/BubbleResult/BubbleResult";
 import BubbleSuggestionList from "./components/BubbleResult/BubbleSuggestionList";
@@ -16,7 +16,7 @@ const Bubble = ({searchFor}) => {
   useLayoutEffect(() => {
     const stylesElm = document.createElement("style")
     stylesElm.innerHTML = styles
-    document.getElementById(bubbleHostId).shadowRoot.appendChild(stylesElm)
+    document.getElementById("mw-dic").shadowRoot.appendChild(stylesElm)
   }, [])
 
   const doSearch = useCallback((searchTrend) => {

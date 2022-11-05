@@ -20,6 +20,8 @@ const Alert = ({header, message}) => {
 const Options = () => {
   const {options, setActiveSection, setOptions, publicApiUsage} = useData()
 
+  const [showGuide, setShowGuide] = useState(false)
+
   const isUsingFreeApiDetails = options.apiKey === defaultOptions.apiKey
   const isFreeSearchesDone = publicApiUsage >= publicApiDetails.usageLimitPerInstall
 
@@ -37,31 +39,48 @@ const Options = () => {
   const renderGuide = () => {
     return (
       <div className="guide">
-        <div className="title">READ THIS GUIDE FIRST</div>
-        <p>
-          This extension uses Merriam-Webster's free services. You can {" "}
-          <a href="https://dictionaryapi.com/register/index" target="_blank">do free register here</a> to
-          get your personal API key. Then you need to put it below in the form to be able to use the extension.
-        </p>
+        {!isUsingFreeApiDetails && !showGuide && (
+          <div className="title read-more"
+               onClick={() => setShowGuide(true)}>
+            How to get an API key?
+          </div>
+        )}
 
-        <p>
-          Notice that there are different types of APIs and each has its unique key. In the form below, you
-          should choose the one which you choose on registration.
-        </p>
-        <p>
-          If you don't know which dictionary fits your needs, you can {" "}
-          <a href="https://dictionaryapi.com/products/index" target="_blank">read their details here</a>.
-        </p>
+        {showGuide && (
+          <div className="title">API Key Guides</div>
+        )}
 
-        {isUsingFreeApiDetails && !isFreeSearchesDone &&
-          <Alert
-            header={`${publicApiUsage} out of ${publicApiDetails.usageLimitPerInstall} free searches have been consumed!`}
-            message={"Don't forget to add your personal API options."}/>}
+        {isUsingFreeApiDetails && (
+          <div className="title">READ THIS GUIDE FIRST</div>
+        )}
 
-        {isUsingFreeApiDetails && isFreeSearchesDone &&
-          <Alert header={`Free searches have been consumed!`}
-                 message="You've reached the limit of using public options. You need to add you FREE personal API key to continue using this extension."/>}
-        <Divider/>
+        {(isUsingFreeApiDetails || showGuide) && (
+          <>
+            <p>
+              This extension uses Merriam-Webster's free services. You can {" "}
+              <a href="https://dictionaryapi.com/register/index" target="_blank">do free register here</a> to
+              get your personal API key. Then you need to put it below in the form to be able to use the extension.
+            </p>
+            <p>
+              Notice that there are different types of APIs and each has its unique key. In the form below, you
+              should choose the one which you choose on registration.
+            </p>
+            <p>
+              If you don't know which dictionary fits your needs, you can {" "}
+              <a href="https://dictionaryapi.com/products/index" target="_blank">read their details here</a>.
+            </p>
+
+            {isUsingFreeApiDetails && !isFreeSearchesDone &&
+              <Alert
+                header={`${publicApiUsage} out of ${publicApiDetails.usageLimitPerInstall} free searches have been consumed!`}
+                message={"Don't forget to add your personal API options."}/>}
+
+            {isUsingFreeApiDetails && isFreeSearchesDone &&
+              <Alert header={`Free searches have been consumed!`}
+                     message="You've reached the limit of using public options. You need to add you FREE personal API key to continue using this extension."/>}
+            <Divider/>
+          </>
+        )}
 
       </div>
     )
@@ -143,7 +162,7 @@ const Options = () => {
                onChange={e => updateFields("pauseVideoOnPopupOpen", e.target.checked)}/>
 
         <Input type="checkbox" name="reviewMode"
-               label="Enable review mode so the relevant history will be shown in the bottom corner of each page"
+               label="Enable review mode, so the history found on each page will be shown in the bottom corner"
                checked={fields.reviewMode}
                onChange={e => updateFields("reviewMode", e.target.checked)}/>
 

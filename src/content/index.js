@@ -1,10 +1,7 @@
 import {services} from "../shared/utils/services";
 import {
   API_TYPES,
-  bubbleHostId,
   globalActions,
-  onPageHistoryHostId,
-  PAGES,
   searchIcon
 } from "../shared/utils/constants";
 import {sendGlobalMessage} from "../shared/utils/messaging";
@@ -201,7 +198,7 @@ function getPageRelativeHistory() {
 }
 
 function showOnPageHistory(onPageHistory, promote = false) {
-  const host = pageSettings.onPageHistory = generateHost(onPageHistoryHostId)
+  const host = pageSettings.onPageHistory = generateHost("mw-dic-history")
   if (promote) {
     host.classList.add("promotion")
   }
@@ -255,7 +252,7 @@ function handleImmediateResultOpen(searchTrend, showInBottom = false) {
     return
   }
 
-  const host = pageSettings.bubble = generateHost(bubbleHostId)
+  const host = pageSettings.bubble = generateHost("mw-dic")
   if (showInBottom) {
     host.classList.add("bottom")
   }

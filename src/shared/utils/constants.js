@@ -55,6 +55,3 @@ export const ERRORS = {
   FAILED_TO_FETCH: "It seems you are offline!",
   NO_RESULT: "No result!",
 }
-
-export const bubbleHostId = "mw-dic"
-export const onPageHistoryHostId = "mw-dic-history"
