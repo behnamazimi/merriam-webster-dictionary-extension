@@ -363,6 +363,11 @@ label {
 
     .title {
       color: yellow;
+
+      &.read-more {
+        opacity: 0.65;
+        cursor: pointer;
+      }
     }
 
     p {
