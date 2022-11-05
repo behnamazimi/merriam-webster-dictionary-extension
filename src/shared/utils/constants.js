@@ -21,6 +21,8 @@ export const defaultOptions = {
   apiType: publicApiDetails.type,
   wordSelectMode: "",
   pauseVideoOnPopupOpen: true,
+  isRelativeHistoryPromoted: false,
+  reviewMode: null,
 }
 
 export const API_TYPES = {
@@ -53,3 +55,6 @@ export const ERRORS = {
   FAILED_TO_FETCH: "It seems you are offline!",
   NO_RESULT: "No result!",
 }
+
+export const bubbleHostId = "mw-dic"
+export const onPageHistoryHostId = "mw-dic-history"

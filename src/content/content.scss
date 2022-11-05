@@ -5,6 +5,25 @@
   max-width: 340px;
 }
 
+#mw-dic.bottom {
+  position: fixed;
+  left: 0;
+  bottom: 40px;
+}
+
+#mw-dic-history {
+  position: fixed;
+  z-index: 2147483647;
+  width: auto;
+}
+
+#mw-dic-history.promotion {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 460px;
+}
+
 #mw-dic-btn {
   position: absolute;
   display: none;

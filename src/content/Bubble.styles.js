@@ -9,7 +9,7 @@ const styles = `
     --color-grey: #a8a8a8;
     --color-darkGrey: #7b8087;
     --color-error: #d43939;
-    --color-success: #28bd14;
+    --color-success: #4fa445;
     --font-family-mono: Roboto, "Consolas", "Lucida Console", monospace;
 
     font-family: 'Roboto', Arial, sans-serif;

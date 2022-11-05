@@ -26,7 +26,9 @@ const DataProvider = ({children}) => {
     setLoading(true)
     services.fetchData(searchTrend)
       .then((res) => {
-        sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend})
+        if (res && typeof res[0] !== "string") {
+          sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend})
+        }
         setResult(res)
         setActiveSection(PAGES.Result)
       })

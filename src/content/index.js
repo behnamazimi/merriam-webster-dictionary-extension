@@ -1,15 +1,23 @@
 import {services} from "../shared/utils/services";
-import {API_TYPES, globalActions, searchIcon} from "../shared/utils/constants";
+import {
+  API_TYPES,
+  bubbleHostId,
+  globalActions,
+  onPageHistoryHostId,
+  PAGES,
+  searchIcon
+} from "../shared/utils/constants";
 import {sendGlobalMessage} from "../shared/utils/messaging";
 import ReactDOM from "react-dom/client";
 import Bubble from "./Bubble";
 import "./content.scss";
+import OnPageHistory from "./OnPageHistory";
+import bubble from "./Bubble";
 
 let options = null
+let history = null
 const pageSettings = {
-  isReady: false,
-  lastPlayingVideo: null,
-  bubble: null,
+  isReady: false, lastPlayingVideo: null, bubble: null, onPageHistory: null
 }
 
 window.addEventListener("DOMContentLoaded", init)
@@ -21,6 +29,16 @@ function init() {
     // set api key and type in utils
     services.setAuth(response.options.apiKey, response.options.apiType)
     options = response.options
+    history = response.history
+
+    const pageHistory = getPageRelativeHistory()
+    if (!options.reviewMode && !options.isRelativeHistoryPromoted && pageHistory.length) {
+      showOnPageHistory(pageHistory, true)
+
+    } else if (options.reviewMode && pageHistory.length) {
+      showOnPageHistory(pageHistory)
+    }
+
     pageSettings.isReady = true
   })
 
@@ -35,7 +53,13 @@ function handleMouseUp(event) {
       return
     }
 
+    // do nothing if the click is triggered from onPageHistory element
+    if (pageSettings.onPageHistory && event.path.indexOf(pageSettings.onPageHistory) > -1) {
+      return
+    }
+
     const selection = window.getSelection()
+    const searchTrend = selection.toString()
 
     // hide bubble if it's open and click is out of it
     if (pageSettings.bubble && !pageSettings.bubble.contains(event?.target)) {
@@ -45,22 +69,18 @@ function handleMouseUp(event) {
 
     if (options.wordSelectMode === "OPEN_IMMEDIATELY") {
       hideFloatingButton()
-      handleImmediateResultOpen()
+      handleImmediateResultOpen(searchTrend)
 
     } else if (options.wordSelectMode === "OPEN_WITH_BUTTON" || options.wordSelectMode === "OPEN_ON_WEBSITE") {
 
       // when floating search button clicked
       if (pageSettings.floatingButton && pageSettings.floatingButton.contains(event.target)) {
         hideFloatingButton()
-        const searchTrend = selection.toString()
-        if (!searchTrend || searchTrend === "\n") {
-          return
-        }
 
         if (options.wordSelectMode === "OPEN_ON_WEBSITE") {
           window.open(`https://www.merriam-webster.com/dictionary/${searchTrend}`)
         } else {
-          handleImmediateResultOpen()
+          handleImmediateResultOpen(searchTrend)
         }
         return true
       }
@@ -114,49 +134,38 @@ function hideFloatingButton() {
   }
 }
 
-function handleImmediateResultOpen() {
-  const searchTrend = window.getSelection().toString()
-  if (!searchTrend || searchTrend === "\n") {
-    return
-  }
-
-  const host = pageSettings.bubble = generateHost(searchTrend)
-  const bubbleApp = ReactDOM.createRoot(host.shadowRoot)
-  bubbleApp.render(<Bubble searchFor={searchTrend.trim()}/>)
-}
-
-function generateHost() {
+function generateHost(id) {
 
   // remove prev host if exists
-  document.getElementById("mw-dic")?.remove()
+  document.getElementById(id)?.remove()
 
   const host = document.createElement("div")
-  host.setAttribute("id", "mw-dic")
-  host.setAttribute("class", "button")
-  document.body.insertBefore(host, document.body.firstChild)
+  host.setAttribute("id", id)
   host.attachShadow({mode: 'open'});
-
+  document.body.appendChild(host)
   setTimeout(() => {
-    const selectionRect = window.getSelection().getRangeAt(0).getBoundingClientRect()
-    let clientLeft = (selectionRect.left + (selectionRect.width / 2)) - (host.clientWidth / 2)
-    let clientTop = selectionRect.top - host.clientHeight
+    if (window.getSelection().toString()) {
+      const selectionRect = window.getSelection()?.getRangeAt(0).getBoundingClientRect()
+      let clientLeft = (selectionRect.left + (selectionRect.width / 2)) - (host.clientWidth / 2)
+      let clientTop = selectionRect.top - host.clientHeight
 
-    if (clientTop < 0) {
-      clientTop = selectionRect.top + selectionRect.height
+      if (clientTop < 0) {
+        clientTop = selectionRect.top + selectionRect.height
+      }
+      if (clientLeft < 0) {
+        clientLeft = selectionRect.left
+      }
+
+      if (clientLeft + host.clientWidth >= window.innerWidth) {
+        clientLeft = selectionRect.left - host.clientWidth + selectionRect.width
+      }
+
+      const left = clientLeft + window.scrollX
+      const top = clientTop + window.scrollY
+
+      host.style.top = top + "px"
+      host.style.left = left + "px"
     }
-    if (clientLeft < 0) {
-      clientLeft = selectionRect.left
-    }
-
-    if (clientLeft + host.clientWidth >= window.innerWidth) {
-      clientLeft = selectionRect.left - host.clientWidth + selectionRect.width
-    }
-
-    const left = clientLeft + window.scrollX
-    const top = clientTop + window.scrollY
-
-    host.style.top = top + "px"
-    host.style.left = left + "px"
   }, 10)
 
   return host
@@ -183,6 +192,78 @@ function generateFloatingButton(event) {
   button.style.top = top + "px"
   return button
 }
+
+function getPageRelativeHistory() {
+  const historyWords = Object.keys(history)
+  const bodyText = document.body.innerText.toLowerCase()
+
+  return historyWords.filter((item) => bodyText.indexOf(item.toLowerCase()) > -1)
+}
+
+function showOnPageHistory(onPageHistory, promote = false) {
+  const host = pageSettings.onPageHistory = generateHost(onPageHistoryHostId)
+  if (promote) {
+    host.classList.add("promotion")
+  }
+  host.shadowRoot.addEventListener("click", (event) => {
+    if (event.target.id === "close-promotion") {
+      host.remove()
+      pageSettings.onPageHistory = null
+      sendGlobalMessage({
+        action: globalActions.SET_OPTIONS,
+        options: {
+          isRelativeHistoryPromoted: true,
+          reviewMode: false
+        },
+      })
+
+    } else if (event.target.id === "enable-review-mode") {
+      host.remove()
+      pageSettings.onPageHistory = null
+      sendGlobalMessage({
+        action: globalActions.SET_OPTIONS,
+        options: {
+          isRelativeHistoryPromoted: true,
+          reviewMode: true
+        },
+      }, () => {
+        showOnPageHistory(onPageHistory)
+      })
+
+    } else if (event.target.id === "disable-review-mode") {
+      host.remove()
+      pageSettings.onPageHistory = null
+      sendGlobalMessage({
+        action: globalActions.SET_OPTIONS,
+        options: {
+          reviewMode: false
+        },
+      })
+
+    } else if (event.target.hasAttribute("data-searchfor")) {
+      // when a word in the on-page-history item clicked
+      const searchFor = event.target.dataset.searchfor
+      handleImmediateResultOpen(searchFor, true)
+    }
+  })
+  const onPageHistoryApp = ReactDOM.createRoot(host.shadowRoot)
+  onPageHistoryApp.render(<OnPageHistory items={onPageHistory} promote={promote}/>)
+}
+
+function handleImmediateResultOpen(searchTrend, showInBottom = false) {
+  if (!searchTrend || searchTrend === "\n") {
+    return
+  }
+
+  const host = pageSettings.bubble = generateHost(bubbleHostId)
+  if (showInBottom) {
+    host.classList.add("bottom")
+  }
+  document.body.appendChild(pageSettings.bubble)
+  const bubbleApp = ReactDOM.createRoot(host.shadowRoot)
+  bubbleApp.render(<Bubble searchFor={searchTrend.trim()}/>)
+}
+
 
 // to make it simple for users to get the key fast and easy
 function simplifyingGettingApiKeySteps() {
@@ -273,10 +354,8 @@ function simplifyingGettingApiKeySteps() {
 
   function setKeyOnBtnClick(apiType, apiKey, event) {
     sendGlobalMessage({
-      action: globalActions.SET_OPTIONS,
-      options: {
-        apiKey,
-        apiType,
+      action: globalActions.SET_OPTIONS, options: {
+        apiKey, apiType,
       }
     }, () => {
       event.target.innerText = "Done!"

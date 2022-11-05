@@ -75,6 +75,7 @@ const Options = () => {
       apiType: formRef.current.apiType.value,
       pauseVideoOnPopupOpen: formRef.current.pauseVideoOnPopupOpen.checked,
       wordSelectMode: formRef.current.wordSelectMode.value,
+      reviewMode: formRef.current.reviewMode.checked,
     }
 
     setOptions(values)
@@ -140,6 +141,11 @@ const Options = () => {
                label="Pause the video playing on the page while searching and resume when the pop-up closes"
                checked={fields.pauseVideoOnPopupOpen}
                onChange={e => updateFields("pauseVideoOnPopupOpen", e.target.checked)}/>
+
+        <Input type="checkbox" name="reviewMode"
+               label="Enable review mode so the relevant history will be shown in the bottom corner of each page"
+               checked={fields.reviewMode}
+               onChange={e => updateFields("reviewMode", e.target.checked)}/>
 
         <div className="actions">
           <Button className="error icon-only"
