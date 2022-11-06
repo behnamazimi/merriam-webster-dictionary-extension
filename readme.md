@@ -8,9 +8,11 @@ away, without losing your focus on the content!
 
 It is a free face for Merriam-Webster's dictionary services, like a light version of MW's original website.
 
-It keeps track of your search history and so you can always review your previous searches. You can also open the main
-definition page of a word/phrase on Merriam-Webster's website using the in-content button, this functionality is
-adjustable on the options.
+It keeps track of your search history and so you can always review your previous searches by enabling review mode in
+options, so the relevant history found in a page will be shown in the bottom corner.
+
+You can also open the main definition page of a word/phrase on Merriam-Webster's website using the in-content button,
+this functionality is adjustable on the options.
 
 You can also set the option to pause the video playing in the content (if any) when the search box is opened and replay
 it when the search box is closed. It might save you some time, and you would not lose the content of the video while
