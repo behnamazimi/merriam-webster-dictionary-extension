@@ -28,6 +28,7 @@ function init() {
     options = response.options
     history = response.history
 
+    console.log(history);
     const pageHistory = getPageRelativeHistory()
     if (!options.reviewMode && !options.isRelativeHistoryPromoted && pageHistory.length) {
       showOnPageHistory(pageHistory, true)
@@ -194,7 +195,39 @@ function getPageRelativeHistory() {
   const historyWords = Object.keys(history)
   const bodyText = document.body.innerText.toLowerCase()
 
-  return historyWords.filter((item) => bodyText.indexOf(item.toLowerCase()) > -1)
+  const regExRules = (word) => [
+    new RegExp(`^${word}\\s`),
+    new RegExp(`\\s${word}\\s`),
+    new RegExp(`\\s${word}[.,;?!:]`)
+  ]
+
+  const checkRegExRulesFor = (word) => regExRules(word).some(r => r.test(bodyText))
+
+  const checkWordExistence = (word) => {
+    const lcWord = word.toLowerCase()
+    const wordWithS = lcWord + "s"
+    const wordWithEs = lcWord + "es"
+    const wordWithD = lcWord + "d"
+    const wordWithEd = lcWord + "ed"
+    return (
+      // to check for lowercase form of the word
+      checkRegExRulesFor(lcWord) ||
+
+      // to check for plural forms ending with "s", e.g: cat => cats
+      checkRegExRulesFor(wordWithS) ||
+
+      // to check for plural forms ending with "es", e.g: glass => glasses
+      checkRegExRulesFor(wordWithEs) ||
+
+      // to check for past forms ending with "d", e.g: love => loved
+      checkRegExRulesFor(wordWithD) ||
+
+      // to check for past forms ending with "d", e.g: pair => paired
+      checkRegExRulesFor(wordWithEd)
+    )
+  }
+
+  return historyWords.filter(checkWordExistence)
 }
 
 function showOnPageHistory(onPageHistory, promote = false) {
