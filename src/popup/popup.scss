@@ -262,6 +262,15 @@ label {
         a {
           display: inline-block;
         }
+
+        button {
+          margin-left: 1rem;
+          background-color: transparent;
+          padding: 0;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }

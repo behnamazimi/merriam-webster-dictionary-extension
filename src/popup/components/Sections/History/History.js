@@ -6,6 +6,7 @@ import {services} from "../../../../shared/utils/services";
 import {sendGlobalMessage} from "../../../../shared/utils/messaging";
 import {globalActions, PAGES} from "../../../../shared/utils/constants";
 import {useData} from "../../../context/data.context";
+import {FiX} from "react-icons/fi";
 
 const useGetHistory = () => {
   const [history, setHistory] = useState({})
@@ -28,21 +29,26 @@ const useGetHistory = () => {
   }, [])
 
   const toggleReview = useCallback((key, review) => {
-    sendGlobalMessage({action: globalActions.TOGGLE_HISTORY_REVIEW, key, review}, () => {
-      const updatedHistory = {...history}
-      updatedHistory[key].review = review
+    sendGlobalMessage({action: globalActions.TOGGLE_HISTORY_REVIEW, key, review}, (updatedHistory) => {
       setHistory(updatedHistory)
     })
 
   }, [history, setHistory])
 
-  return [sortHistoryByDate(history), toggleReview]
+  const removeItem = useCallback((key) => {
+    sendGlobalMessage({action: globalActions.REMOVE_HISTORY_ITEM, key}, (updatedHistory) => {
+      setHistory(updatedHistory)
+    })
+
+  }, [history, setHistory])
+
+  return [sortHistoryByDate(history), toggleReview, removeItem]
 }
 
 const History = () => {
 
   const {setSearchFor, setResult, setActiveSection, setError} = useData()
-  const [history, toggleReview] = useGetHistory()
+  const [history, toggleReview, removeItem] = useGetHistory()
   const [loading, setLoading] = useState(false)
 
   const handleReSearch = (searchTrend) => {
@@ -84,7 +90,11 @@ const History = () => {
                          onChange={() => toggleReview(key, !review)}/>
                   <a onClick={() => handleReSearch(key)}>{key}</a>
                 </span>
-                <small>{count > 1 ? ` ${count} times` : ""}</small>
+                <span>
+                  <small>{count > 1 ? ` ${count} times` : ""}</small>
+                  <button title="Remove from history"
+                          onClick={() => removeItem(key)}><FiX/></button>
+                </span>
               </li>
             ))}
           </ul>

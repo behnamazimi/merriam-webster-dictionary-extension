@@ -36,6 +36,15 @@ export function addToHistory(search, cb) {
   })
 }
 
+export function removeHistoryItem(key, cb) {
+  loadHistory((history = {}) => {
+    delete history[key]
+    chrome.storage.local.set({history}, function () {
+      cb?.(history)
+    });
+  })
+}
+
 export function toggleHistoryItemReview(key, review, cb) {
   loadHistory((history = {}) => {
     if (!history[key]) {

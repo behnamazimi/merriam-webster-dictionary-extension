@@ -4,7 +4,7 @@ import {
   clearHistory, countUpPublicApiKeyUsage,
   getPublicApiKeyUsage,
   loadHistory,
-  loadOptions,
+  loadOptions, removeHistoryItem,
   storeOptions, toggleHistoryItemReview
 } from "./shared/utils/storage";
 import {globalActions} from "./shared/utils/constants";
@@ -51,8 +51,14 @@ function handleMessages(data, details, sendResponse) {
       break;
 
     case globalActions.TOGGLE_HISTORY_REVIEW:
-      toggleHistoryItemReview(data.key, data.review, () => {
-        sendResponse(true);
+      toggleHistoryItemReview(data.key, data.review, (history) => {
+        sendResponse(history);
+      });
+      break;
+
+    case globalActions.REMOVE_HISTORY_ITEM:
+      removeHistoryItem(data.key, (history) => {
+        sendResponse(history);
       });
       break;
 
