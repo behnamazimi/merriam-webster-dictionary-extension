@@ -232,11 +232,37 @@ label {
     color: var(--color-grey);
   }
 
+  .subtitle {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+
   ul {
-    padding-left: 1.6rem;
+    padding-left: 0;
 
     small {
       float: right;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        input {
+          margin-right: 1rem;
+        }
+
+        a {
+          display: inline-block;
+        }
+      }
     }
   }
 }

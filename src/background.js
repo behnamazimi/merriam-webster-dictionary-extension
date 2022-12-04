@@ -5,7 +5,7 @@ import {
   getPublicApiKeyUsage,
   loadHistory,
   loadOptions,
-  storeOptions
+  storeOptions, toggleHistoryItemReview
 } from "./shared/utils/storage";
 import {globalActions} from "./shared/utils/constants";
 import {sendMessageToCurrentTab} from "./shared/utils/messaging";
@@ -46,6 +46,12 @@ function handleMessages(data, details, sendResponse) {
 
     case globalActions.ADD_TO_HISTORY:
       addToHistory(data.searchTrend, () => {
+        sendResponse(true);
+      });
+      break;
+
+    case globalActions.TOGGLE_HISTORY_REVIEW:
+      toggleHistoryItemReview(data.key, data.review, () => {
         sendResponse(true);
       });
       break;

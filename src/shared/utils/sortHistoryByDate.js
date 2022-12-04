@@ -4,5 +4,9 @@ export default function sortHistoryByDate(history) {
     .sort((a, b) => {
       return history[b].time - history[a].time
     })
-    .map(item => [item, history[item].count])
+    .map(item => [
+      item,
+      history[item].count,
+      history[item].review !== undefined ? history[item].review : true
+    ])
 }

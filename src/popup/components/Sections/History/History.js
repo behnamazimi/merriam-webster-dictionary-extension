@@ -1,5 +1,5 @@
 import ActionButtons from "../../../../shared/components/ActionButtons";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {loadHistory} from "../../../../shared/utils/storage";
 import sortHistoryByDate from "../../../../shared/utils/sortHistoryByDate";
 import {services} from "../../../../shared/utils/services";
@@ -7,8 +7,8 @@ import {sendGlobalMessage} from "../../../../shared/utils/messaging";
 import {globalActions, PAGES} from "../../../../shared/utils/constants";
 import {useData} from "../../../context/data.context";
 
-const useGetSortedHistory = () => {
-  const [history, setHistory] = useState([])
+const useGetHistory = () => {
+  const [history, setHistory] = useState({})
 
   useEffect(() => {
     loadHistory((res) => {
@@ -27,13 +27,22 @@ const useGetSortedHistory = () => {
     }
   }, [])
 
-  return sortHistoryByDate(history)
+  const toggleReview = useCallback((key, review) => {
+    sendGlobalMessage({action: globalActions.TOGGLE_HISTORY_REVIEW, key, review}, () => {
+      const updatedHistory = {...history}
+      updatedHistory[key].review = review
+      setHistory(updatedHistory)
+    })
+
+  }, [history, setHistory])
+
+  return [sortHistoryByDate(history), toggleReview]
 }
 
 const History = () => {
 
   const {setSearchFor, setResult, setActiveSection, setError} = useData()
-  const history = useGetSortedHistory()
+  const [history, toggleReview] = useGetHistory()
   const [loading, setLoading] = useState(false)
 
   const handleReSearch = (searchTrend) => {
@@ -64,9 +73,17 @@ const History = () => {
         <>
           <div className="title">Your lookup history:</div>
           <ul>
-            {history.map(([key, count]) => (
-              <li>
-                <a onClick={() => handleReSearch(key)}>{key}</a>
+            <li className="subtitle">
+              Uncheck if you want to exclude phrases from being searched while in review mode.
+            </li>
+            {history.map(([key, count, review]) => (
+              <li key={key + count}>
+                <span>
+                  <input type="checkbox"
+                         checked={review}
+                         onChange={() => toggleReview(key, !review)}/>
+                  <a onClick={() => handleReSearch(key)}>{key}</a>
+                </span>
                 <small>{count > 1 ? ` ${count} times` : ""}</small>
               </li>
             ))}

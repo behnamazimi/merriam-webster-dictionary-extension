@@ -28,7 +28,6 @@ function init() {
     options = response.options
     history = response.history
 
-    console.log(history);
     const pageHistory = getPageRelativeHistory()
     if (!options.reviewMode && !options.isRelativeHistoryPromoted && pageHistory.length) {
       showOnPageHistory(pageHistory, true)
@@ -193,6 +192,8 @@ function generateFloatingButton(event) {
 
 function getPageRelativeHistory() {
   const historyWords = Object.keys(history)
+    // to exclude unwanted words to be included in the review
+    .filter(item => history[item].review !== false)
   const bodyText = document.body.innerText.toLowerCase()
 
   const regExRules = (word) => [

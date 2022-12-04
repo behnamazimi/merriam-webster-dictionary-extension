@@ -25,7 +25,7 @@ export function addToHistory(search, cb) {
 
     // add if not exist
     if (!history[search]) {
-      history[search] = {count: 0, time: Date.now()}
+      history[search] = {count: 0, time: Date.now(), review: true}
     }
     history[search].count++
     history[search].time = Date.now()
@@ -34,7 +34,20 @@ export function addToHistory(search, cb) {
       if (cb && typeof cb === "function") cb(history)
     });
   })
+}
 
+export function toggleHistoryItemReview(key, review, cb) {
+  loadHistory((history = {}) => {
+    if (!history[key]) {
+      cb?.(history)
+    } else {
+      history[key].review = review;
+    }
+
+    chrome.storage.local.set({history}, function () {
+      cb?.(history)
+    });
+  })
 }
 
 export function clearHistory(cb) {
