@@ -9,7 +9,6 @@ import ReactDOM from "react-dom/client";
 import Bubble from "./Bubble";
 import "./content.scss";
 import OnPageHistory from "./OnPageHistory";
-import bubble from "./Bubble";
 
 let options = null
 let history = null
@@ -45,13 +44,15 @@ function init() {
 
 function handleMouseUp(event) {
   setTimeout(() => {
-
     if (!pageSettings.isReady) {
       return
     }
 
     // do nothing if the click is triggered from onPageHistory element
-    if (pageSettings.onPageHistory && event.path.indexOf(pageSettings.onPageHistory) > -1) {
+    if (pageSettings.onPageHistory && (
+      event.path?.indexOf(pageSettings.onPageHistory) > -1 ||
+      event?.target === pageSettings.onPageHistory
+    )) {
       return
     }
 
