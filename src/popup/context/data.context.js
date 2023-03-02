@@ -14,6 +14,7 @@ const DataProvider = ({children}) => {
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState({});
   const [publicApiUsage, setPublicApiUsage] = useState(null);
+  const [reviewLinksClicksCount, setReviewLinksClicksCount] = useState(0);
   const [activeSection, setActiveSection] = useState(PAGES.Search);
 
   const handleSetError = useCallback((error) => {
@@ -42,6 +43,7 @@ const DataProvider = ({children}) => {
       services.setAuth(response.options.apiKey, response.options.apiType)
       setOptions(response.options)
       setPublicApiUsage(response.publicApiUsage)
+      setReviewLinksClicksCount(response.reviewLinkClicksCount)
 
       sendMessageToCurrentTab({action: globalActions.LINK_TO_POPUP}, (response = {}) => {
         if (response && response.selectedText) {
@@ -68,10 +70,18 @@ const DataProvider = ({children}) => {
     })
   }
 
+  const countUpReviewLinksClicks = useCallback(() => {
+    sendGlobalMessage({action: globalActions.COUNT_UP_REVIEW_LINK_CLICK}, (count) => {
+      setReviewLinksClicksCount(count)
+    })
+  }, [reviewLinksClicksCount]);
+
   const value = useMemo(() => ({
     options,
     activeSection,
     publicApiUsage,
+    reviewLinksClicksCount,
+    countUpReviewLinksClicks,
     setOptions: handleSetOptions,
     setActiveSection,
     result,
@@ -84,8 +94,8 @@ const DataProvider = ({children}) => {
     doSearch
   }), [
     options, publicApiUsage, setOptions, activeSection, setActiveSection, result,
-    searchFor, setSearchFor, error, setError,
-    doSearch
+    searchFor, setSearchFor, error, setError, doSearch, reviewLinksClicksCount,
+    countUpReviewLinksClicks
   ])
 
   return (

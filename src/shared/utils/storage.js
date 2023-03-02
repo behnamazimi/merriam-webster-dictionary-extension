@@ -80,3 +80,19 @@ export function countUpPublicApiKeyUsage(cb) {
     });
   })
 }
+
+export function getReviewLinkClicksCount(cb) {
+  chrome.storage.sync.get("reviewLinkClicksCount", function (data) {
+    if (cb && typeof cb === "function")
+      cb(data.reviewLinkClicksCount || 0)
+  });
+}
+
+export function countUpReviewLinkClicks(cb) {
+  getReviewLinkClicksCount((prevCount = 0) => {
+    const reviewLinkClicksCount = prevCount + 1
+    chrome.storage.sync.set({reviewLinkClicksCount}, function () {
+      if (cb && typeof cb === "function") cb(reviewLinkClicksCount)
+    });
+  })
+}

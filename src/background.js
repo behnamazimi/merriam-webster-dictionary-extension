@@ -1,8 +1,8 @@
 // 'use strict';
 import {
   addToHistory,
-  clearHistory, countUpPublicApiKeyUsage,
-  getPublicApiKeyUsage,
+  clearHistory, countUpPublicApiKeyUsage, countUpReviewLinkClicks,
+  getPublicApiKeyUsage, getReviewLinkClicksCount,
   loadHistory,
   loadOptions, removeHistoryItem,
   storeOptions, toggleHistoryItemReview
@@ -29,7 +29,14 @@ function handleMessages(data, details, sendResponse) {
       loadOptions((options) => {
         loadHistory((history) => {
           getPublicApiKeyUsage((publicApiUsage) => {
-            sendResponse({options, history, publicApiUsage});
+            getReviewLinkClicksCount((reviewLinkClicksCount) => {
+              sendResponse({
+                options,
+                history,
+                publicApiUsage,
+                reviewLinkClicksCount
+              });
+            })
           })
         })
       })
@@ -75,6 +82,10 @@ function handleMessages(data, details, sendResponse) {
 
     case globalActions.COUNT_UP_PUBLIC_API_USAGE:
       countUpPublicApiKeyUsage(sendResponse);
+      break;
+
+    case globalActions.COUNT_UP_REVIEW_LINK_CLICK:
+      countUpReviewLinkClicks(sendResponse);
       break;
   }
   return true;

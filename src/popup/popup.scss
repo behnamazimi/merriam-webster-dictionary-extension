@@ -191,37 +191,21 @@ label {
 .AskToRate {
   font-size: 1.6rem;
   opacity: 0.8;
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-self: center;
   text-decoration: none;
 
-  &:hover {
-    color: yellow;
+  &.visible {
+    display: flex;
   }
 
   a {
-    display: contents;
-  }
-
-  span {
-    display: inline-flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-    align-self: center;
-    margin-left: 0.5rem;
+    text-decoration: none;
+    color: yellow;
     cursor: pointer;
-    font-size: 18px;
-
-    svg {
-      stroke: #ffff00;
-
-      &:hover,
-      &:hover ~ svg {
-        fill: #ffff00;
-      }
-    }
   }
+
 }
 
 .History {
