@@ -3,7 +3,8 @@
   "version": "2.4",
   "description": "Open source Merriam-Webster's dictionary",
   "permissions": [
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "host_permissions": [
     "<all_urls>"

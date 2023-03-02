@@ -90,3 +90,18 @@ function handleMessages(data, details, sendResponse) {
   }
   return true;
 }
+
+// add look up item to context menu
+chrome.contextMenus.create({
+  title: "Look up: %s",
+  contexts: ["selection"],
+  id: "lookup-selection-context-menu"
+});
+
+function lookupWebsite(info) {
+  chrome.tabs.create({
+    url: "https://www.merriam-webster.com/dictionary/" + encodeURIComponent(info.selectionText)
+  });
+}
+
+chrome.contextMenus.onClicked.addListener(lookupWebsite)
