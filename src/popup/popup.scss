@@ -202,8 +202,13 @@ label {
 
   a {
     text-decoration: none;
-    color: yellow;
     cursor: pointer;
+    color: yellow;
+    font-size: 14px;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
 }

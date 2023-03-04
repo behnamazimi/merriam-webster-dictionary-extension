@@ -15,7 +15,7 @@ const AskToRate = () => {
 
   return (
     <div className={cx("AskToRate", visible && "visible")}>
-      <a href="https://bit.ly/rate-mwd111" target="_blank"
+      <a href="https://bit.ly/rate-mwd" target="_blank"
          onClick={handleOnClick}>
         {randomText}
       </a>
