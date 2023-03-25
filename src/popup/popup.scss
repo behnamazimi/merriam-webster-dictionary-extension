@@ -189,28 +189,39 @@ label {
 }
 
 .AskToRate {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   opacity: 0.8;
-  display: none;
+  display: flex;
   justify-content: flex-start;
   align-self: center;
   text-decoration: none;
 
-  &.visible {
-    display: flex;
+  &:hover {
+    color: yellow;
   }
 
   a {
-    text-decoration: none;
-    cursor: pointer;
-    color: yellow;
-    font-size: 14px;
-
-    &:hover {
-      opacity: 0.8;
-    }
+    display: contents;
   }
 
+  span {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-self: center;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    font-size: 18px;
+
+    svg {
+      stroke: #ffff00;
+
+      &:hover,
+      &:hover ~ svg {
+        fill: #ffff00;
+      }
+    }
+  }
 }
 
 .History {
