@@ -5,7 +5,7 @@ const OnPageHistoryBar = ({items = []}) => {
   return (
     <div className="OnPageHistoryBar">
       <button className="disable" id="disable-review-mode"
-              title="Remove review bar"><FiX/></button>
+              title="Close review bar"><FiX/></button>
       <span>Things to review: </span>
       {items.map((item, key) => (
         <span className="word"

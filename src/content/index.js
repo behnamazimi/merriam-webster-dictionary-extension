@@ -265,12 +265,6 @@ function showOnPageHistory(onPageHistory, promote = false) {
     } else if (event.target.id === "disable-review-mode") {
       host.remove()
       pageSettings.onPageHistory = null
-      sendGlobalMessage({
-        action: globalActions.SET_OPTIONS,
-        options: {
-          reviewMode: false
-        },
-      })
 
     } else if (event.target.hasAttribute("data-searchfor")) {
       // when a word in the on-page-history item clicked
