@@ -1,7 +1,7 @@
 {
-  "name": "Merriam Webster Dictionary",
+  "name": "Merriam Webster Dictionary - English Definitions",
   "version": "2.7",
-  "description": "Open source Merriam-Webster's dictionary",
+  "description": "Find definition of words effortlessly and free of charge.",
   "permissions": [
     "storage",
     "contextMenus"

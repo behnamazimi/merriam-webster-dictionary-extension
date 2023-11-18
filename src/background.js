@@ -10,7 +10,7 @@ import {
 import {globalActions} from "./shared/utils/constants";
 import {sendMessageToCurrentTab} from "./shared/utils/messaging";
 
-chrome.runtime.setUninstallURL("https://vw2i5h3r9jf.typeform.com/to/ANvxbYUo");
+chrome.runtime.setUninstallURL("https://tally.so/r/3N7WLQ");
 
 chrome.runtime.onMessage.addListener(handleMessages)
 
