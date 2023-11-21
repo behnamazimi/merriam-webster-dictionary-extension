@@ -192,6 +192,9 @@ function generateFloatingButton(event) {
 }
 
 function getPageRelativeHistory() {
+  if (!history) {
+    return []
+  }
   const historyWords = Object.keys(history)
     // to exclude unwanted words to be included in the review
     .filter(item => history[item].review !== false)
