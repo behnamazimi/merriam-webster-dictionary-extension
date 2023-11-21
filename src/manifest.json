@@ -1,6 +1,6 @@
 {
   "name": "Merriam Webster Dictionary",
-  "version": "2.8",
+  "version": "2.9",
   "description": "Find English definition of words effortlessly and free of charge.",
   "permissions": [
     "storage",
