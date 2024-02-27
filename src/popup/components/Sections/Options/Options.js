@@ -77,7 +77,7 @@ const Options = () => {
 
             {isUsingFreeApiDetails && isFreeSearchesDone &&
               <Alert header={`Free searches have been consumed!`}
-                     message="You've reached the limit of using public options. You need to add you FREE personal API key to continue using this extension."/>}
+                     message="You've reached the limit of using public options. You need to add your FREE personal API key to continue using this extension."/>}
             <Divider/>
           </>
         )}

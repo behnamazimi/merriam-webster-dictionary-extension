@@ -51,7 +51,7 @@ export const PAGES = {
 
 export const ERRORS = {
   EMPTY_SEARCH: "Looking up for nothing!",
-  PERSONAL_KEY_NEEDED: "You've reached the limit of using public options. You need to add you FREE personal API key to continue using this extension.\n" +
+  PERSONAL_KEY_NEEDED: "You've reached the limit of using public options. You need to add your FREE personal API key to continue using this extension.\n" +
     "Read the instructions on the Options page to get more info, please!",
   INVALID_API_KEY: "Invalid API options. \n" +
     "Make sure your API key is valid and the API type you choose is the same as the one you chose when you registered.",
