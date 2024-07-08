@@ -1,4 +1,4 @@
-# Merriam-Webster' Dictionary Chrome Extension
+# Merriam-Webster' Dictionary Browser Extension
 
 **[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)**
 
