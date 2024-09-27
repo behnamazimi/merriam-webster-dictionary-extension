@@ -69,7 +69,7 @@ function handleMouseUp(event) {
       hideFloatingButton()
       handleImmediateResultOpen(searchTrend)
 
-    } else if (options.wordSelectMode === "OPEN_WITH_BUTTON" || options.wordSelectMode === "OPEN_ON_WEBSITE") {
+    } else if (options.wordSelectMode === "OPEN_WITH_BUTTON" || options.wordSelectMode === "OPEN_ON_WEBSITE" || options.wordSelectMode === "OPEN_POPUP") {
 
       // when floating search button clicked
       if (pageSettings.floatingButton && pageSettings.floatingButton.contains(event.target)) {
@@ -77,6 +77,10 @@ function handleMouseUp(event) {
 
         if (options.wordSelectMode === "OPEN_ON_WEBSITE") {
           window.open(`https://www.merriam-webster.com/dictionary/${searchTrend}`)
+        } else if (options.wordSelectMode === "OPEN_POPUP") {
+          sendGlobalMessage({
+            action: globalActions.OPEN_POPUP,
+          })
         } else {
           handleImmediateResultOpen(searchTrend)
         }

@@ -144,6 +144,12 @@ const Options = () => {
                    onChange={e => updateFields("wordSelectMode", e.target.value)}/>
             <Input type="radio"
                    name="wordSelectMode"
+                   value="OPEN_POPUP"
+                   label="Display a button that I can click to open the result in the extention popup (top-right corner)"
+                   checked={fields.wordSelectMode === "OPEN_POPUP"}
+                   onChange={e => updateFields("wordSelectMode", e.target.value)}/>
+            <Input type="radio"
+                   name="wordSelectMode"
                    value="OPEN_WITH_BUTTON"
                    label="Display a button that I can click to open the result next to the word I selected"
                    checked={fields.wordSelectMode === "OPEN_WITH_BUTTON"}

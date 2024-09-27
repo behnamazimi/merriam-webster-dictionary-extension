@@ -89,6 +89,10 @@ function handleMessages(data, details, sendResponse) {
     case globalActions.COUNT_UP_REVIEW_LINK_CLICK:
       countUpReviewLinkClicks(sendResponse);
       break;
+
+    case globalActions.OPEN_POPUP:
+      chrome.action.openPopup();
+      break;
   }
   return true;
 }
