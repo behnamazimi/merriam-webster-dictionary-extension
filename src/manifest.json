@@ -1,7 +1,7 @@
 {
-  "name": "Merriam Webster Dictionary",
-  "version": "2.9",
-  "description": "Find English definition of words effortlessly and free of charge.",
+  "name": "English-to-English Definitions - Merriam-Webster Dictionary",
+  "version": "2.10",
+  "description": "Find precise English definitions effortlessly and for free with this intuitive dictionary extension.",
   "permissions": [
     "storage",
     "contextMenus"
