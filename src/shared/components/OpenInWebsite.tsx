@@ -1,6 +1,10 @@
 import cx from "classnames";
+import {FC} from "react";
 
-const OpenInWebsite = ({target, notSticky = false}) => {
+const OpenInWebsite: FC<{
+  target: string
+  notSticky?: boolean
+}> = ({target, notSticky = false}) => {
   return (
     <a className={cx("OpenInWebsite", notSticky && "-no-sticky")}
        onClick={() => window.open(`https://www.merriam-webster.com/dictionary/${target}`)}

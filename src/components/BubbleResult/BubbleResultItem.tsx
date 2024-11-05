@@ -1,6 +1,9 @@
 import {FiVolume2} from "react-icons/fi";
+import {FC} from "react";
 
-const ResultItemTitle = ({item}) => {
+const ResultItemTitle: FC<{
+  item: any
+}> = ({item}) => {
   const [id, num] = item.id.split(":")
   return (
     <summary className="ResultItemTitle">
@@ -11,7 +14,9 @@ const ResultItemTitle = ({item}) => {
   )
 }
 
-const Pron = ({item}) => {
+const Pron: FC<{
+  item: any
+}> = ({item}) => {
 
   const handlePronPlay = () => {
     new Audio(item.sound).play()
@@ -25,7 +30,9 @@ const Pron = ({item}) => {
   )
 }
 
-const BubbleResultItem = ({item}) => {
+const BubbleResultItem: FC<{
+  item: any
+}> = ({item}) => {
 
   return (
     <details className="BubbleResultItem" open>
@@ -35,14 +42,14 @@ const BubbleResultItem = ({item}) => {
         <p className="syn">Synonyms: {item.synonyms.join(", ")}</p>
       }
       <ul className="defs">
-        {item.shortDef.map((d => (
-          <li>{d}</li>
+        {item.shortDef.map(((d: string, index: number) => (
+          <li key={index}>{d}</li>
         )))}
       </ul>
 
       {!!item.examples &&
         <ul className="examples">
-          {item.examples.map((ex, index) => (
+          {item.examples.map((ex: string, index: number) => (
             <li key={index} dangerouslySetInnerHTML={{
               __html: ">> " + ex
                 .replaceAll("{it}", "<strong>").replaceAll("{/it}", "</strong>")

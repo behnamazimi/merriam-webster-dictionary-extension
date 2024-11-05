@@ -1,16 +1,18 @@
 import {ERRORS, globalActions, publicApiDetails} from "./constants";
 import {sendGlobalMessage} from "./messaging";
+import {LookupResult, OptionsType} from "../../types";
 
 class Services {
+  private static instance: Services
   API_KEY = "";
   API_TYPE = "";
 
-  setAuth(key, type) {
+  setAuth(key: string, type: OptionsType["apiType"]) {
     this.API_KEY = key
     this.API_TYPE = type
   }
 
-  getApiEndpoint(search, category, apiKey) {
+  getApiEndpoint(search: string, category: string, apiKey: string) {
     const url = new URL(`https://www.dictionaryapi.com/api/v3/references/${category}/json/${search}`)
     url.searchParams.append("key", apiKey)
     return url.href
@@ -25,7 +27,7 @@ class Services {
     return +usageCount < publicApiDetails.usageLimitPerInstall
   }
 
-  fetchData(search) {
+  fetchData(search: string): Promise<LookupResult | string[]> {
     if (!search)
       return Promise.reject(new Error(ERRORS.EMPTY_SEARCH))
 
@@ -64,8 +66,8 @@ class Services {
     })
   }
 
-  parseResultData(rawData) {
-    let parsedData = []
+  parseResultData(rawData: any): LookupResult {
+    let parsedData: LookupResult = []
 
     if (typeof rawData[0] === "string") {
       return rawData
@@ -94,7 +96,7 @@ class Services {
     return parsedData
   }
 
-  generateSoundSrc(res) {
+  generateSoundSrc(res: any) {
     // if audio begins with "bix", the subdirectory should be "bix",
     // if audio begins with "gg", the subdirectory should be "gg",
     // if audio begins with a number or punctuation (eg, "_"), the subdirectory should be "number",
@@ -106,14 +108,14 @@ class Services {
     if (audio && audio.matchAll(subDirRegEx)) {
       const matchRes = audio.matchAll(subDirRegEx)
       audioSubDir = [...matchRes][0]?.[1]
-      if (!isNaN(audioSubDir)) {
+      if (!isNaN(audioSubDir as unknown as number)) {
         audioSubDir = "number"
       }
     }
     return pron?.sound ? `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioSubDir}/${audio}.mp3` : null
   }
 
-  getExamples(res) {
+  getExamples(res: any) {
     const expRegex = /"t":"([^"]*)"/gm
     const matches = JSON.stringify(res).matchAll(expRegex)
     let examples = []
@@ -124,23 +126,14 @@ class Services {
     }
     return examples
   }
-}
 
-function ServicesFactory() {
-
-  let instance = null
-
-  const getInstance = () => {
-    if (!instance) {
-      instance = new Services()
+  static getInstance() {
+    if (!Services.instance) {
+      Services.instance = new Services()
+      return Services.instance
     }
-
-    return instance
-  }
-
-  return {
-    getInstance
+    return Services.instance
   }
 }
 
-export const services = ServicesFactory().getInstance()
+export const services = Services.getInstance()

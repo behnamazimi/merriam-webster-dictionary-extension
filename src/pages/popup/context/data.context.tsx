@@ -1,37 +1,68 @@
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {FC, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {globalActions, PAGES} from "../../../shared/utils/constants";
 import {sendGlobalMessage, sendMessageToCurrentTab} from "../../../shared/utils/messaging";
 import {services} from "../../../shared/utils/services";
+import {LookupResult, OptionsType} from "../../../types";
 
-const DataContext = React.createContext(null)
+type DataContextType = {
+  options: any
+  activeSection: keyof typeof PAGES
+  publicApiUsage: any
+  reviewLinksClicksCount: number
+  countUpReviewLinksClicks: () => void
+  setOptions: (opts: any) => void
+  setActiveSection: (section: keyof typeof PAGES) => void
+  result: LookupResult | null
+  setResult: (res: LookupResult) => void
+  searchFor: string
+  setSearchFor: (searchTrend: string) => void
+  error: Error | string
+  setError: (error: Error) => void
+  loading: boolean
+  doSearch: (searchTrend: string) => void
+  suggestions: string[]
+}
 
-export const useData = () => useContext(DataContext)
+const DataContext = React.createContext<DataContextType | null>(null)
 
-const DataProvider = ({children}) => {
+export const useData = () => {
+  const context = useContext(DataContext)
+  if (!context) {
+    throw new Error("useData must be used within a DataProvider")
+  }
+  return context
+}
+
+const DataProvider: FC<PropsWithChildren> = ({children}) => {
   const [searchFor, setSearchFor] = useState("");
-  const [error, setError] = useState("");
-  const [result, setResult] = useState(null);
+  const [error, setError] = useState<Error | string>("");
+  const [result, setResult] = useState<LookupResult | null>(null);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState({});
   const [publicApiUsage, setPublicApiUsage] = useState(null);
   const [reviewLinksClicksCount, setReviewLinksClicksCount] = useState(0);
-  const [activeSection, setActiveSection] = useState(PAGES.Search);
+  const [activeSection, setActiveSection] = useState<keyof typeof PAGES>("Search");
 
-  const handleSetError = useCallback((error) => {
+  const handleSetError = useCallback((error: Error) => {
     setError(error.message || error)
-    setActiveSection(PAGES.Search)
+    setActiveSection("Search")
   }, [])
 
-  const doSearch = useCallback((searchTrend) => {
+  const doSearch = useCallback((searchTrend: string) => {
     setSearchFor(searchTrend)
     setLoading(true)
     services.fetchData(searchTrend)
       .then(async (res) => {
-        if (res && typeof res[0] !== "string") {
-          await sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend})
+        if (res) {
+          if (typeof res[0] !== "string") {
+            await sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend})
+            setResult(res as LookupResult)
+          } else {
+            setSuggestions(res as string[])
+          }
         }
-        setResult(res)
-        setActiveSection(PAGES.Result)
+        setActiveSection("Result")
       })
       .catch(handleSetError)
       .finally(() => setLoading(false))
@@ -46,23 +77,26 @@ const DataProvider = ({children}) => {
       setPublicApiUsage(response.publicApiUsage)
       setReviewLinksClicksCount(response.reviewLinkClicksCount)
 
-      sendMessageToCurrentTab({action: globalActions.LINK_TO_POPUP}).then((response = {}) => {
-        if (response && response.selectedText) {
-          setSearchFor(response.selectedText)
-          doSearch(response.selectedText)
+      sendMessageToCurrentTab({
+        action: globalActions.GET_SELECTED_TEXT,
+        data: {from: "popup"}
+      }).then((response = {}) => {
+        if (response && response.data.selectedText) {
+          setSearchFor(response.data.selectedText)
+          doSearch(response.data.selectedText)
         }
       })
     })
   }, [])
 
-  const handleSetOptions = (opts) => {
+  const handleSetOptions = (opts: OptionsType) => {
     sendGlobalMessage({
       action: globalActions.SET_OPTIONS,
-      options: opts,
+      data: opts,
     }).then((res) => {
       if (res) {
         setOptions(res)
-        setActiveSection(PAGES.Search)
+        setActiveSection("Search")
 
         // update apiUtils options as well
         services.setAuth(opts.apiKey, opts.apiType)
@@ -92,11 +126,12 @@ const DataProvider = ({children}) => {
     error,
     setError: handleSetError,
     loading,
-    doSearch
+    doSearch,
+    suggestions
   }), [
     options, publicApiUsage, setOptions, activeSection, setActiveSection, result,
     searchFor, setSearchFor, error, setError, doSearch, reviewLinksClicksCount,
-    countUpReviewLinksClicks
+    countUpReviewLinksClicks, suggestions
   ])
 
   return (

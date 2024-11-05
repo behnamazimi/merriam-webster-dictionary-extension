@@ -1,4 +1,10 @@
-const BubbleSuggestionList = ({suggestions = [], searchFor = "", onReSearch}) => {
+import {FC} from "react";
+
+const BubbleSuggestionList: FC<{
+  suggestions?: string[];
+  searchFor: string;
+  onReSearch: (searchFor: string) => void;
+}> = ({suggestions = [], searchFor = "", onReSearch}) => {
   const shortedSearchFor = searchFor.substring(0, 12)
 
   return (

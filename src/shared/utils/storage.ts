@@ -1,11 +1,12 @@
 import {defaultOptions} from "./constants";
 import browser from "webextension-polyfill";
+import {OptionsType} from "../../types";
 
 export async function storeOptions(data: Record<string, string>) {
   return browser.storage.sync.set({options: data});
 }
 
-export async function loadOptions() {
+export async function loadOptions(): Promise<OptionsType> {
   const data = await browser.storage.sync.get("options");
   return data.options || defaultOptions
 }
@@ -29,14 +30,14 @@ export async function addToHistory(search: string) {
 }
 
 export async function removeHistoryItem(key: string) {
-  const history = (await loadHistory()) || {};
+  const history = await loadHistory();
   delete history[key]
   await browser.storage.local.set({history});
   return await loadHistory()
 }
 
 export async function toggleHistoryItemReview(key: string, review: boolean) {
-  const history = (await loadHistory()) || {};
+  const history = await loadHistory();
   if (!history[key]) {
     return history
   }

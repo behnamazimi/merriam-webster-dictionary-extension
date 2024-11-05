@@ -1,7 +1,7 @@
 import {REVIEW_US} from "../utils/constants";
 import cx from "classnames";
 import {FiStar} from "react-icons/fi";
-import {useData} from "../../pages/popup/context/data.context.jsx";
+import {useData} from "../../pages/popup/context/data.context";
 
 const AskToRate = () => {
   const {reviewLinksClicksCount, countUpReviewLinksClicks} = useData()

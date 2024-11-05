@@ -1,11 +1,14 @@
-import {useData} from "../../pages/popup/context/data.context.jsx";
+import {useData} from "../../pages/popup/context/data.context";
 import {globalActions, PAGES} from "../utils/constants";
 import {sendGlobalMessage} from "../utils/messaging";
 import Button from "./Button";
 import {FiCopy, FiClock, FiArrowLeft, FiSettings} from "react-icons/fi";
 import {AiOutlineClear} from "react-icons/ai";
+import {FC} from "react";
 
-const ActionButtons = ({onHistoryCopy}) => {
+const ActionButtons: FC<{
+  onHistoryCopy?: () => void
+}> = ({onHistoryCopy}) => {
 
   const {setActiveSection, activeSection, setSearchFor} = useData()
 

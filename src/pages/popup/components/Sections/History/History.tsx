@@ -14,7 +14,6 @@ const useGetHistory = () => {
 
   useEffect(() => {
     loadHistory().then((res) => {
-      console.log("history", res);
       setHistory(res)
     })
 
@@ -30,7 +29,7 @@ const useGetHistory = () => {
     }
   }, [])
 
-  const toggleReview = useCallback(async (key, review) => {
+  const toggleReview = useCallback(async (key: string, review: string) => {
     const updatedHistory = await sendGlobalMessage({action: globalActions.TOGGLE_HISTORY_REVIEW, key, review});
     setHistory(updatedHistory)
 

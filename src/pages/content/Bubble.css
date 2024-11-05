@@ -1,7 +1,6 @@
-const styles = `
-  @import "https://fonts.googleapis.com/css?family=Roboto";
+@import "https://fonts.googleapis.com/css?family=Roboto";
 
-  .Bubble {
+.Bubble {
     --bg-color: #090d23;
     --bg-secondary-color: #151e34ff;
     --color-primary: #1f7ea7ff;
@@ -26,62 +25,62 @@ const styles = `
     box-shadow: 1px 1px 1px 0 #00000014;
     visibility: hidden;
     color: var(--font-color);
-  }
+}
 
-  .Bubble.loaded {
+.Bubble.loaded {
     visibility: visible;
-  }
+}
 
-  a {
+a {
     text-decoration: none;
-     color: var(--font-color);
- }
+    color: var(--font-color);
+}
 
-  .Bubble .message {
+.Bubble .message {
     font-size: 14px;
     line-height: 1.5;
     margin: 0.5rem 0 0;
     white-space: pre-line;
-  }
+}
 
-  .BubbleResult {
+.BubbleResult {
     padding: 0;
     position: relative;
-  }
+}
 
-  .BubbleResultItem {
+.BubbleResultItem {
     margin-bottom: 0.5rem;
     color: var(--font-color);
-  }
+}
 
-  .BubbleResultItem .syn {
+.BubbleResultItem .syn {
     margin: 0.5rem 0 0;
     line-height: 1.3;
-  }
+}
 
-  .BubbleResultItem ul {
+.BubbleResultItem ul {
     padding-left: 1.5rem;
-  }
+}
 
-  .BubbleResultItem li {
+.BubbleResultItem li {
     margin-top: 5px;
-  }
+}
 
-  .BubbleResultItem .syn {
+.BubbleResultItem .syn {
     opacity: 0.7;
     font-size: 14px;
     white-space: break-spaces;
-  }
+}
 
-  .BubbleResultItem .examples {
+.BubbleResultItem .examples {
     list-style: none;
     padding-left: 1rem;
     white-space: break-spaces;
     font-size: 14px;
     color: var(--color-grey);
-  }
+}
 
-  .Pron {
+.Pron {
     cursor: pointer;
     display: flex;
     justify-content: flex-start;
@@ -89,56 +88,56 @@ const styles = `
     padding: 1px 3px;
     line-height: 1;
     opacity: 0.6;
-  }
+}
 
-  .Pron:hover {
+.Pron:hover {
     font-weight: bold;
     opacity: 1;
-  }
+}
 
-  .Pron span {
+.Pron span {
     display: inline-block;
     margin-right: 0.5rem;
-  }
+}
 
-  .ResultItemTitle {
+.ResultItemTitle {
     padding: 5px;
     margin-bottom: 0.5rem;
     background: var(--bg-secondary-color);
     position: relative;
     cursor: pointer;
-  }
+}
 
-  .ResultItemTitle span, .ResultItemTitle strong {
+.ResultItemTitle span, .ResultItemTitle strong {
     margin-left: 0.5rem;
-  }
+}
 
-  .ResultItemTitle small {
+.ResultItemTitle small {
     display: inline-block;
     position: absolute;
     right: 0.5rem;
-  }
+}
 
-  .BubbleSuggestionList {
+.BubbleSuggestionList {
     padding: 0.5rem;
     color: var(--color-darkGrey);
-  }
-  
-  .BubbleSuggestionList ul {
+}
+
+.BubbleSuggestionList ul {
     padding-left: 1.5rem;
     margin: 1rem 0 0 0;
-  }
+}
 
-  .BubbleSuggestionList ul li {
+.BubbleSuggestionList ul li {
     margin-bottom: 0.25rem
-  }
-  
-  .BubbleSuggestionList ul a {
+}
+
+.BubbleSuggestionList ul a {
     cursor: pointer;
     color: var(--font-color)
-  }
-  
-  .OpenInWebsite {
+}
+
+.OpenInWebsite {
     position: sticky;
     top: 40px;
     font-size: 14px;
@@ -149,12 +148,9 @@ const styles = `
     padding: 6px 0;
     z-index: 2;
     cursor: pointer
-  }
-  
-  .OpenInWebsite.-no-sticky {
+}
+
+.OpenInWebsite.-no-sticky {
     position: static;
     top: unset;
-  }
-`
-
-export default styles
+}
