@@ -1,4 +1,6 @@
-export default function sortHistoryByDate(history) {
+import { LookupHistory, ParsedHistoryArray } from "../../types";
+
+export default function sortHistoryByDate(history: LookupHistory): ParsedHistoryArray {
   if (!history) return [];
   return Object.keys(history)
     .sort((a, b) => {

@@ -7,8 +7,8 @@ import {
   loadOptions, removeHistoryItem,
   storeOptions, toggleHistoryItemReview
 } from "./shared/utils/storage";
-import { globalActions } from "./shared/utils/constants";
 import { sendMessageToCurrentTab } from "./shared/utils/messaging";
+import { GlobalActionResponseMap, GlobalActionTypes, MessageHandlerParams } from "./types";
 
 browser.runtime.setUninstallURL("https://tally.so/r/3N7WLQ");
 
@@ -17,20 +17,20 @@ browser.runtime.onMessage.addListener(handleMessages);
 browser.runtime.onConnect.addListener((port) => {
   if (port.name === "popup") {
     port.onDisconnect.addListener(async () => {
-      await sendMessageToCurrentTab({ action: globalActions.ON_POPUP_CLOSE });
+      await sendMessageToCurrentTab({ action: GlobalActionTypes.ON_POPUP_CLOSE });
     });
   }
 });
 
-async function handleMessages(data: { action: keyof typeof globalActions; [key: string]: any }) {
+async function handleMessages({ action, data }: MessageHandlerParams): Promise<GlobalActionResponseMap[typeof action]> {
   const options = await loadOptions();
   const history = await loadHistory();
   const publicApiUsage = await getPublicApiKeyUsage();
   const reviewLinkClicksCount = await getReviewLinkClicksCount();
 
-  switch (data.action) {
-    case globalActions.INIT:
-    case globalActions.POPUP_INIT:
+  switch (action) {
+    case GlobalActionTypes.CONTENT_INIT:
+    case GlobalActionTypes.POPUP_INIT:
 
       return {
         options,
@@ -38,42 +38,37 @@ async function handleMessages(data: { action: keyof typeof globalActions; [key: 
         publicApiUsage,
         reviewLinkClicksCount
       };
-    case globalActions.SET_OPTIONS:
-      data.options = { ...options, ...data.data };
-      await storeOptions(data.options);
-      await sendMessageToCurrentTab(data);
+    case GlobalActionTypes.SET_OPTIONS:
+      await storeOptions({ ...options, ...data });
+      await sendMessageToCurrentTab({ action: GlobalActionTypes.SET_OPTIONS, data: { ...options, ...data } });
       return true;
 
-    case globalActions.ADD_TO_HISTORY:
+    case GlobalActionTypes.ADD_TO_HISTORY:
       await addToHistory(data.searchTrend);
       return true;
 
-    case globalActions.TOGGLE_HISTORY_REVIEW:
-      await toggleHistoryItemReview(data.key, data.review);
-      return true;
+    case GlobalActionTypes.TOGGLE_HISTORY_ITEM_REVIEW:
+      return await toggleHistoryItemReview(data.key, data.review);
 
-    case globalActions.REMOVE_HISTORY_ITEM:
-      await removeHistoryItem(data.key);
-      return true;
+    case GlobalActionTypes.REMOVE_HISTORY_ITEM:
+      return await removeHistoryItem(data.key);
 
-    case globalActions.CLEAR_HISTORY:
+    case GlobalActionTypes.CLEAR_HISTORY:
       await clearHistory();
       return true;
 
-    case globalActions.GET_PUBLIC_API_USAGE:
-      await getPublicApiKeyUsage();
-      return true;
+    case GlobalActionTypes.GET_PUBLIC_API_USAGE:
+      return await getPublicApiKeyUsage();
 
-    case globalActions.COUNT_UP_PUBLIC_API_USAGE:
-      await countUpPublicApiKeyUsage();
-      return true;
+    case GlobalActionTypes.COUNT_UP_PUBLIC_API_USAGE:
+      return await countUpPublicApiKeyUsage();
 
-    case globalActions.COUNT_UP_REVIEW_LINK_CLICK:
-      await countUpReviewLinkClicks();
-      return true;
+    case GlobalActionTypes.COUNT_UP_REVIEW_LINK_CLICK:
+      return await countUpReviewLinkClicks();
 
-    case globalActions.OPEN_POPUP:
-      return await browser.action.openPopup();
+    case GlobalActionTypes.OPEN_POPUP:
+      await browser.action.openPopup();
+      return true;
   }
   return true;
 }

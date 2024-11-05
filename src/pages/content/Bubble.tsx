@@ -1,23 +1,15 @@
 import cx from "classnames";
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { services } from "@/shared/utils/services";
-import { globalActions } from "@/shared/utils/constants";
-import { sendGlobalMessage, sendMessageToCurrentTab } from "@/shared/utils/messaging";
-import BubbleResult from "@/components/BubbleResult/BubbleResult";
-import BubbleSuggestionList from "@/components/BubbleResult/BubbleSuggestionList";
+import { services } from "../../shared/utils/services";
+import { sendGlobalMessage, sendMessageToCurrentTab } from "../../shared/utils/messaging";
+import BubbleResult from "../../components/BubbleResult/BubbleResult";
+import BubbleSuggestionList from "../../components/BubbleResult/BubbleSuggestionList";
 import "./Bubble.css";
-import { LookupResult } from "@/types";
-
-interface MessageData {
-  action: string;
-  data: {
-    selectedText?: string;
-  };
-}
+import { GlobalActionTypes, LookupResult } from "../../types";
 
 const fitIframeToContent = () => {
   sendMessageToCurrentTab({
-    action: globalActions.MAKE_CONTENT_IFRAME_VISIBLE,
+    action: GlobalActionTypes.MAKE_CONTENT_IFRAME_VISIBLE,
     data: {
       targetScreen: "LOOKUP_RESULT",
       width: 400,
@@ -40,7 +32,7 @@ const Bubble: FC<{ defaultSearchTrend?: string }> = ({ defaultSearchTrend }) => 
       const res = await services.fetchData(searchFor);
       if (res) {
         if (typeof res[0] !== "string") {
-          await sendGlobalMessage({ action: globalActions.ADD_TO_HISTORY, searchTrend: searchFor });
+          await sendGlobalMessage({ action: GlobalActionTypes.ADD_TO_HISTORY, data: { searchTrend: searchFor } });
           setResult(res as LookupResult);
         }
         else {
@@ -60,8 +52,10 @@ const Bubble: FC<{ defaultSearchTrend?: string }> = ({ defaultSearchTrend }) => 
 
   useEffect(() => {
     if (!defaultSearchTrend) {
-      sendMessageToCurrentTab({ action: globalActions.GET_SELECTED_TEXT }).then(({ data }: MessageData) => {
-        setSearchFor(data.selectedText || "");
+      sendMessageToCurrentTab({ action: GlobalActionTypes.GET_SELECTED_TEXT, data: { source: "content-iframe" } }).then((data) => {
+        if (data?.selectedText) {
+          setSearchFor(data.selectedText);
+        }
       });
     }
     else {

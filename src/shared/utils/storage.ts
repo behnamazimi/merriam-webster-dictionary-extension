@@ -2,7 +2,7 @@ import { defaultOptions } from "./constants";
 import browser from "webextension-polyfill";
 import { OptionsType } from "../../types";
 
-export async function storeOptions(data: Record<string, string>) {
+export async function storeOptions(data: OptionsType) {
   return browser.storage.sync.set({ options: data });
 }
 
@@ -51,15 +51,16 @@ export async function clearHistory() {
   return await browser.storage.local.set({ history: {} });
 }
 
-export async function getPublicApiKeyUsage() {
+export async function getPublicApiKeyUsage(): Promise<number> {
   const data = await browser.storage.sync.get("publicApiUsage");
-  return data.publicApiUsage || 0;
+  return Number(data.publicApiUsage) || 0;
 }
 
 export async function countUpPublicApiKeyUsage() {
   const currentUsage = await getPublicApiKeyUsage();
   const publicApiUsage = currentUsage + 1;
-  return await browser.storage.sync.set({ publicApiUsage });
+  await browser.storage.sync.set({ publicApiUsage });
+  return publicApiUsage;
 }
 
 export async function getReviewLinkClicksCount() {
@@ -70,5 +71,6 @@ export async function getReviewLinkClicksCount() {
 export async function countUpReviewLinkClicks() {
   const currentCount = await getReviewLinkClicksCount();
   const reviewLinkClicksCount = currentCount + 1;
-  return await browser.storage.sync.set({ reviewLinkClicksCount });
+  await browser.storage.sync.set({ reviewLinkClicksCount });
+  return reviewLinkClicksCount;
 }

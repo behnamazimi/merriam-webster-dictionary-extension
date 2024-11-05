@@ -3,8 +3,7 @@ import ReactDOM from "react-dom/client";
 import Bubble from "./pages/content/Bubble";
 import { services } from "./shared/utils/services";
 import { sendGlobalMessage } from "./shared/utils/messaging";
-import { globalActions } from "./shared/utils/constants";
-import { IframeContext } from "./types";
+import { GlobalActionTypes, IframeContext } from "./types";
 import OnPageHistoryPromotion from "./pages/content/components/OnPageHistoryPromotion";
 import OnPageHistoryBar from "./pages/content/components/OnPageHistoryBar";
 import "chota/dist/chota.min.css";
@@ -24,7 +23,7 @@ const getParsedIframeContext = (): IframeContext => {
 };
 
 const initialize = async () => {
-  const response = await sendGlobalMessage({ action: globalActions.INIT });
+  const response = await sendGlobalMessage({ action: GlobalActionTypes.CONTENT_INIT });
   // set api key and type in utils
   services.setAuth(response.options.apiKey, response.options.apiType);
   const { searchTrend, targetScreen = "LOOKUP_RESULT", historySample } = getParsedIframeContext();

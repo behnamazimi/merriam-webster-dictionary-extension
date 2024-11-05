@@ -1,8 +1,8 @@
 import { FiX } from "react-icons/fi";
-import { sendMessageToCurrentTab } from "@/shared/utils/messaging.js";
+import { sendMessageToCurrentTab } from "../../../shared/utils/messaging.js";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { globalActions } from "@/shared/utils/constants";
 import "./OnPageHistoryBar.css";
+import { GlobalActionTypes } from "../../../types";
 
 const OnPageHistoryBar: FC = () => {
   const [items, setItems] = useState<string[]>([]);
@@ -10,9 +10,9 @@ const OnPageHistoryBar: FC = () => {
 
   useEffect(() => {
     sendMessageToCurrentTab({
-      action: globalActions.GET_PAGE_RELATIVE_HISTORY
-    }).then(({ data }) => {
-      if (data.pageHistory && Array.isArray(data.pageHistory)) {
+      action: GlobalActionTypes.GET_PAGE_RELATIVE_HISTORY
+    }).then((data) => {
+      if (data?.pageHistory && Array.isArray(data.pageHistory)) {
         setItems(data.pageHistory);
       }
     });
@@ -20,10 +20,10 @@ const OnPageHistoryBar: FC = () => {
 
   useEffect(() => {
     sendMessageToCurrentTab({
-      action: globalActions.MAKE_CONTENT_IFRAME_VISIBLE,
+      action: GlobalActionTypes.MAKE_CONTENT_IFRAME_VISIBLE,
       data: {
         targetScreen: "REVIEW",
-        width: barRef.current?.scrollWidth,
+        width: barRef.current?.scrollWidth || 0,
         height: Math.max(barRef.current?.scrollHeight || 0, 32)
       }
     });
@@ -49,7 +49,7 @@ const OnPageHistoryBar: FC = () => {
           key={key}
           onClick={async () => {
             await sendMessageToCurrentTab({
-              action: globalActions.OPEN_LOOKUP_RESULT,
+              action: GlobalActionTypes.OPEN_LOOKUP_RESULT,
               data: {
                 searchFor: item
               }

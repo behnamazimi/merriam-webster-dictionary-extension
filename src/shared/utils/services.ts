@@ -1,6 +1,6 @@
-import { ERRORS, globalActions, publicApiDetails } from "./constants";
+import { ERRORS, publicApiDetails } from "./constants";
 import { sendGlobalMessage } from "./messaging";
-import { LookupResult, OptionsType } from "../../types";
+import { GlobalActionTypes, LookupResult, OptionsType } from "../../types";
 
 class Services {
   private static instance: Services;
@@ -23,44 +23,50 @@ class Services {
   }
 
   async canUsePublicApiDetails() {
-    const usageCount = await sendGlobalMessage({ action: globalActions.GET_PUBLIC_API_USAGE });
+    const usageCount = await sendGlobalMessage({ action: GlobalActionTypes.GET_PUBLIC_API_USAGE });
     return +usageCount < publicApiDetails.usageLimitPerInstall;
   }
 
-  fetchData(search: string): Promise<LookupResult | string[]> {
-    if (!search)
+  async fetchData(search: string): Promise<LookupResult | string[]> {
+    if (!search) {
       return Promise.reject(new Error(ERRORS.EMPTY_SEARCH));
+    }
 
     const endpoint = this.getApiEndpoint(search, this.API_TYPE, this.API_KEY);
-    return new Promise(async (resolve, reject) => {
-      if (this.isUsingPublicKey()) {
-        if (!(await this.canUsePublicApiDetails())) {
-          reject(new Error(ERRORS.PERSONAL_KEY_NEEDED));
-          return;
-        }
 
-        await sendGlobalMessage({ action: globalActions.COUNT_UP_PUBLIC_API_USAGE });
+    try {
+      if (this.isUsingPublicKey() && !(await this.canUsePublicApiDetails())) {
+        throw new Error(ERRORS.PERSONAL_KEY_NEEDED);
       }
 
-      fetch(endpoint)
-        .then(async (response) => {
-          const textResponse = await response.text();
-          if (textResponse.includes("Invalid API key"))
-            throw new Error(ERRORS.INVALID_API_KEY);
-          else if (textResponse.includes("Failed to fetch"))
-            throw new Error(ERRORS.FAILED_TO_FETCH);
-          else if (textResponse.includes("[]"))
-            throw new Error(ERRORS.NO_RESULT);
+      // Increment API usage if public key is being used
+      if (this.isUsingPublicKey()) {
+        await sendGlobalMessage({ action: GlobalActionTypes.COUNT_UP_PUBLIC_API_USAGE });
+      }
 
-          return textResponse;
-        })
-        .then((textResult) => {
-          resolve(this.parseResultData(JSON.parse(textResult)));
-        })
-        .catch(reject);
-    });
+      const response = await fetch(endpoint);
+      const textResponse = await response.text();
+
+      // Check for common API error responses in the text
+      if (textResponse.includes("Invalid API key")) {
+        throw new Error(ERRORS.INVALID_API_KEY);
+      }
+      else if (textResponse.includes("Failed to fetch")) {
+        throw new Error(ERRORS.FAILED_TO_FETCH);
+      }
+      else if (textResponse.includes("[]")) {
+        throw new Error(ERRORS.NO_RESULT);
+      }
+
+      return this.parseResultData(JSON.parse(textResponse));
+    }
+    catch (error) {
+      // Error is thrown directly so no need to resolve or reject explicitly
+      return Promise.reject(error);
+    }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseResultData(rawData: any): LookupResult {
     const parsedData: LookupResult = [];
 
@@ -91,6 +97,7 @@ class Services {
     return parsedData;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   generateSoundSrc(res: any) {
     // if audio begins with "bix", the subdirectory should be "bix",
     // if audio begins with "gg", the subdirectory should be "gg",
@@ -110,6 +117,7 @@ class Services {
     return pron?.sound ? `https://media.merriam-webster.com/audio/prons/en/us/mp3/${audioSubDir}/${audio}.mp3` : null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getExamples(res: any) {
     const expRegex = /"t":"([^"]*)"/gm;
     const matches = JSON.stringify(res).matchAll(expRegex);

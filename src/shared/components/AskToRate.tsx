@@ -1,7 +1,7 @@
 import { REVIEW_US } from "../utils/constants";
 import cx from "classnames";
 import { FiStar } from "react-icons/fi";
-import { useData } from "@/pages/popup/context/data.context";
+import { useData } from "../../pages/popup/context/data.context";
 import React from "react";
 
 const AskToRate = () => {

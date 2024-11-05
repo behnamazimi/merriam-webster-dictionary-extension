@@ -1,25 +1,35 @@
-import ActionButtons from "@/shared/components/ActionButtons";
+import ActionButtons from "../../../../../shared/components/ActionButtons";
 import React, { useCallback, useEffect, useState } from "react";
-import { loadHistory } from "@/shared/utils/storage";
-import sortHistoryByDate from "@/shared/utils/sortHistoryByDate";
-import { services } from "@/shared/utils/services";
-import { sendGlobalMessage } from "@/shared/utils/messaging";
-import { globalActions, PAGES } from "@/shared/utils/constants";
+import { loadHistory } from "../../../../../shared/utils/storage";
+import sortHistoryByDate from "../../../../../shared/utils/sortHistoryByDate";
+import { services } from "../../../../../shared/utils/services";
+import { sendGlobalMessage } from "../../../../../shared/utils/messaging";
 import { useData } from "../../../context/data.context";
 import { FiX } from "react-icons/fi";
 import browser from "webextension-polyfill";
+import {
+  GlobalActionTypes,
+  LookupHistory,
+  LookupResult,
+  MessageHandlerParams,
+  ParsedHistoryArray
+} from "../../../../../types";
 
-const useGetHistory = () => {
-  const [history, setHistory] = useState({});
+const useGetHistory = (): [
+  ParsedHistoryArray,
+  (key: string, review: boolean) => void,
+  (key: string) => void
+] => {
+  const [history, setHistory] = useState<LookupHistory>({});
 
   useEffect(() => {
     loadHistory().then((res) => {
       setHistory(res);
     });
 
-    const handleMessages = ({ action }) => {
-      if (action === globalActions.CLEAR_HISTORY) {
-        setHistory([]);
+    const handleMessages = ({ action }: MessageHandlerParams) => {
+      if (action === GlobalActionTypes.CLEAR_HISTORY) {
+        setHistory({});
       }
     };
 
@@ -29,17 +39,22 @@ const useGetHistory = () => {
     };
   }, []);
 
-  const toggleReview = useCallback(async (key: string, review: string) => {
-    const updatedHistory = await sendGlobalMessage({ action: globalActions.TOGGLE_HISTORY_REVIEW, key, review });
+  const toggleReview = useCallback(async (key: string, review: boolean) => {
+    const updatedHistory = await sendGlobalMessage({
+      action: GlobalActionTypes.TOGGLE_HISTORY_ITEM_REVIEW,
+      data: { key, review }
+    });
     setHistory(updatedHistory);
   }, [history, setHistory]);
 
-  const removeItem = useCallback(async (key) => {
-    const updatedHistory = sendGlobalMessage({ action: globalActions.REMOVE_HISTORY_ITEM, key });
+  const removeItem = useCallback(async (key: string) => {
+    const updatedHistory = await sendGlobalMessage({ action: GlobalActionTypes.REMOVE_HISTORY_ITEM, data: { key } });
     setHistory(updatedHistory);
   }, [history, setHistory]);
 
-  return [sortHistoryByDate(history), toggleReview, removeItem];
+  const parsedHistory = sortHistoryByDate(history);
+
+  return [parsedHistory, toggleReview, removeItem];
 };
 
 const History = () => {
@@ -47,25 +62,27 @@ const History = () => {
   const [history, toggleReview, removeItem] = useGetHistory();
   const [, setLoading] = useState(false);
 
-  const handleReSearch = (searchTrend) => {
+  const handleReSearch = (searchTrend: string) => {
     setSearchFor(searchTrend);
     setLoading(true);
     services.fetchData(searchTrend)
       .then(async (res) => {
-        await sendGlobalMessage({ action: globalActions.ADD_TO_HISTORY, searchTrend });
-        setResult(res);
-        setActiveSection(PAGES.Result);
+        if (typeof res[0] !== "string") {
+          await sendGlobalMessage({ action: GlobalActionTypes.ADD_TO_HISTORY, data: { searchTrend } });
+          setResult(res as LookupResult);
+        }
+        setActiveSection("Result");
       })
       .catch(setError)
       .finally(() => setLoading(false));
   };
 
-  const handleHistoryCopy = (e) => {
+  const handleHistoryCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
     const textToCopy = history.map(([key]) => key).join(", ");
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
-        e.target.innerText = "Copied!";
-        e.target.disabled = true;
+        (e.target as HTMLButtonElement).innerText = "Copied!";
+        (e.target as HTMLButtonElement).disabled = true;
       });
   };
 

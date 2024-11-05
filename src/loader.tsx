@@ -1,7 +1,4 @@
 import { services } from "./shared/utils/services";
-import {
-  globalActions
-} from "./shared/utils/constants";
 import { sendGlobalMessage } from "./shared/utils/messaging";
 import browser from "webextension-polyfill";
 import ContentIFrameManager from "./ContentIframeManager";
@@ -10,7 +7,13 @@ import FloatingButtonManager from "./FloatingButtonManager";
 import simplifyingGettingApiKeySteps from "./shared/utils/simplifyingGettingApiKeySteps";
 import getPageRelativeHistory from "./shared/utils/getPageRelativeHistory";
 import "./pages/content/content.scss";
-import { OptionsType, LookupHistory } from "./types";
+import {
+  OptionsType,
+  LookupHistory,
+  GlobalActionTypes,
+  GlobalActionResponseMap,
+  MessageHandlerParams
+} from "./types";
 
 let lookupResultIframe: ContentIFrameManager;
 let historyReviewIframe: ContentIFrameManager;
@@ -91,7 +94,7 @@ const onFloatingButtonClick = async () => {
   }
   else if (options.wordSelectMode === "OPEN_POPUP") {
     await sendGlobalMessage({
-      action: globalActions.OPEN_POPUP
+      action: GlobalActionTypes.CONTENT_INIT
     });
   }
   else if (options.wordSelectMode === "OPEN_WITH_BUTTON") {
@@ -101,7 +104,7 @@ const onFloatingButtonClick = async () => {
 };
 
 async function init() {
-  const response = await sendGlobalMessage({ action: globalActions.INIT });
+  const response = await sendGlobalMessage<GlobalActionTypes.CONTENT_INIT>({ action: GlobalActionTypes.CONTENT_INIT });
   // set api key and type in utils
   services.setAuth(response.options.apiKey, response.options.apiType);
   options = response.options;
@@ -158,12 +161,8 @@ async function handleMouseUp(event: MouseEvent) {
   }
 }
 
-async function handleMessages({ action, data = {} }: {
-  action: keyof typeof globalActions; data: {
-    [key: string]: any;
-  };
-}) {
-  if (action === globalActions.GET_SELECTED_TEXT) {
+async function handleMessages({ action, data }: MessageHandlerParams): Promise<GlobalActionResponseMap[typeof action]> {
+  if (action === GlobalActionTypes.GET_SELECTED_TEXT) {
     const selectedText = userTextManager.getSelectedTextIfValid();
 
     // Pause video if it's playing and the popup is opened from the user
@@ -179,28 +178,28 @@ async function handleMessages({ action, data = {} }: {
       }
     }
     return {
-      data: { selectedText }
+      selectedText
     };
   }
 
-  if (action === globalActions.OPEN_LOOKUP_RESULT) {
+  if (action === GlobalActionTypes.OPEN_LOOKUP_RESULT) {
     lookupResultIframe.createIfNotExists({ searchTrend: data.searchFor });
     return true;
   }
 
-  if (action === globalActions.GET_PAGE_RELATIVE_HISTORY) {
+  if (action === GlobalActionTypes.GET_PAGE_RELATIVE_HISTORY) {
     const pageText = document.body.innerText.toLowerCase();
     const pageHistory = getPageRelativeHistory(history, pageText);
     return {
-      data: { pageHistory }
+      pageHistory
     };
   }
 
-  if (action === globalActions.ON_POPUP_CLOSE && lastPlayingVideo) {
+  if (action === GlobalActionTypes.ON_POPUP_CLOSE && lastPlayingVideo) {
     lastPlayingVideo.play();
     lastPlayingVideo = null;
   }
-  else if (action === globalActions.SET_OPTIONS) {
+  else if (action === GlobalActionTypes.SET_OPTIONS) {
     options = {
       ...options,
       ...data
@@ -209,7 +208,7 @@ async function handleMessages({ action, data = {} }: {
     services.setAuth(options.apiKey, options.apiType);
   }
 
-  if (action === globalActions.MAKE_CONTENT_IFRAME_VISIBLE) {
+  if (action === GlobalActionTypes.MAKE_CONTENT_IFRAME_VISIBLE) {
     const { targetScreen, ...rest } = data;
     const iframeDimension = {
       width: Number(rest.width),
@@ -231,10 +230,23 @@ async function handleMessages({ action, data = {} }: {
         lookupResultIframe.show(iframeDimension, selectedTextRect || reviewBarRect);
         break;
     }
+    return true;
   }
 
-  if (data.closeReviewPromotion) {
-    reviewPromoteIframe.remove();
+  if (action === GlobalActionTypes.CLOSE_IFRAME) {
+    const { targetScreen } = data;
+    switch (targetScreen) {
+      case "REVIEW":
+        historyReviewIframe.remove();
+        break;
+      case "REVIEW_PROMOTE":
+        reviewPromoteIframe.remove();
+        break;
+      case "LOOKUP_RESULT":
+        lookupResultIframe.remove();
+        break;
+    }
+    return true;
   }
 
   return true;

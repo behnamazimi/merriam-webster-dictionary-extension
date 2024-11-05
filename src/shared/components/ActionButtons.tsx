@@ -1,25 +1,25 @@
-import { useData } from "@/pages/popup/context/data.context";
-import { globalActions, PAGES } from "../utils/constants";
+import { useData } from "../../pages/popup/context/data.context";
+import { PAGES } from "../utils/constants";
 import { sendGlobalMessage } from "../utils/messaging";
 import Button from "./Button";
 import { FiCopy, FiClock, FiArrowLeft, FiSettings } from "react-icons/fi";
 import { AiOutlineClear } from "react-icons/ai";
 import React, { FC } from "react";
+import { GlobalActionTypes } from "../../types";
 
 const ActionButtons: FC<{
-  onHistoryCopy?: () => void;
+  onHistoryCopy?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }> = ({ onHistoryCopy }) => {
   const { setActiveSection, activeSection, setSearchFor } = useData();
 
   const onHistoryClear = async () => {
-    await sendGlobalMessage({ action: globalActions.CLEAR_HISTORY });
-    console.log("after clear");
-    setActiveSection(PAGES.Search);
+    await sendGlobalMessage({ action: GlobalActionTypes.CLEAR_HISTORY });
+    setActiveSection("Search");
   };
 
   const onBackBtnClick = () => {
     setSearchFor("");
-    setActiveSection(PAGES.Search);
+    setActiveSection("Search");
   };
 
   const showOptionsBtn = activeSection === PAGES.Search;
@@ -42,7 +42,7 @@ const ActionButtons: FC<{
       && (
         <Button
           className="primary icon"
-          onClick={() => setActiveSection(PAGES.Options)}
+          onClick={() => setActiveSection("Options")}
         >
           <FiSettings />
           Options
@@ -52,7 +52,7 @@ const ActionButtons: FC<{
       && (
         <Button
           className="primary icon"
-          onClick={() => setActiveSection(PAGES.History)}
+          onClick={() => setActiveSection("History")}
         >
           <FiClock />
           History

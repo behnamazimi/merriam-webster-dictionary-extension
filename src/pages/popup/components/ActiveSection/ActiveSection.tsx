@@ -1,7 +1,7 @@
 import React from "react";
 import { useData } from "../../context/data.context";
 import Search from "../Sections/Search/Search";
-import { PAGES } from "@/shared/utils/constants";
+import { PAGES } from "../../../../shared/utils/constants";
 import Options from "../Sections/Options/Options";
 import Result from "../Sections/Result/Result";
 import History from "../Sections/History/History";

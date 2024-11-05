@@ -1,12 +1,14 @@
+import { OptionsType } from "../../types";
+
 export const globalActions = {
-  INIT: "INIT",
+  CONTENT_INIT: "INIT",
   POPUP_INIT: "POPUP_INIT",
   OPEN_POPUP: "OPEN_POPUP",
   SET_OPTIONS: "SET_OPTIONS",
   LINK_TO_POPUP: "LINK_TO_POPUP",
   ON_POPUP_CLOSE: "ON_POPUP_CLOSE",
   ADD_TO_HISTORY: "ADD_TO_HISTORY",
-  TOGGLE_HISTORY_REVIEW: "TOGGLE_HISTORY_REVIEW",
+  TOGGLE_HISTORY_ITEM_REVIEW: "TOGGLE_HISTORY_ITEM_REVIEW",
   REMOVE_HISTORY_ITEM: "REMOVE_HISTORY_ITEM",
   CLEAR_HISTORY: "CLEAR_HISTORY",
   GET_PUBLIC_API_USAGE: "GET_PUBLIC_API_USAGE",
@@ -22,15 +24,15 @@ export const publicApiDetails = {
   key: "6b3a80cc-9d9f-4007-9ee5-52a24ab7eb31",
   type: "sd3",
   usageLimitPerInstall: 2000
-};
+} as const;
 
-export const defaultOptions = {
+export const defaultOptions: OptionsType = {
   apiKey: publicApiDetails.key,
   apiType: publicApiDetails.type,
   wordSelectMode: "",
   pauseVideoOnPopupOpen: true,
   isRelativeHistoryPromoted: false,
-  reviewMode: null
+  reviewMode: false
 };
 
 export const API_TYPES = {

@@ -1,22 +1,22 @@
 import React, { FC, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { globalActions, PAGES } from "../../../shared/utils/constants";
+import { PAGES } from "../../../shared/utils/constants";
 import { sendGlobalMessage, sendMessageToCurrentTab } from "../../../shared/utils/messaging";
 import { services } from "../../../shared/utils/services";
-import { LookupResult, OptionsType } from "../../../types";
+import { GlobalActionTypes, LookupResult, OptionsType } from "../../../types";
 
 type DataContextType = {
-  options: any;
+  options: OptionsType | null;
   activeSection: keyof typeof PAGES;
-  publicApiUsage: any;
+  publicApiUsage: number;
   reviewLinksClicksCount: number;
   countUpReviewLinksClicks: () => void;
-  setOptions: (opts: any) => void;
-  setActiveSection: (section: keyof typeof PAGES) => void;
+  setOptions: (opts: Partial<OptionsType>) => void;
+  setActiveSection: React.Dispatch<React.SetStateAction<keyof typeof PAGES>>;
   result: LookupResult | null;
-  setResult: (res: LookupResult) => void;
+  setResult: React.Dispatch<React.SetStateAction<LookupResult | null>>;
   searchFor: string;
-  setSearchFor: (searchTrend: string) => void;
-  error: Error | string;
+  setSearchFor: React.Dispatch<React.SetStateAction<string>>;
+  error: string;
   setError: (error: Error) => void;
   loading: boolean;
   doSearch: (searchTrend: string) => void;
@@ -35,17 +35,17 @@ export const useData = () => {
 
 const DataProvider: FC<PropsWithChildren> = ({ children }) => {
   const [searchFor, setSearchFor] = useState("");
-  const [error, setError] = useState<Error | string>("");
+  const [error, setError] = useState<string>("");
   const [result, setResult] = useState<LookupResult | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [options, setOptions] = useState({});
-  const [publicApiUsage, setPublicApiUsage] = useState(null);
+  const [options, setOptions] = useState<OptionsType | null>(null);
+  const [publicApiUsage, setPublicApiUsage] = useState<number>(0);
   const [reviewLinksClicksCount, setReviewLinksClicksCount] = useState(0);
   const [activeSection, setActiveSection] = useState<keyof typeof PAGES>("Search");
 
   const handleSetError = useCallback((error: Error) => {
-    setError(error.message || error);
+    setError(error.message || error.toString());
     setActiveSection("Search");
   }, []);
 
@@ -56,7 +56,7 @@ const DataProvider: FC<PropsWithChildren> = ({ children }) => {
       .then(async (res) => {
         if (res) {
           if (typeof res[0] !== "string") {
-            await sendGlobalMessage({ action: globalActions.ADD_TO_HISTORY, searchTrend });
+            await sendGlobalMessage({ action: GlobalActionTypes.ADD_TO_HISTORY, data: { searchTrend } });
             setResult(res as LookupResult);
           }
           else {
@@ -70,42 +70,44 @@ const DataProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    sendGlobalMessage({ action: globalActions.POPUP_INIT }).then(async (response) => {
-      console.log({ response });
+    sendGlobalMessage({ action: GlobalActionTypes.POPUP_INIT }).then(async (response) => {
       services.setAuth(response.options.apiKey, response.options.apiType);
       setOptions(response.options);
       setPublicApiUsage(response.publicApiUsage);
       setReviewLinksClicksCount(response.reviewLinkClicksCount);
 
       sendMessageToCurrentTab({
-        action: globalActions.GET_SELECTED_TEXT,
-        data: { from: "popup" }
-      }).then((response = {}) => {
-        if (response && response.data.selectedText) {
-          setSearchFor(response.data.selectedText);
-          doSearch(response.data.selectedText);
+        action: GlobalActionTypes.GET_SELECTED_TEXT,
+        data: { source: "popup" }
+      }).then((response) => {
+        if (response?.selectedText) {
+          setSearchFor(response.selectedText);
+          doSearch(response.selectedText);
         }
       });
     });
   }, []);
 
-  const handleSetOptions = (opts: OptionsType) => {
+  const handleSetOptions = (opts: Partial<OptionsType>) => {
     sendGlobalMessage({
-      action: globalActions.SET_OPTIONS,
+      action: GlobalActionTypes.SET_OPTIONS,
       data: opts
     }).then((res) => {
       if (res) {
-        setOptions(res);
+        const updatedOptions = { ...options, ...opts } as OptionsType;
+        setOptions(updatedOptions);
         setActiveSection("Search");
 
         // update apiUtils options as well
-        services.setAuth(opts.apiKey, opts.apiType);
+        if (opts.apiKey && opts.apiType) {
+          services.setAuth(opts.apiKey, opts.apiType);
+        }
       }
     });
   };
 
   const countUpReviewLinksClicks = useCallback(() => {
-    sendGlobalMessage({ action: globalActions.COUNT_UP_REVIEW_LINK_CLICK }).then((count) => {
+    sendGlobalMessage({ action: GlobalActionTypes.COUNT_UP_REVIEW_LINK_CLICK }).then((count) => {
       setReviewLinksClicksCount(count);
     });
   }, [reviewLinksClicksCount]);

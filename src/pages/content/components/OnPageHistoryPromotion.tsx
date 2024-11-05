@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from "react";
-import { sendGlobalMessage, sendMessageToCurrentTab } from "@/shared/utils/messaging";
-import { globalActions } from "@/shared/utils/constants";
+import { sendGlobalMessage, sendMessageToCurrentTab } from "../../../shared/utils/messaging";
 import "./OnPageHistoryPromotion.css";
+import { GlobalActionTypes } from "../../../types";
 
 const OnPageHistoryPromotion: FC<{ historySample?: string }> = ({ historySample }) => {
   useEffect(() => {
     sendMessageToCurrentTab({
-      action: globalActions.MAKE_CONTENT_IFRAME_VISIBLE,
+      action: GlobalActionTypes.MAKE_CONTENT_IFRAME_VISIBLE,
       data: {
         targetScreen: "REVIEW_PROMOTE",
         width: 450,
@@ -40,11 +40,16 @@ const OnPageHistoryPromotion: FC<{ historySample?: string }> = ({ historySample 
           id="close-promotion"
           onClick={async () => {
             await sendGlobalMessage({
-              action: globalActions.SET_OPTIONS,
+              action: GlobalActionTypes.SET_OPTIONS,
               data: {
                 isRelativeHistoryPromoted: true,
-                reviewMode: false,
-                closeReviewPromotion: true
+                reviewMode: false
+              }
+            });
+            await sendGlobalMessage({
+              action: GlobalActionTypes.CLOSE_IFRAME,
+              data: {
+                targetScreen: "REVIEW_PROMOTE"
               }
             });
           }}
@@ -55,11 +60,16 @@ const OnPageHistoryPromotion: FC<{ historySample?: string }> = ({ historySample 
           id="enable-review-mode"
           onClick={async () => {
             await sendGlobalMessage({
-              action: globalActions.SET_OPTIONS,
+              action: GlobalActionTypes.SET_OPTIONS,
               data: {
                 isRelativeHistoryPromoted: true,
-                reviewMode: true,
-                closeReviewPromotion: true
+                reviewMode: true
+              }
+            });
+            await sendGlobalMessage({
+              action: GlobalActionTypes.CLOSE_IFRAME,
+              data: {
+                targetScreen: "REVIEW_PROMOTE"
               }
             });
           }}

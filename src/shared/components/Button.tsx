@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import { PropsWithChildren } from "react";
 
 type ButtonProps = PropsWithChildren<{
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }> & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 

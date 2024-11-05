@@ -1,13 +1,12 @@
 import React from "react";
 import { useData } from "../../../context/data.context";
-import OpenInWebsite from "@/shared/components/OpenInWebsite";
-import ActionButtons from "@/shared/components/ActionButtons";
-import BubbleResultItem from "@/components/BubbleResult/BubbleResultItem";
-import BubbleSuggestionList from "@/components/BubbleResult/BubbleSuggestionList";
-import { services } from "@/shared/utils/services";
-import { sendGlobalMessage } from "@/shared/utils/messaging";
-import { globalActions } from "@/shared/utils/constants";
-import { LookupResult } from "@/types";
+import OpenInWebsite from "../../../../../shared/components/OpenInWebsite";
+import ActionButtons from "../../../../../shared/components/ActionButtons";
+import BubbleResultItem from "../../../../../components/BubbleResult/BubbleResultItem";
+import BubbleSuggestionList from "../../../../../components/BubbleResult/BubbleSuggestionList";
+import { services } from "../../../../../shared/utils/services";
+import { sendGlobalMessage } from "../../../../../shared/utils/messaging";
+import { GlobalActionTypes, LookupResult } from "../../../../../types";
 
 const Result = () => {
   const { result, suggestions, searchFor, setSearchFor, setResult, setError } = useData();
@@ -16,7 +15,7 @@ const Result = () => {
     setSearchFor(itemToSearchFor);
     services.fetchData(itemToSearchFor)
       .then(async (res) => {
-        await sendGlobalMessage({ action: globalActions.ADD_TO_HISTORY, searchTrend: itemToSearchFor });
+        await sendGlobalMessage({ action: GlobalActionTypes.ADD_TO_HISTORY, data: { searchTrend: itemToSearchFor } });
         setResult(res as LookupResult);
       })
       .catch(setError);

@@ -3,7 +3,7 @@ import cx from "classnames";
 
 type SelectProps = PropsWithChildren<{
   value: string;
-  onChange: (e: any) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
   label?: string;
   error?: string;

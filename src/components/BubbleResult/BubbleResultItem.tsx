@@ -1,8 +1,9 @@
 import { FiVolume2 } from "react-icons/fi";
 import React, { FC } from "react";
+import { LookupResultItem } from "../../types";
 
 const ResultItemTitle: FC<{
-  item: any;
+  item: LookupResultItem;
 }> = ({ item }) => {
   const [id, num] = item.id.split(":");
   return (
@@ -20,11 +21,17 @@ const ResultItemTitle: FC<{
 };
 
 const Pron: FC<{
-  item: any;
+  item: LookupResultItem;
 }> = ({ item }) => {
   const handlePronPlay = () => {
-    new Audio(item.sound).play();
+    if (item.sound) {
+      new Audio(item.sound).play();
+    }
   };
+
+  if (!item.pron) {
+    return null;
+  }
 
   return (
     <div className="Pron" onClick={handlePronPlay}>
@@ -35,7 +42,7 @@ const Pron: FC<{
 };
 
 const BubbleResultItem: FC<{
-  item: any;
+  item: LookupResultItem;
 }> = ({ item }) => {
   return (
     <details className="BubbleResultItem" open>

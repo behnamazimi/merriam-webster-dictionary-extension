@@ -1,9 +1,9 @@
 import { useData } from "../../../context/data.context";
-import { defaultOptions, PAGES, publicApiDetails } from "@/shared/utils/constants";
+import { defaultOptions, PAGES, publicApiDetails } from "../../../../../shared/utils/constants";
 import React, { FC, useEffect, useRef, useState } from "react";
-import Input from "@/shared/components/Input";
-import Select from "@/shared/components/Select";
-import Button from "@/shared/components/Button";
+import Input from "../../../../../shared/components/Input";
+import Select from "../../../../../shared/components/Select";
+import Button from "../../../../../shared/components/Button";
 import { FiCheck, FiX } from "react-icons/fi";
 
 const Divider = () => <div className="Divider" />;

@@ -1,10 +1,11 @@
 import BubbleResultItem from "./BubbleResultItem";
-import OpenInWebsite from "@/shared/components/OpenInWebsite";
+import OpenInWebsite from "../../shared/components/OpenInWebsite";
 import React, { FC } from "react";
+import { LookupResult } from "../../types";
 
 const BubbleResult: FC<{
   searchFor: string;
-  result?: any[];
+  result?: LookupResult;
 }> = ({ searchFor, result = [] }) => (
   <div className="BubbleResult">
     <OpenInWebsite target={searchFor} notSticky />

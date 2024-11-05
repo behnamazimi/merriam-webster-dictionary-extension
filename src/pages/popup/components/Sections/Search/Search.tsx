@@ -1,9 +1,9 @@
 import React from "react";
 import { useData } from "../../../context/data.context";
-import ActionButtons from "@//shared/components/ActionButtons";
-import AskToRate from "@//shared/components/AskToRate";
-import Input from "@//shared/components/Input";
-import Button from "@//shared/components/Button";
+import ActionButtons from "../../../../..//shared/components/ActionButtons";
+import AskToRate from "../../../../..//shared/components/AskToRate";
+import Input from "../../../../..//shared/components/Input";
+import Button from "../../../../..//shared/components/Button";
 import { FiSearch } from "react-icons/fi";
 
 const SearchSection = () => {
