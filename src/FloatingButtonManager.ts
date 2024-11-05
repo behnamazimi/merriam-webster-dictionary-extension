@@ -1,4 +1,4 @@
-import {searchIcon} from "./shared/utils/constants";
+import { searchIcon } from "./shared/utils/constants";
 import UserTextManager from "./UserTextManager";
 
 type ButtonClickCallback = (event: MouseEvent) => void;
@@ -100,7 +100,7 @@ class FloatingButtonManager implements IFloatingButtonManager {
     const selectionRect = this.userTextManager.getBoundingClientRect();
     if (!selectionRect) return;
     let top = selectionRect.top + window.scrollY - this.buttonHeight;
-    let left = event.pageX - (this.button.clientWidth / 2);
+    const left = event.pageX - (this.button.clientWidth / 2);
 
     // Adjust position if the click is below the middle of the selection
     if (event.clientY >= selectionRect.top + selectionRect.height / 2) {
@@ -116,7 +116,6 @@ class FloatingButtonManager implements IFloatingButtonManager {
       this.button.removeEventListener("click", this.clickHandler);
     }
   }
-
 }
 
 export default FloatingButtonManager;

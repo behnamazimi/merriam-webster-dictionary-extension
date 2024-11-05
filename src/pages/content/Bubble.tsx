@@ -1,12 +1,12 @@
 import cx from "classnames";
-import {FC, useCallback, useEffect, useState} from "react";
-import {services} from "../../shared/utils/services";
-import {globalActions} from "../../shared/utils/constants";
-import {sendGlobalMessage, sendMessageToCurrentTab} from "../../shared/utils/messaging";
-import BubbleResult from "../../components/BubbleResult/BubbleResult";
-import BubbleSuggestionList from "../../components/BubbleResult/BubbleSuggestionList";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { services } from "@/shared/utils/services";
+import { globalActions } from "@/shared/utils/constants";
+import { sendGlobalMessage, sendMessageToCurrentTab } from "@/shared/utils/messaging";
+import BubbleResult from "@/components/BubbleResult/BubbleResult";
+import BubbleSuggestionList from "@/components/BubbleResult/BubbleSuggestionList";
 import "./Bubble.css";
-import {LookupResult} from "../../types";
+import { LookupResult } from "@/types";
 
 interface MessageData {
   action: string;
@@ -21,12 +21,12 @@ const fitIframeToContent = () => {
     data: {
       targetScreen: "LOOKUP_RESULT",
       width: 400,
-      height: document.body.scrollHeight,
+      height: document.body.scrollHeight
     }
-  })
-}
+  });
+};
 
-const Bubble: FC<{ defaultSearchTrend?: string }> = ({defaultSearchTrend}) => {
+const Bubble: FC<{ defaultSearchTrend?: string }> = ({ defaultSearchTrend }) => {
   const [searchFor, setSearchFor] = useState<string>("");
   const [result, setResult] = useState<LookupResult>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -40,27 +40,31 @@ const Bubble: FC<{ defaultSearchTrend?: string }> = ({defaultSearchTrend}) => {
       const res = await services.fetchData(searchFor);
       if (res) {
         if (typeof res[0] !== "string") {
-          await sendGlobalMessage({action: globalActions.ADD_TO_HISTORY, searchTrend: searchFor});
+          await sendGlobalMessage({ action: globalActions.ADD_TO_HISTORY, searchTrend: searchFor });
           setResult(res as LookupResult);
-        } else {
+        }
+        else {
           setSuggestions(res as string[]);
         }
       }
-    } catch (err) {
+    }
+    catch (err) {
       // @ts-expect-error Parameter 'err' implicitly has an 'any' type.
       setError(err.message || String(err));
-    } finally {
-      setTimeout(fitIframeToContent, 100)
+    }
+    finally {
+      setTimeout(fitIframeToContent, 100);
       setLoading(false);
     }
   }, [searchFor]);
 
   useEffect(() => {
     if (!defaultSearchTrend) {
-      sendMessageToCurrentTab({action: globalActions.GET_SELECTED_TEXT}).then(({data}: MessageData) => {
+      sendMessageToCurrentTab({ action: globalActions.GET_SELECTED_TEXT }).then(({ data }: MessageData) => {
         setSearchFor(data.selectedText || "");
       });
-    } else {
+    }
+    else {
       setSearchFor(defaultSearchTrend);
     }
   }, []);
@@ -75,8 +79,8 @@ const Bubble: FC<{ defaultSearchTrend?: string }> = ({defaultSearchTrend}) => {
   const showResult = !showSuggestionList && !loading && !error;
 
   return (
-    <div className={cx("Bubble", {loaded: !loading})}>
-      {showResult && <BubbleResult result={result} searchFor={searchFor}/>}
+    <div className={cx("Bubble", { loaded: !loading })}>
+      {showResult && <BubbleResult result={result} searchFor={searchFor} />}
       {showSuggestionList && (
         <BubbleSuggestionList
           onReSearch={doSearch}

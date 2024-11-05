@@ -1,21 +1,23 @@
-import cx from "classnames"
-import {FC} from "react";
+import cx from "classnames";
+import React, { FC } from "react";
 
-import {PropsWithChildren} from "react";
+import { PropsWithChildren } from "react";
 
 type ButtonProps = PropsWithChildren<{
-  onClick: () => void
-  className?: string
-}> & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+  onClick: () => void;
+  className?: string;
+}> & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
-const Button: FC<ButtonProps> = ({children, onClick, className, ...rest}) => {
+const Button: FC<ButtonProps> = ({ children, onClick, className, ...rest }) => {
   return (
-    <button className={cx("Button", "button", className)}
-            onClick={onClick}
-            {...rest}>
+    <button
+      className={cx("Button", "button", className)}
+      onClick={onClick}
+      {...rest}
+    >
       {children}
     </button>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;

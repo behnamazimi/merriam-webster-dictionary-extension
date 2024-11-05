@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Bubble from "./pages/content/Bubble";
-import {services} from "./shared/utils/services";
-import {sendGlobalMessage} from "./shared/utils/messaging";
-import {globalActions} from "./shared/utils/constants";
-import {IframeContext} from "./types";
+import { services } from "./shared/utils/services";
+import { sendGlobalMessage } from "./shared/utils/messaging";
+import { globalActions } from "./shared/utils/constants";
+import { IframeContext } from "./types";
 import OnPageHistoryPromotion from "./pages/content/components/OnPageHistoryPromotion";
 import OnPageHistoryBar from "./pages/content/components/OnPageHistoryBar";
-import "chota/dist/chota.min.css"
+import "chota/dist/chota.min.css";
 
 /**
  * Get the context from the window.name
@@ -17,17 +17,17 @@ const getParsedIframeContext = (): IframeContext => {
   const context = window.name;
   try {
     return JSON.parse(context || "{}");
-  } catch (e) {
+  }
+  catch {
     return {};
   }
-}
+};
 
 const initialize = async () => {
-  const response = await sendGlobalMessage({action: globalActions.INIT})
+  const response = await sendGlobalMessage({ action: globalActions.INIT });
   // set api key and type in utils
-  services.setAuth(response.options.apiKey, response.options.apiType)
-  const {searchTrend, targetScreen = "LOOKUP_RESULT", historySample} = getParsedIframeContext();
-
+  services.setAuth(response.options.apiKey, response.options.apiType);
+  const { searchTrend, targetScreen = "LOOKUP_RESULT", historySample } = getParsedIframeContext();
 
   let root = document.getElementById("root");
   if (!root) {
@@ -38,17 +38,16 @@ const initialize = async () => {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       {targetScreen === "REVIEW_PROMOTE" && (
-        <OnPageHistoryPromotion historySample={historySample}/>
+        <OnPageHistoryPromotion historySample={historySample} />
       )}
       {targetScreen === "REVIEW" && (
-        <OnPageHistoryBar/>
+        <OnPageHistoryBar />
       )}
       {targetScreen === "LOOKUP_RESULT" && (
-        <Bubble defaultSearchTrend={searchTrend}/>
+        <Bubble defaultSearchTrend={searchTrend} />
       )}
     </React.StrictMode>
   );
-
-}
+};
 
 initialize().catch(console.error);

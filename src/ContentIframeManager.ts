@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill";
-import {IframeContext} from "./types";
+import { IframeContext } from "./types";
 
 interface IFrameManager {
   createIfNotExists(): HTMLIFrameElement;
@@ -23,7 +23,7 @@ class IFrameFactory {
     const iframe = document.createElement("iframe");
     iframe.id = id;
     iframe.classList.add(id);
-    iframe.classList.add(IFrameFactory.contentIframeClass)
+    iframe.classList.add(IFrameFactory.contentIframeClass);
     iframe.src = src;
     // add data context to the iframe name
     iframe.name = context || "";
@@ -115,7 +115,7 @@ class ContentIFrameManager implements IFrameManager {
   public createIfNotExists(context: IframeContext = {}): HTMLIFrameElement {
     // TODO: Use doesExist method
     if (this.iframe && document.getElementById(this.iframeId)) {
-      return this.iframe
+      return this.iframe;
     }
 
     // Stringify the context object before passing it to the iframe
@@ -125,7 +125,7 @@ class ContentIFrameManager implements IFrameManager {
     return this.iframe;
   }
 
-  public show(iframeDimension: { width: number; height: number; }, base: DOMRect | null = null): void {
+  public show(iframeDimension: { width: number; height: number }, base: DOMRect | null = null): void {
     if (this.iframe) {
       if (iframeDimension.width) {
         this.iframe.style.width = `${iframeDimension.width}px`;
@@ -162,11 +162,11 @@ class ContentIFrameManager implements IFrameManager {
 
   // Sets the iframe position on the page
   private setPosition(base: DOMRect, iframeDimension: {
-    width: number,
-    height: number
+    width: number;
+    height: number;
   }): void {
     if (!this.iframe) {
-      return
+      return;
     }
     const iframeWidth = iframeDimension.width;
     const iframeHeight = iframeDimension.height;
@@ -188,23 +188,26 @@ class ContentIFrameManager implements IFrameManager {
       if (iframeLeft + iframeWidth > window.innerWidth) {
         iframeLeft = window.innerWidth - iframeWidth - 10;
       }
-
-    } else if (spaceBelow >= iframeHeight) {
+    }
+    else if (spaceBelow >= iframeHeight) {
       // Place below the selected text
       iframeTop = base.bottom + 10;
       // check if the iframe is going out of the window from right
       if (iframeLeft + iframeWidth > window.innerWidth) {
         iframeLeft = window.innerWidth - iframeWidth - 10;
       }
-    } else if (spaceRight >= iframeWidth) {
+    }
+    else if (spaceRight >= iframeWidth) {
       // Place to the right of the selected text
       iframeTop = base.top;
       iframeLeft = base.right + 10;
-    } else if (spaceLeft >= iframeWidth) {
+    }
+    else if (spaceLeft >= iframeWidth) {
       // Place to the left of the selected text
       iframeTop = base.top;
       iframeLeft = base.left - iframeWidth - 10;
-    } else {
+    }
+    else {
       // Default to placing below the selected text if no space is sufficient
       iframeTop = base.bottom + 10;
     }
@@ -213,7 +216,6 @@ class ContentIFrameManager implements IFrameManager {
     this.iframe.style.left = iframeLeft + "px";
     this.iframe.style.transform = `translate(0%, 0%)`;
   }
-
 }
 
 export default ContentIFrameManager;

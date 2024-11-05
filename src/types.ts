@@ -13,7 +13,7 @@ export type IframeContext = {
   searchTrend?: string;
   targetScreen?: ContentIframeScreen;
   historySample?: string;
-}
+};
 
 export type OptionsType = {
   apiKey: string;
@@ -22,18 +22,17 @@ export type OptionsType = {
   pauseVideoOnPopupOpen: boolean;
   reviewMode: boolean;
   wordSelectMode: "" | "OPEN_IMMEDIATELY" | "OPEN_POPUP" | "OPEN_WITH_BUTTON" | "OPEN_ON_WEBSITE";
-}
-
+};
 
 export type LookupHistoryItem = {
-  count: number,
-  time: number,
-  review: boolean
-}
+  count: number;
+  time: number;
+  review: boolean;
+};
 
-export type LookupHistory = Record<string, LookupHistoryItem>
+export type LookupHistory = Record<string, LookupHistoryItem>;
 
-export type LookupResultItem ={
+export type LookupResultItem = {
   id: string;
   type: string;
   shortDef: string[];
@@ -41,6 +40,6 @@ export type LookupResultItem ={
   pron: string;
   sound?: string | null;
   examples: string[];
-}
+};
 
-export type LookupResult = LookupResultItem[]
+export type LookupResult = LookupResultItem[];

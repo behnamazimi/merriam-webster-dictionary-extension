@@ -1,1 +1,1 @@
-export * from "./ActiveSection"
+export * from "./ActiveSection";

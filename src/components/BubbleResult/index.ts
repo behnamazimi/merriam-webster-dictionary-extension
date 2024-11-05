@@ -1,1 +1,1 @@
-export * from "./BubbleResult"
+export * from "./BubbleResult";

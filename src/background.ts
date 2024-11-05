@@ -7,29 +7,30 @@ import {
   loadOptions, removeHistoryItem,
   storeOptions, toggleHistoryItemReview
 } from "./shared/utils/storage";
-import {globalActions} from "./shared/utils/constants";
-import {sendMessageToCurrentTab} from "./shared/utils/messaging";
+import { globalActions } from "./shared/utils/constants";
+import { sendMessageToCurrentTab } from "./shared/utils/messaging";
 
 browser.runtime.setUninstallURL("https://tally.so/r/3N7WLQ");
 
-browser.runtime.onMessage.addListener(handleMessages)
+browser.runtime.onMessage.addListener(handleMessages);
 
 browser.runtime.onConnect.addListener((port) => {
   if (port.name === "popup") {
     port.onDisconnect.addListener(async () => {
-      await sendMessageToCurrentTab({action: globalActions.ON_POPUP_CLOSE})
+      await sendMessageToCurrentTab({ action: globalActions.ON_POPUP_CLOSE });
     });
   }
 });
 
-async function handleMessages(data: { action: keyof typeof globalActions, [key: string]: any }) {
+async function handleMessages(data: { action: keyof typeof globalActions; [key: string]: any }) {
   const options = await loadOptions();
+  const history = await loadHistory();
+  const publicApiUsage = await getPublicApiKeyUsage();
+  const reviewLinkClicksCount = await getReviewLinkClicksCount();
+
   switch (data.action) {
     case globalActions.INIT:
     case globalActions.POPUP_INIT:
-      const history = await loadHistory();
-      const publicApiUsage = await getPublicApiKeyUsage();
-      const reviewLinkClicksCount = await getReviewLinkClicksCount();
 
       return {
         options,
@@ -38,7 +39,7 @@ async function handleMessages(data: { action: keyof typeof globalActions, [key: 
         reviewLinkClicksCount
       };
     case globalActions.SET_OPTIONS:
-      data.options = {...options, ...data.data}
+      data.options = { ...options, ...data.data };
       await storeOptions(data.options);
       await sendMessageToCurrentTab(data);
       return true;
@@ -92,4 +93,4 @@ function lookupWebsite(info: browser.Menus.OnClickData) {
   }
 }
 
-browser.contextMenus.onClicked.addListener(lookupWebsite)
+browser.contextMenus.onClicked.addListener(lookupWebsite);

@@ -1,22 +1,23 @@
-import {useData} from "../../context/data.context";
+import React from "react";
+import { useData } from "../../context/data.context";
 import Search from "../Sections/Search/Search";
-import {PAGES} from "../../../../shared/utils/constants";
+import { PAGES } from "@/shared/utils/constants";
 import Options from "../Sections/Options/Options";
 import Result from "../Sections/Result/Result";
 import History from "../Sections/History/History";
 
 const ActiveSection = () => {
-  const {activeSection} = useData()
+  const { activeSection } = useData();
 
-  let Section = Search
+  let Section = Search;
   if (activeSection === PAGES.Result)
-    Section = Result
+    Section = Result;
   else if (activeSection === PAGES.Options)
-    Section = Options
+    Section = Options;
   else if (activeSection === PAGES.History)
-    Section = History
+    Section = History;
 
-  return <Section/>
-}
+  return <Section />;
+};
 
-export default ActiveSection
+export default ActiveSection;

@@ -1,45 +1,44 @@
-
 function getPageRelativeHistory(history, pageText) {
   if (!history) {
-    return []
+    return [];
   }
   const historyWords = Object.keys(history)
     // to exclude unwanted words to be included in the review
-    .filter(item => history[item].review !== false)
+    .filter(item => history[item].review !== false);
 
-  const regExRules = (word) => [
+  const regExRules = word => [
     new RegExp(`^${word}\\s`),
     new RegExp(`\\s${word}\\s`),
     new RegExp(`\\s${word}[.,;?!:]`)
-  ]
+  ];
 
-  const checkRegExRulesFor = (word) => regExRules(word).some(r => r.test(pageText))
+  const checkRegExRulesFor = word => regExRules(word).some(r => r.test(pageText));
 
   const checkWordExistence = (word) => {
-    const lcWord = word.toLowerCase()
-    const wordWithS = lcWord + "s"
-    const wordWithEs = lcWord + "es"
-    const wordWithD = lcWord + "d"
-    const wordWithEd = lcWord + "ed"
+    const lcWord = word.toLowerCase();
+    const wordWithS = lcWord + "s";
+    const wordWithEs = lcWord + "es";
+    const wordWithD = lcWord + "d";
+    const wordWithEd = lcWord + "ed";
     return (
       // to check for lowercase form of the word
-      checkRegExRulesFor(lcWord) ||
+      checkRegExRulesFor(lcWord)
 
       // to check for plural forms ending with "s", e.g: cat => cats
-      checkRegExRulesFor(wordWithS) ||
+      || checkRegExRulesFor(wordWithS)
 
       // to check for plural forms ending with "es", e.g: glass => glasses
-      checkRegExRulesFor(wordWithEs) ||
+      || checkRegExRulesFor(wordWithEs)
 
       // to check for past forms ending with "d", e.g: love => loved
-      checkRegExRulesFor(wordWithD) ||
+      || checkRegExRulesFor(wordWithD)
 
       // to check for past forms ending with "d", e.g: pair => paired
-      checkRegExRulesFor(wordWithEd)
-    )
-  }
+      || checkRegExRulesFor(wordWithEd)
+    );
+  };
 
-  return historyWords.filter(checkWordExistence)
+  return historyWords.filter(checkWordExistence);
 }
 
-export default getPageRelativeHistory
+export default getPageRelativeHistory;

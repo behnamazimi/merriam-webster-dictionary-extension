@@ -1,17 +1,17 @@
 import BubbleResultItem from "./BubbleResultItem";
-import OpenInWebsite from "../../shared/components/OpenInWebsite";
-import {FC} from "react";
+import OpenInWebsite from "@/shared/components/OpenInWebsite";
+import React, { FC } from "react";
 
 const BubbleResult: FC<{
   searchFor: string;
   result?: any[];
-}> = ({searchFor, result = []}) => (
+}> = ({ searchFor, result = [] }) => (
   <div className="BubbleResult">
-    <OpenInWebsite target={searchFor} notSticky/>
+    <OpenInWebsite target={searchFor} notSticky />
     {result.filter(item => item.shortDef).map((item, index) => (
-      <BubbleResultItem item={item} key={item.id + index}/>
+      <BubbleResultItem item={item} key={item.id + index} />
     ))}
   </div>
-)
+);
 
-export default BubbleResult
+export default BubbleResult;
