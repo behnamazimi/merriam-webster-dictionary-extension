@@ -1,0 +1,17 @@
+html {
+  height: auto;
+}
+
+body {
+  width: 380px;
+  height: auto;
+  max-height: 690px;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin: 0 auto;
+  cursor: default;
+}
+
+a {
+  cursor: pointer;
+}

@@ -1,47 +1,37 @@
 {
-  "name": "English-to-English Definitions - Merriam-Webster Dictionary",
-  "version": "2.10",
-  "description": "Find precise English definitions effortlessly and for free with this intuitive dictionary extension.",
-  "permissions": [
+  "{{chrome}}.manifest_version": 3,
+  "{{firefox}}.manifest_version": 2,
+  "{{chrome}}.permissions": [
     "storage",
     "contextMenus"
   ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "icons": {
+    "16": "icon/16.png",
+    "32": "icon/32.png",
+    "48": "icon/48.png",
+    "128": "icon/128.png"
+  },
+  "{{chrome}}.action": {
+    "default_popup": "src/ui/entrypoints/popup.html"
+  },
+  "{{firefox}}.browser_action": {
+    "default_popup": "src/ui/entrypoints/popup.html"
+  },
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "{{chrome}}.service_worker": "src/scripts/background.ts",
+    "{{firefox}}.scripts": ["src/scripts/background.ts"]
   },
-  "action": {
-    "default_popup": "popup/popup.html",
-    "default_icon": {
-      "16": "shared/icons/16x16.png",
-      "32": "shared/icons/32x32.png",
-      "48": "shared/icons/48x48.png",
-      "128": "shared/icons/128x128.png"
+  "{{chrome}}.web_accessible_resources": [
+    {
+      "resources": ["src/ui/entrypoints/content-iframe.html"],
+      "matches": ["<all_urls>"]
     }
-  },
+  ],
   "content_scripts": [
     {
       "run_at": "document_start",
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content/index.js"
-      ]
+      "matches": ["<all_urls>"],
+      "js": ["src/scripts/content.tsx"]
     }
-  ],
-  "icons": {
-    "16": "shared/icons/16x16.png",
-    "32": "shared/icons/32x32.png",
-    "48": "shared/icons/48x48.png",
-    "128": "shared/icons/128x128.png"
-  },
-  "commands": {
-    "_execute_action": {
-    }
-  },
-  "manifest_version": 3
+  ]
 }
