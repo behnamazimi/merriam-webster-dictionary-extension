@@ -1,45 +1,66 @@
-# Merriam-Webster' Dictionary Browser Extension
+# Merriam-Webster Dictionary Browser Extension
 
-**[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)**
+**[Available on the Chrome Web Store][1]**
 
-Get the Open source Merriam-Webster's dictionary extension for FREE! It lets you quickly find English-to-English definitions for any word or phrase simply and effortlessly. Use its simple search box to type and get the definition right away, without losing your focus on the content!
+The **Merriam-Webster Dictionary Browser Extension** is a free, open-source tool that lets you quickly find
+English-to-English definitions for any word or phrase. With its simple and user-friendly interface, you can look up
+definitions effortlessly without losing focus on your content.
 
-You have the option to open the main definition page of a word or phrase on the Merriam-Webster website either by using the in-content button or the context menu item. You can customize this feature in the options menu.
+### Key Features
 
-The extension keeps track of your search history, allowing you to review your previous searches by enabling review mode in options. The relevant history found on a page will be shown in the bottom corner for your convenience.
+- **Instant Definitions**: Use the in-browser search box to find definitions instantly.
+- **Contextual Access**: Open Merriam-Webster’s full definition page via an in-content button or the context menu. Fully
+  customizable through the settings.
+- **Search History Tracking and Review Mode**: Enable *Review Mode* to seamlessly view your search history, filtered  
+  and displayed based on the current page's content.
+- **Video Pausing Feature**: Automatically pauses and resumes videos playing in your browser while using the search box,
+  helping you stay focused.
+- **Customizable API Integration**: Use your personal Merriam-Webster API key for unlimited access to definitions.
 
-You have the option to pause any video that's playing in the content (if there is one) when you open the search box. Once you're done looking up a definition, the video will automatically resume when you close the search box. This feature can help you save time and stay focused.
+> 🛠 **Note**: This extension is a client for Merriam-Webster's API services, so you will need your personal API key.  
+> Register for free [here](https://dictionaryapi.com/register/index). For details about available API types and usage,
+> visit the [Merriam-Webster Developer Center](https://dictionaryapi.com/products/index).
 
-This extension uses Merriam-Webster's free services. You'll need your personal API key to put it in the extension
-options to be able to use it. You can [do free registration here](https://dictionaryapi.com/register/index) to get your
-API key. Notice that there are different types of APIs and each has its unique
-key; [read more about variants of MW dictionaries](https://dictionaryapi.com/products/index). After installing the
-extension, in the options, you should choose the one which you choose on registration. You will be able to read the
-required instruction in the extension options. Additionally, to make it easy to get your personal API key, you may find
-some manipulations on the `dictionaryapi` website, feel free to use them. :)
+Keep in mind that the default API key is limited to 20 definitions to ensure all users have a smooth initial experience
+with the extension.
 
-Keep in mind that the default API key lets you access only 20 definitions, so get your personal key soon. 
+---
 
-## Install
+## Installation
 
-### From Chrome Web Store
+### **Install via Chrome Web Store**
 
-The extension is published on **[Chrome Web Store](https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk)**
-.
+Get it directly from the **[Chrome Web Store][1]**.
 
-### Install manually on Chromium base browsers, like Opera, Edge, Brave, Torch, Vivaldi
+### **Manual Installation on Chromium-based Browsers (Opera, Edge, Brave, etc.)**
 
-1. Download [the latest release](https://github.com/behnamazimi/merriam-webster-dictionary-extension/releases) and
-   extract it
-2. Go to extensions settings of your browser and active **Developer mode** by clicking the toggle that is already in the
-   extensions page. (You can also open extensions' page by going to `chrome://extensions` or `edge://extensions` for
-   Edge or, `opera://extensions` for Opera browser)
-3. At the same page, click on **Load unpacked** button and load the directory you just cloned or the zip
-   file you have downloaded.
-4. Enjoy! :)
+1. Download the [latest release](https://github.com/behnamazimi/merriam-webster-dictionary-extension/releases) and
+   extract it.
+2. Open your browser’s extensions settings:
+    - For Chrome/Brave: `chrome://extensions`
+    - For Edge: `edge://extensions`
+    - For Opera: `opera://extensions`
+3. Enable **Developer Mode** by toggling the switch on the extensions page.
+4. Click **Load unpacked**, then select the extracted folder.
+5. Enjoy!
 
+---
 
-Lastly, this extension is hastily developed for personal use so don't be shy to give any constructive feedback to improve it. 
+## Support the Project ♥️
 
-**Grateful to:** [Merriam-Webster](https://www.merriam-webster.com/)
-and [Its Developer Center](https://dictionaryapi.com/) 
+Love this extension? Support its development by [buying me a tea](https://buymeacoffee.com/behi). Your support keeps the
+project alive and growing! 🙌
+
+---
+
+## Feedback & Acknowledgements
+
+This extension was initially developed for personal use and is constantly evolving. Feel free to provide constructive
+feedback to help improve it further!
+
+**Special thanks to:**
+
+- [Merriam-Webster](https://www.merriam-webster.com/)
+- [Merriam-Webster Developer Center](https://dictionaryapi.com/)
+
+[1]: https://chrome.google.com/webstore/detail/merriam-webster-dictionar/gmhgdiamihghcepkeapfoeakphffcdkk
