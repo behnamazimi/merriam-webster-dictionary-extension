@@ -12,18 +12,18 @@
     "128": "icon/128.png"
   },
   "{{chrome}}.action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "src/ui/entrypoints/popup.html"
   },
   "{{firefox}}.browser_action": {
-    "default_popup": "src/popup.html"
+    "default_popup": "src/ui/entrypoints/popup.html"
   },
   "background": {
-    "{{chrome}}.service_worker": "src/background.ts",
-    "{{firefox}}.scripts": ["src/background.ts"]
+    "{{chrome}}.service_worker": "src/scripts/background.ts",
+    "{{firefox}}.scripts": ["src/scripts/background.ts"]
   },
   "{{chrome}}.web_accessible_resources": [
     {
-      "resources": ["src/content-iframe.html"],
+      "resources": ["src/ui/entrypoints/content-iframe.html"],
       "matches": ["<all_urls>"]
     }
   ],
@@ -31,7 +31,7 @@
     {
       "run_at": "document_start",
       "matches": ["<all_urls>"],
-      "js": ["src/loader.tsx"]
+      "js": ["src/scripts/content.tsx"]
     }
   ]
 }

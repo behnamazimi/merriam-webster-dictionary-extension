@@ -1,4 +1,8 @@
+import { MantineColorScheme } from "@mantine/core";
+
 export type ContentIframeScreen = "LOOKUP_RESULT" | "REVIEW_PROMOTE" | "REVIEW";
+
+export type PopupActiveSection = "Search" | "Result" | "Options" | "History";
 
 export type IframeContext = {
   searchTrend?: string;
@@ -13,6 +17,8 @@ export type OptionsType = {
   pauseVideoOnPopupOpen: boolean;
   reviewMode: boolean;
   wordSelectMode: "" | "OPEN_IMMEDIATELY" | "OPEN_POPUP" | "OPEN_WITH_BUTTON" | "OPEN_ON_WEBSITE";
+  theme: MantineColorScheme;
+  textSize: "16px" | "18px";
 };
 
 export type LookupHistoryItem = {
@@ -35,21 +41,20 @@ export type LookupResultItem = {
   examples: string[];
 };
 
-export type LookupResult = LookupResultItem[];
+export type LookupResultType = LookupResultItem[];
 
 export enum GlobalActionTypes {
-  CONTENT_INIT = "CONTENT_INIT",
-  POPUP_INIT = "POPUP_INIT",
+  INIT_CONTENT = "INIT_CONTENT",
+  INIT_POPUP = "INIT_POPUP",
   OPEN_POPUP = "OPEN_POPUP",
-  SET_OPTIONS = "SET_OPTIONS",
-  ON_POPUP_CLOSE = "ON_POPUP_CLOSE",
+  UPDATE_OPTIONS = "UPDATE_OPTIONS",
+  POPUP_CLOSED = "POPUP_CLOSED",
   ADD_TO_HISTORY = "ADD_TO_HISTORY",
   TOGGLE_HISTORY_ITEM_REVIEW = "TOGGLE_HISTORY_ITEM_REVIEW",
   REMOVE_HISTORY_ITEM = "REMOVE_HISTORY_ITEM",
   CLEAR_HISTORY = "CLEAR_HISTORY",
   GET_PUBLIC_API_USAGE = "GET_PUBLIC_API_USAGE",
   COUNT_UP_PUBLIC_API_USAGE = "COUNT_UP_PUBLIC_API_USAGE",
-  COUNT_UP_REVIEW_LINK_CLICK = "COUNT_UP_REVIEW_LINK_CLICK",
   GET_SELECTED_TEXT = "GET_SELECTED_TEXT",
   OPEN_LOOKUP_RESULT = "OPEN_LOOKUP_RESULT",
   GET_PAGE_RELATIVE_HISTORY = "GET_PAGE_RELATIVE_HISTORY",
@@ -72,7 +77,7 @@ export type PopupInitResponse = {
 };
 
 export type SetOptionsRequest = {
-  action: GlobalActionTypes.SET_OPTIONS;
+  action: GlobalActionTypes.UPDATE_OPTIONS;
   data: Partial<OptionsType>;
 };
 
@@ -141,18 +146,17 @@ export type CloseIframeRequest = {
 };
 
 export type GlobalActionRequestMap = {
-  [GlobalActionTypes.CONTENT_INIT]: undefined;
-  [GlobalActionTypes.POPUP_INIT]: undefined;
+  [GlobalActionTypes.INIT_CONTENT]: undefined;
+  [GlobalActionTypes.INIT_POPUP]: undefined;
   [GlobalActionTypes.OPEN_POPUP]: undefined;
-  [GlobalActionTypes.SET_OPTIONS]: SetOptionsRequest;
-  [GlobalActionTypes.ON_POPUP_CLOSE]: undefined;
+  [GlobalActionTypes.UPDATE_OPTIONS]: SetOptionsRequest;
+  [GlobalActionTypes.POPUP_CLOSED]: undefined;
   [GlobalActionTypes.ADD_TO_HISTORY]: AddToHistoryRequest;
   [GlobalActionTypes.TOGGLE_HISTORY_ITEM_REVIEW]: ToggleHistoryItemReviewRequest;
   [GlobalActionTypes.REMOVE_HISTORY_ITEM]: RemoveHistoryItemRequest;
   [GlobalActionTypes.CLEAR_HISTORY]: undefined;
   [GlobalActionTypes.GET_PUBLIC_API_USAGE]: undefined;
   [GlobalActionTypes.COUNT_UP_PUBLIC_API_USAGE]: undefined;
-  [GlobalActionTypes.COUNT_UP_REVIEW_LINK_CLICK]: undefined;
   [GlobalActionTypes.GET_SELECTED_TEXT]: GetSelectedTextRequest;
   [GlobalActionTypes.OPEN_LOOKUP_RESULT]: OpenLookupResultRequest;
   [GlobalActionTypes.GET_PAGE_RELATIVE_HISTORY]: undefined;
@@ -161,18 +165,17 @@ export type GlobalActionRequestMap = {
 };
 
 export type GlobalActionResponseMap = {
-  [GlobalActionTypes.CONTENT_INIT]: ContentInitResponse;
-  [GlobalActionTypes.POPUP_INIT]: PopupInitResponse;
+  [GlobalActionTypes.INIT_CONTENT]: ContentInitResponse;
+  [GlobalActionTypes.INIT_POPUP]: PopupInitResponse;
   [GlobalActionTypes.OPEN_POPUP]: boolean;
-  [GlobalActionTypes.SET_OPTIONS]: boolean;
-  [GlobalActionTypes.ON_POPUP_CLOSE]: boolean;
+  [GlobalActionTypes.UPDATE_OPTIONS]: boolean;
+  [GlobalActionTypes.POPUP_CLOSED]: boolean;
   [GlobalActionTypes.ADD_TO_HISTORY]: boolean;
   [GlobalActionTypes.TOGGLE_HISTORY_ITEM_REVIEW]: ToggleHistoryItemReviewResponse;
   [GlobalActionTypes.REMOVE_HISTORY_ITEM]: RemoveHistoryItemResponse;
   [GlobalActionTypes.CLEAR_HISTORY]: boolean;
   [GlobalActionTypes.GET_PUBLIC_API_USAGE]: number;
   [GlobalActionTypes.COUNT_UP_PUBLIC_API_USAGE]: number;
-  [GlobalActionTypes.COUNT_UP_REVIEW_LINK_CLICK]: number;
   [GlobalActionTypes.GET_SELECTED_TEXT]: GetSelectedTextResponse;
   [GlobalActionTypes.OPEN_LOOKUP_RESULT]: boolean;
   [GlobalActionTypes.GET_PAGE_RELATIVE_HISTORY]: GetPageRelativeHistoryResponse;
