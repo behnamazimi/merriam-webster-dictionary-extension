@@ -12,7 +12,9 @@ import { GlobalActionResponseMap, GlobalActionTypes, MessageHandlerParams } from
 
 browser.runtime.setUninstallURL("https://tally.so/r/3N7WLQ");
 
-browser.runtime.onMessage.addListener(handleMessages);
+browser.runtime.onMessage.addListener((message: unknown) => {
+  return handleMessages(message as MessageHandlerParams);
+});
 
 browser.runtime.onConnect.addListener((port) => {
   if (port.name === "popup") {

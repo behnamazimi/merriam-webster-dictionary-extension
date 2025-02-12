@@ -22,10 +22,12 @@ const useGetHistory = (): [
       setHistory(res);
     });
 
-    const handleMessages = ({ action }: MessageHandlerParams) => {
+    const handleMessages = (message: unknown): Promise<void> => {
+      const { action } = message as MessageHandlerParams;
       if (action === GlobalActionTypes.CLEAR_HISTORY) {
         setHistory({});
       }
+      return Promise.resolve();
     };
 
     browser.runtime.onMessage.addListener(handleMessages);

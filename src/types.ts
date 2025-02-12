@@ -21,6 +21,8 @@ export type OptionsType = {
   textSize: "16px" | "18px";
 };
 
+export type HistoryObject = Record<string, { count: number; time: number; review: boolean }>;
+
 export type LookupHistoryItem = {
   count: number;
   time: number;

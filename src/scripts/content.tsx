@@ -119,7 +119,13 @@ async function handleMouseUp(event: MouseEvent) {
   }
 }
 
-async function handleMessages({ action, data }: MessageHandlerParams): Promise<GlobalActionResponseMap[typeof action]> {
+async function handleMessages(message: unknown): Promise<GlobalActionResponseMap[typeof action]> {
+  const { action, data } = message as MessageHandlerParams;
+
+  if (!action) {
+    return false;
+  }
+
   if (action === GlobalActionTypes.GET_SELECTED_TEXT) {
     const selectedText = userTextManager.getSelectedTextIfValid();
 

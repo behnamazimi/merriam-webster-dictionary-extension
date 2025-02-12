@@ -1,6 +1,6 @@
 import { defaultOptions } from "../constants/constants";
 import browser from "webextension-polyfill";
-import { OptionsType } from "../types";
+import { HistoryObject, OptionsType } from "../types";
 
 export async function storeOptions(data: OptionsType) {
   return browser.storage.sync.set({ options: data });
@@ -8,12 +8,12 @@ export async function storeOptions(data: OptionsType) {
 
 export async function loadOptions(): Promise<OptionsType> {
   const data = await browser.storage.sync.get("options");
-  return data.options || defaultOptions;
+  return (data.options || defaultOptions) as OptionsType;
 }
 
-export async function loadHistory() {
+export async function loadHistory(): Promise<HistoryObject> {
   const data = await browser.storage.local.get("history");
-  return data.history || {};
+  return (data.history || {}) as HistoryObject;
 }
 
 export async function addToHistory(search: string) {
