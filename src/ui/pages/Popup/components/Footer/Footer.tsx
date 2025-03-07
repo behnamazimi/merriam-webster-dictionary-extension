@@ -3,25 +3,16 @@ import {
   ActionIcon,
   Flex,
   Group,
-  Rating,
   Text, Tooltip,
   useComputedColorScheme
 } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
-import { REVIEW_US } from "../../../../../constants/constants";
+import StarRating from "../StarRating";
 
 // TODO: Fix Vite HMR with named function components and name this component properly
 // eslint-disable-next-line react/display-name
 export default function () {
   const colorScheme = useComputedColorScheme("dark");
-
-  const onRatingClick = () => {
-    const ratingLink = "https://bit.ly/rate-mwd";
-    window.open(ratingLink, "_blank");
-  };
-
-  // get an item from REVIEW_US by chance on every render
-  const ratingTooltipText = REVIEW_US[Math.floor(Math.random() * REVIEW_US.length)];
 
   return (
     <Flex
@@ -33,9 +24,7 @@ export default function () {
       pos="sticky"
       bottom={0}
     >
-      <Tooltip label={<Text size="xs">{ratingTooltipText}</Text>}>
-        <Rating onClick={onRatingClick} size="xs" value={5} color="orange" />
-      </Tooltip>
+      <StarRating />
       <Group justify="center" align="center" gap="xs">
         <Tooltip label={<Text size="xs">Support the project</Text>}>
           <ActionIcon
