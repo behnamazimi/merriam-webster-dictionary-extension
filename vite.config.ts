@@ -5,7 +5,7 @@ import webExtension, { readJsonFile } from "vite-plugin-web-extension";
 function generateManifest() {
   const manifest = readJsonFile("src/manifest.json");
   const pkg = readJsonFile("package.json");
-  const name = "Merriam-Webster English-to-English Dictionary";
+  const name = "English-to-English Definitions - Merriam-Webster Dictionary";
   const description = "Find precise English-to-English definitions effortlessly and for free with this intuitive dictionary extension.";
   return {
     name,
@@ -36,7 +36,8 @@ export default defineConfig({
       webExtConfig: {
         startUrl: [
           "https://github.com/behnamazimi/merriam-webster-dictionary-extension.git"
-        ]
+        ],
+        target: "chromium"
       },
       additionalInputs: ["src/ui/entrypoints/content-iframe.html"]
     })
