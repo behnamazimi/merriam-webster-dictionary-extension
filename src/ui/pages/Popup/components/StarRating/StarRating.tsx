@@ -24,7 +24,7 @@ export default function () {
   }, [value]);
 
   const onRatingClick = () => {
-    const ratingLink = "https://bit.ly/rate-mwd";
+    const ratingLink = "https://chromewebstore.google.com/detail/english-to-english-defini/gmhgdiamihghcepkeapfoeakphffcdkk/reviews";
     window.open(ratingLink, "_blank");
   };
 
